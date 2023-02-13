@@ -14,10 +14,10 @@ module.exports = (sequelize, Sequelize) => {
         userId: {
             type: DataTypes.UUID,
             unique: false,
-            /*references: {
+            references: {
                 model: 'User', 
                 key: 'id'
-            }*/
+            }
         },
         cardId: {
             type: DataTypes.UUID,

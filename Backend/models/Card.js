@@ -38,17 +38,17 @@ module.exports = (sequelize, Sequelize) => {
         },
         assigneId:{
             type: DataTypes.UUID,
-            /*references: {
+            references: {
                 model: 'User', 
                 key: 'id'
-            }*/
+            }
         },
         reporterId:{
             type: DataTypes.UUID,
-            /*references: {
+            references: {
                 model: 'User', 
                 key: 'id'
-            }*/
+            }
         },
         status:{
             type: DataTypes.TINYINT,

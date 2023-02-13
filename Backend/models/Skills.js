@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const sequelize = new Sequelize('mysql::memory:');
 
-class Teams extends Model { }
+class Skills extends Model { }
 module.exports = (sequelize, Sequelize) => {
     const Skill = sequelize.define('Skill', {
         // Model attributes are defined here
@@ -10,13 +10,13 @@ module.exports = (sequelize, Sequelize) => {
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         },
-        Name: {
+        name: {
             type: DataTypes.STRING(30)
         },
-        Code: {
+        code: {
             type: DataTypes.STRING(30)
         },
-        Level: {
+        level: {
             type: DataTypes.INT
         }
     }, {

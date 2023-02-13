@@ -27,10 +27,10 @@ module.exports = (sequelize, Sequelize) => {
         },
         userId: {
             type: DataTypes.UUID,
-            /*references: {
+            references: {
                 model: 'User', 
                 key: 'id'
-            }*/
+            }
         }
     }, {
         tableName: 'Project'

@@ -1,19 +1,19 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const sequelize = new Sequelize('mysql::memory:');
 
-class Teams extends Model { }
+class Roles extends Model { }
 module.exports = (sequelize, Sequelize) => {
-    const Rol = sequelize.define('Rol', {
+    const Role = sequelize.define('Role', {
         // Model attributes are defined here
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         },
-        Code: {
+        code: {
             type: DataTypes.STRING(30)
         },
-        UserFk: {
+        userId: {
             type: DataTypes.UUID,
             references: {
                 model: 'User', 
@@ -21,8 +21,8 @@ module.exports = (sequelize, Sequelize) => {
             }
         }
     }, {
-        tableName: 'Rol'
+        tableName: 'Role'
     });
 
-    return Rol;
+    return Role;
 }
