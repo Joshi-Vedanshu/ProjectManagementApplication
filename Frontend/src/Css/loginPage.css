@@ -1,0 +1,12 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.login-form{
+    justify-content: center;
+    background-color: burlywood;
+    width: 50%;
+    text-align: center;
+    margin: auto;
+}
