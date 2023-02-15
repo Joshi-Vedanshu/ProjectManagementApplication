@@ -1,10 +1,10 @@
-
 import './App.css';
+import Routing from './Components/Routing'
 
 function App() {
   return (
     <div className="App">
-      Login page coming soon
+      <Routing/>
     </div>
   );
 }

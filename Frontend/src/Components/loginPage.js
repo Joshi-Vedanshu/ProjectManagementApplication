@@ -19,15 +19,15 @@ function UserLogin(props){
     }
 
     return(
-        <form className='login-form'>
-             <h1>Login Page</h1>
-            <article>
-                <label>Email:</label>
-                <input type="text"></input>
+        <form className='login-form container'>
+             <p className='h3 login-heading'>Login Page</p>
+            <article className='email-block'>
+                <label className='pe-3 row'>Email:</label>
+                <input type="text col"></input>
             </article>
-            <article>
-                <label>Password:</label>
-                <input type="text"></input>
+            <article className='password-block'>
+                <label className='pe-3 row'>Password:</label>
+                <input type="text col"></input>
             </article>
             <article>
                 <Button  buttonStyle={"btn--green--solid"} buttonSize={"btn--medium"}>Submit</Button>
