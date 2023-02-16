@@ -17,7 +17,7 @@ module.exports = (sequelize, Sequelize) => {
             type: DataTypes.STRING(30)
         },
         level: {
-            type: DataTypes.INT
+            type: DataTypes.INTEGER
         }
     }, {
         tableName: 'Skill'
