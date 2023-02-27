@@ -1,9 +1,13 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const sequelize = new Sequelize('mysql::memory:');
 const bcrypt = require('bcrypt');
-const salt = "$2b$11$nnImKXMRoqh603a0T7o8j.";
+require("dotenv").config()
+const salt = process.env.SALT
 
-class UserProfiles extends Model { }
+
+class UserProfiles extends Model { 
+    
+}
 module.exports = (sequelize, Sequelize) => {
     const UserProfile = sequelize.define('UserProfile', {
         // Model attributes are defined here
