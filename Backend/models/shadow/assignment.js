@@ -2,39 +2,34 @@ const { Sequelize, DataTypes, Model } = require('sequelize');
 const Organization = require('./Organization');
 const sequelize = new Sequelize('mysql::memory:');
 
-class Projects extends Model { }
+class Assignments extends Model { }
 module.exports = (sequelize, Sequelize) => {
-    const Project = sequelize.define('Project', {
+    const Assignment = sequelize.define('Assignment', {
         // Model attributes are defined here
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         },
-        name: {
-            type: DataTypes.STRING(20)
-        },
-        description: {
-            type: DataTypes.STRING(50)
-        },
-        startDate: {
-            type:DataTypes.DATE,
-            allowNull:false
-        },
-        endDate:{
-            type:DataTypes.DATE,
-            allowNull:false
-        },
         userId: {
             type: DataTypes.UUID,
+            unique: false,
             references: {
                 model: 'User', 
                 key: 'id'
             }
+        },
+        cardId: {
+            type: DataTypes.UUID,
+            unique: false,
+            references: {
+                model: 'Card', 
+                key: 'id'
+            }
         }
     }, {
-        tableName: 'Project'
+        tableName: 'Assignment'
     });
 
-    return Project;
+    return Assignment;
 }

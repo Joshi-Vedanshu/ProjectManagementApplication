@@ -1,30 +1,27 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 const sequelize = new Sequelize('mysql::memory:');
 
-class UserProfiles extends Model { }
+class Skills extends Model { }
 module.exports = (sequelize, Sequelize) => {
-    const UserProfile = sequelize.define('UserProfile', {
+    const Skill = sequelize.define('Skill', {
         // Model attributes are defined here
         id: {
             type: DataTypes.UUID,
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         },
-        email: {
-            type: DataTypes.STRING(50)
-        },
-        contactNumber: {
+        name: {
             type: DataTypes.STRING(30)
         },
-        password: {
-            type: DataTypes.STRING(20)
+        code: {
+            type: DataTypes.STRING(30)
         },
-        dateOfHire: {
-            type: DataTypes.DATE
+        level: {
+            type: DataTypes.INTEGER
         }
     }, {
-        tableName: 'UserProfile'
+        tableName: 'Skill'
     });
 
-    return UserProfile;
+    return Skill;
 }

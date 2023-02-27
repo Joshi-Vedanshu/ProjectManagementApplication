@@ -63,7 +63,8 @@ app.listen(3005, function () {
   sequelize
     .authenticate()
     .then(() => {
-      db.sequelize.sync()
+      db.Product.sync()
+      db.Shadow.sync()
       .then(() => {
         console.log("Synced db.");
       })

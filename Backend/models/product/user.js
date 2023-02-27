@@ -1,5 +1,4 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
-const UserProfile = require('./UserProfile');
 const sequelize = new Sequelize('mysql::memory:');
 
 class Users extends Model { }
@@ -27,7 +26,7 @@ module.exports = (sequelize, Sequelize) => {
             type: DataTypes.DATE
         },
         yearsOfExperience: {
-            type: DataTypes.INT
+            type: DataTypes.INTEGER
         },
         userProfileId: {
             type: DataTypes.UUID,
