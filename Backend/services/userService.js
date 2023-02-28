@@ -1,4 +1,5 @@
 var db = require("../models");
+const user = require("../models/product/user");
 var ProdctDb = require('../models').Product.models;
 
 this.UserService = function () {
@@ -35,6 +36,19 @@ this.UserService = function () {
             }
         });
         return status;
+    }
+
+    this.CheckIfUserExist = async function(request){
+        let User = await ProdctDb.UserProfile.findAll({
+            where:{
+                email : request.body.email,
+                password: request.body.password
+            }
+        });
+        if(User != undefined){
+            return true;
+        }
+        return false;
     }
 }
 
