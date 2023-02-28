@@ -1,6 +1,6 @@
 :root{
     --primary:#071a6d;
-    --green:#4f7942;
+    --green:#44623a;
     --danger:#a50021;
     --success:#75fa83;
     --dark:#181717;
@@ -12,10 +12,12 @@
   
   .btn{
     font-family:Greyhound Sans Regular !important ;
-    font-weight: 500  !important;
-    border-radius: 70px  !important;
+    font-weight: 700  !important;
+    border-radius: 50px  !important;
     cursor: pointer  !important;
     transition: transform 0.3s ease  !important;
+    margin-top: 10px;
+    margin-bottom: 10px;
   
   }
   
@@ -55,7 +57,7 @@
   }
   
   .btn--grey--solid{
-    background: var(--pink)  !important;
+    background: var(--grey)  !important;
     color: var(--black)  !important;
     border:none  !important;
   }
