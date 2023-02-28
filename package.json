@@ -1,0 +1,27 @@
+{
+  "name": "frav",
+  "version": "1.0.0",
+  "description": "frav",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Joshi-Vedanshu/ProjectManagementApplication.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Joshi-Vedanshu/ProjectManagementApplication/issues"
+  },
+  "homepage": "https://github.com/Joshi-Vedanshu/ProjectManagementApplication#readme",
+  "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@fontsource/roboto": "^4.5.8",
+    "@mui/material": "^5.11.10",
+    "@mui/styled-engine-sc": "^5.11.9",
+    "styled-components": "^5.3.6"
+  }
+}
