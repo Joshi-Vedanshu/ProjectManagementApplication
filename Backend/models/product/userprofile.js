@@ -1,7 +1,4 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
-const sequelize = new Sequelize('mysql::memory:');
-const bcrypt = require('bcrypt');
-const salt = "$2b$11$nnImKXMRoqh603a0T7o8j.";
 
 class UserProfiles extends Model { }
 module.exports = (sequelize, Sequelize) => {
@@ -19,10 +16,7 @@ module.exports = (sequelize, Sequelize) => {
             type: DataTypes.STRING(30)
         },
         password: {
-            type: DataTypes.STRING(60),
-            set(value) {
-                this.setDataValue('password',  bcrypt.hashSync(value, salt));
-            }
+            type: DataTypes.STRING(60)
         },
         dateOfHire: {
             type: DataTypes.DATE
