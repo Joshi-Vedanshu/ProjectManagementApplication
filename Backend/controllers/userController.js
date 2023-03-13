@@ -9,4 +9,12 @@ const CheckIfUserExist = async function (req, res) {
     return await userService.CheckIfUserExist(req);
 }
 
-module.exports = { AddUser, CheckIfUserExist }
+const GetUserInfo = async function (req, res) {
+    return await userService.GetUserInfo(req);
+}
+
+const UpdateUser = async function (req, res) {
+    return await userService.GetUserInfo(req);
+}
+
+module.exports = { AddUser, CheckIfUserExist, GetUserInfo, UpdateUser}
