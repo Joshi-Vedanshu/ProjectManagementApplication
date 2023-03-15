@@ -1,0 +1,24 @@
+{
+  "name": "frav",
+  "version": "1.0.0",
+  "description": "It is impossible for a developer to log in to Jira and update multiple tasks every time. Jira will share the pop up with task summary to every developer and allow them to update their tasks along with comments.",
+  "main": "app.js",
+  "scripts": {
+    "backend": "node ./Backend/app.js",
+    "frontend": "(cd ./Frontend && npm start)",
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Joshi-Vedanshu/ProjectManagementApplication.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Joshi-Vedanshu/ProjectManagementApplication/issues"
+  },
+  "homepage": "https://github.com/Joshi-Vedanshu/ProjectManagementApplication#readme",
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
