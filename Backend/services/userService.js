@@ -39,13 +39,13 @@ this.UserService = function () {
     }
 
     this.CheckIfUserExist = async function(request){
-        let User = await ProdctDb.UserProfile.findAll({
+        let user = await ProdctDb.UserProfile.findAll({
             where:{
                 email : request.body.email,
                 password: request.body.password
             }
         });
-        if(User != undefined){
+        if(user != undefined){
             return true;
         }
         return false;
