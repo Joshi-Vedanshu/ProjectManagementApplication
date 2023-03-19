@@ -1,0 +1,64 @@
+$c-netflix:#E50914;
+$c-white: whitesmoke;
+$c-black:#333;
+$l-margin: 120px;
+$gridmarks:300px 250px 450px 200px;
+
+
+.navigation{
+    overflow: hidden;
+    background-color: $c-black;
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    left: 0;
+
+    a {
+        float: left;
+        color: $c-white;
+        text-align: center;
+        padding: 14px 46px;
+        text-decoration: none;
+        font-size: 17px;
+        &:hover{
+            background-color: $c-white;
+            color: $c-black;
+        }
+    }
+    .active{
+        background-color:  #04AA6D;;
+        color: $c-white;
+    }
+    .navright{
+        position: absolute;
+        right: 0;
+        text-align: right;
+    }
+}
+
+.navside{
+    list-style-type: none;
+    top: 50px;
+    left: 0;
+    padding-top: 3px;
+    width: 18%;
+    background-color: $c-black;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+    a{
+        display: block;
+        color: $c-white;
+        padding: 8px 16px;
+        text-decoration: none;
+        :hover:not(.active){
+            background-color: #555;
+            color: white;
+        }
+    }
+    .active{
+        background-color:  #04AA6D;;
+        color: $c-white;
+    }
+}
