@@ -5,18 +5,30 @@ const path = require('path');
 const Sequelize = require('sequelize');
 const process = require('process');
 const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
+require("dotenv").config()
 
 
-const databases = Object.keys(config.databases);
+const databases = [];
 
-for (let i = 0; i < databases.length; ++i) {
+for (let i = 0; i < 2; i++) {
+  let dbName = process.env.MAIN_DB_NAME;
+  if (i == 1) {
+    dbName = process.env.SHADOW_DB_NAME;
+  }
+  let obj = {
+    "username": process.env.DB_USERNAME,
+    "password": process.env.DB_PASSWORD,
+    "database": dbName,
+    "host": process.env.DB_HOST,
+    "dialect": process.env.DB_DIALECT
+  };
+  databases.push(obj);
+}
+
+for (let i = 0; i < 2; ++i) {
   let database = databases[i];
-  let dbPath = config.databases[database];
-  console.log(database);
-  db[database] = new Sequelize(dbPath.database, dbPath.username, dbPath.password, dbPath);
+  db[database.database] = new Sequelize(database.database, database.username, database.password, database);
 }
 
 fs
