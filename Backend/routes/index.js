@@ -1,22 +1,21 @@
 var express = require('express');
 var router = express.Router();
 const sessions = require('express-session');
+const token = require('../middleware_functions/token');
+const { validateSessionAndHeader } = require('../middleware_functions/manageSessionAndHeader');
+var express = require('express');
+var router = express.Router();
+const dashboardController = require('../controllers/dashboardController');
 
-
-/* GET home page. */
-router.get('/', function (req, res, next) {
-
-  if (!(sessions.token == undefined || req.headers.authorization == undefined)) {
-    if (sessions.token == req.headers.authorization.split(' ')[1]) {
-      // do appropriate action
-      res.status(200).send();
-    }
-    else {
-      res.status(404).send();
-    }
+router.get('/',async function (req, res, next) {
+  console.log("here");
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.GetDashboardData(token.getUserFromTheToken(sessions.token), req);
+    res.status(200).send(data);
   }
   else {
-    res.status(404).send();
+    res.status(auth.code).send();
   }
 });
 

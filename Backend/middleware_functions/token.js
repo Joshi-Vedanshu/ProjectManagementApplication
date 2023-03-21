@@ -37,4 +37,16 @@ function validateRefreshToken(token) {
     });
 }
 
-module.exports = { generateAccessToken, generateRefreshToken, validateToken, validateRefreshToken }
+function getUserFromTheToken(token) {
+    if (token == null) return false;
+    return jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+        if (err) {
+            return null;
+        }
+        else {
+            return user;
+        }
+    });
+}
+
+module.exports = { generateAccessToken, generateRefreshToken, validateToken, validateRefreshToken, getUserFromTheToken }

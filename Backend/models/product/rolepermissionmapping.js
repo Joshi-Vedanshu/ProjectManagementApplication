@@ -1,0 +1,39 @@
+const { Sequelize, DataTypes, Model } = require("sequelize");
+
+module.exports = (sequelize, Sequelize) => {
+  const RolePermissionMapping = sequelize.define(
+    "RolePermissionMapping",
+    {
+      // Model attributes are defined here
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      roleId: {
+        type: DataTypes.STRING(30),
+      },
+      projectAccess: {
+        type: DataTypes.STRING.BINARY,
+        defaultValue: 00000,
+      },
+      teamAccess: {
+        type: DataTypes.STRING.BINARY,
+        defaultValue: 00000,
+      },
+      organizationAccess: {
+        type: DataTypes.STRING.BINARY,
+        defaultValue: 00000,
+      },
+      sprintAccess: {
+        type: DataTypes.STRING.BINARY,
+        defaultValue: 00000,
+      },
+    },
+    {
+      tableName: "RolePermissionMapping",
+    }
+  );
+
+  return RolePermissionMapping;
+};

@@ -1,35 +1,39 @@
-const { Sequelize, DataTypes, Model } = require('sequelize');
-const Organization = require('./Organization');
-const sequelize = new Sequelize('mysql::memory:');
+const { Sequelize, DataTypes, Model } = require("sequelize");
+const Organization = require("./Organization");
+const sequelize = new Sequelize("mysql::memory:");
 
-class UserTeamMappings extends Model { }
+class UserTeamMappings extends Model {}
 module.exports = (sequelize, Sequelize) => {
-    const UserTeamMapping = sequelize.define('UserTeamMapping', {
-        // Model attributes are defined here
-        id: {
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4,
-            primaryKey: true
+  const UserTeamMapping = sequelize.define(
+    "UserTeamMapping",
+    {
+      // Model attributes are defined here
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+      },
+      userId: {
+        type: DataTypes.UUID,
+        unique: false,
+        references: {
+          model: "User",
+          key: "id",
         },
-        userId: {
-            type: DataTypes.UUID,
-            unique: false,
-            references: {
-                model: 'User', 
-                key: 'id'
-            }
+      },
+      teamId: {
+        type: DataTypes.UUID,
+        unique: false,
+        references: {
+          model: "Team",
+          key: "id",
         },
-        teamId: {
-            type: DataTypes.UUID,
-            unique: false,
-            references: {
-                model: 'Team', 
-                key: 'id'
-            }
-        }
-    }, {
-        tableName: 'UserTeamMapping'
-    });
+      },
+    },
+    {
+      tableName: "UserTeamMapping",
+    }
+  );
 
-    return UserTeamMapping;
-}
+  return UserTeamMapping;
+};
