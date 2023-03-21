@@ -44,7 +44,7 @@ const SignUp = (e) => {
     <>
       <main>
       <form className="signin-card" onSubmit={SignUp}>
-          <h3 className="heading">FARV Sign In</h3>
+          <h3 className="heading">FRAV Sign Up</h3>
         <div className="grid-style">
         <article className="fname-container">
             <label className="fname-label">First Name*</label>
