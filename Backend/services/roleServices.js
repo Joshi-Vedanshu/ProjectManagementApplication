@@ -27,10 +27,10 @@ this.RoleService = function () {
   };
 
   // READ (BY USER)
-  this.getRolesByUser = async function (request) {
+  this.getRolesByUser = async function (userId) {
     let roles = await ProdctDb.Role.findAll({
       where: {
-        userId: request.body.userId,
+        userId: userId,
       },
     });
     if (roles != undefined) {

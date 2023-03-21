@@ -1,17 +1,17 @@
 var express = require('express');
 var router = express.Router();
 const sessions = require('express-session');
-const userController = require('../controllers/authenticationController');
+const authenticationController = require('../controllers/authenticationController');
 const token = require('../middleware_functions/token');
 const { validateSessionAndHeader } = require('../middleware_functions/manageSessionAndHeader');
 
 router.post('/login', async function (req, res, next) {
-   let auth = validateSessionAndHeader(sessions,req);
-   if (auth.validation) {
+   let auth = validateSessionAndHeader(sessions, req);
+   if (auth.validation && auth.code !== 401) {
       res.status(auth.code).send();
    }
    else if (!(req.body.email == undefined || req.body.password == undefined)) {
-      let status = await userController.CheckIfUserExist(req);
+      let status = await authenticationController.CheckIfUserExist(req);
       if (status) {
          let responseBody = {
             "accessToken": token.generateAccessToken(req.body.email),
@@ -39,7 +39,7 @@ router.post('/login', async function (req, res, next) {
 });
 
 router.post('/register', async function (req, res, next) {
-   let status = await userController.AddUser(req, res);
+   let status = await authenticationController.AddUser(req, res);
    if (status) {
       res.status(201).send();
    }

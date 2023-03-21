@@ -29,7 +29,7 @@ module.exports = (sequelize, Sequelize) => {
             type:DataTypes.DATE,
             allowNull:false
         },
-        paretnId: {
+        parentId: {
             type: DataTypes.UUID,
             references: {
                 model: 'Card', 

@@ -61,6 +61,18 @@ this.UserService = function () {
         return null;
     }
 
+    this.GetUserIdByEmail = async function(email){
+        let user = await ProdctDb.UserProfile.findAll({
+            where:{
+                email : email
+            }
+        });
+        if(user != undefined){
+            return user;
+        }
+        return null;
+    }
+
     this.UpdateUser = async function(request){
 
         // let user = await ProdctDb.User.update(
