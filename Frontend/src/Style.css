@@ -7,6 +7,13 @@
   width: 100%;
   left: 0;
 }
+.navigation img {
+  position: absolute;
+  top: 5px;
+  left: 0;
+  width: 100px;
+  height: 40px;
+}
 .navigation a {
   float: left;
   color: whitesmoke;
@@ -14,6 +21,7 @@
   padding: 14px 46px;
   text-decoration: none;
   font-size: 17px;
+  margin-left: 60px;
 }
 .navigation a:hover {
   background-color: whitesmoke;
@@ -53,4 +61,33 @@
 .navside .active {
   background-color: #04AA6D;
   color: whitesmoke;
+}
+
+.content {
+  margin-left: 18%;
+  top: 50px;
+  left: 0;
+  position: fixed;
+  padding: 1px 16px;
+  width: 80%;
+  height: 82%;
+}
+
+.cardList {
+  display: flex;
+  flex-flow: row wrap;
+  margin: 5%;
+  gap: 5%;
+}
+.cardList .card {
+  flex: 20%;
+  border-radius: 25px;
+  padding: 20px;
+  background-color: #333;
+}
+
+@media (max-width: 800px) {
+  .cardList {
+    flex-direction: column;
+  }
 }/*# sourceMappingURL=style.css.map */

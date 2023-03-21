@@ -12,7 +12,7 @@ export default function NavBar() {
                 <img src="images/FRAV2.png" alt="FRAV Logo"/>
                 <NavLink to="/some" className={({isActive})=>isActive?" active":""}>Projects</NavLink>
             <div className='navright'>
-                <NavLink to="/about" className={({isActive})=>isActive?" active":""}>Profile</NavLink>
+                <NavLink to="/about" className={({isActive})=>isActive?" active":""}>Login</NavLink>
                 <NavLink to="/events" className={({isActive})=>+isActive?" active":""}><BsGear/></NavLink>
             </div>
         </nav>

@@ -33,7 +33,7 @@ function UserLogin(props) {
 
   return (
     <>
-      <main>
+    <main className="login-card">
           <h3 className="heading">FARV Login</h3>
 
           <article className="user-container">
@@ -52,7 +52,7 @@ function UserLogin(props) {
           </article>
           <p className="info-tag">For sign in contact admin of your organization</p>
       </main>
-        
+
     </>
 
   );
