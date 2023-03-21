@@ -1,0 +1,102 @@
+$c-white: whitesmoke;
+$c-black:#333;
+$l-margin: 120px;
+$gridmarks:300px 250px 450px 200px;
+
+
+.navigation{
+    overflow: hidden;
+    background-color: $c-black;
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    left: 0;
+    img{
+        position: absolute;
+        top: 5px;
+        left:  0;
+        width: 100px;
+        height: 40px;
+    }
+    a {
+        float: left;
+        color: $c-white;
+        text-align: center;
+        padding: 14px 46px;
+        text-decoration: none;
+        font-size: 17px;
+        margin-left: 60px;
+        &:hover{
+            background-color: $c-white;
+            color: $c-black;
+        }
+    }
+    .active{
+        background-color:  #04AA6D;;
+        color: $c-white;
+    }
+    .navright{
+        position: absolute;
+        right: 0;
+        text-align: right;
+    }
+}
+
+.navside{
+    list-style-type: none;
+    top: 50px;
+    left: 0;
+    padding-top: 3px;
+    width: 18%;
+    background-color: $c-black;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+    a{
+        display: block;
+        color: $c-white;
+        padding: 8px 16px;
+        text-decoration: none;
+        :hover:not(.active){
+            background-color: #555;
+            color: white;
+        }
+    }
+    .active{
+        background-color:  #04AA6D;;
+        color: $c-white;
+    }
+}
+
+.content{
+    margin-left: 18%;
+    top: 50px;
+    left: 0;
+    position:fixed;
+    padding:1px 16px;
+    width: 80%;
+    height: 82%;
+
+
+}
+
+.cardList{
+    display: flex;
+    flex-flow: row wrap;
+    margin: 5%;
+    gap: 5%;
+    .card{
+        flex: 20%;
+        border-radius: 25px;
+        padding: 20px;
+        background-color: $c-black;
+
+    }
+}
+
+@media (max-width: 800px) {
+    .cardList {
+      flex-direction: column;
+    }
+  }
