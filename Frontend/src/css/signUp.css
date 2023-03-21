@@ -1,7 +1,7 @@
 :root{
     --bgcolor:#edf2fb;
     --head:#ccdbfd;
-    --form:#36454F;
+    --form:#333;
     --fontstyle:'Abel';
 }
 .signin-card{
@@ -15,6 +15,12 @@
     background-color: var(--form);
     
 }
+.heading {
+        
+    border: 0.2rem solid #ccdbfd;
+    background-color:  #306844;
+    font-family: "Abel";
+  }
 .grid-style{
     margin-left: 50px;
     display: table;

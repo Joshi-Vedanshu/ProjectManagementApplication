@@ -5,11 +5,11 @@
   margin-top: 10%;
   height: 24rem;
   width: 28rem;
-  background-color: #36454F;
+  background-color: #333;
 }
 .login-card .heading {
   border: 0.2rem solid #ccdbfd;
-  background-color: #111212;
+  background-color: #306844;
   font-family: "Abel";
 }
 .login-card .user-container {

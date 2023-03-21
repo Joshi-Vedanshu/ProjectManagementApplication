@@ -1,3 +1,5 @@
+$c-black:#333;
+
 .login-card{
     border: 0.2rem solid #e2eafc;
     text-align: center;
@@ -5,11 +7,11 @@
     margin-top: 10%;
     height: 24rem;
     width: 28rem;
-    background-color: #36454F;
+    background-color: $c-black;
     .heading {
         
         border: 0.2rem solid #ccdbfd;
-        background-color:  #111212;
+        background-color:  #306844;
         font-family: "Abel";
       }
     .user-container{
