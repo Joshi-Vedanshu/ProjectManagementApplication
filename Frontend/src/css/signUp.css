@@ -1,0 +1,42 @@
+:root{
+    --bgcolor:#edf2fb;
+    --head:#ccdbfd;
+    --form:#e2eafc;
+    --fontstyle:'Abel';
+}
+*{
+    margin: 0;
+    padding: 0;
+}
+main{
+    background: var(--bgcolor);
+    height: 100vh;
+    width: 100%;
+}
+.signin-card{
+    border: 0.2rem solid var(--form);
+    text-align: center;
+    display: inline-block;
+    justify-content: center;
+    margin-top: 10%;
+    height: 24rem;
+    width: 24rem;
+    background-color: var(--form);
+    
+}
+.grid-style{
+    display: table;
+    border-spacing: 5px;
+}
+.grid-style>article{
+    display: table-row;
+}
+label {
+    display: inline-block;
+    width: 150px;
+    text-align: right;
+}
+input {
+    vertical-align: bottom;
+    margin-left:0; 
+}
