@@ -62,3 +62,35 @@ $gridmarks:300px 250px 450px 200px;
         color: $c-white;
     }
 }
+
+.content{
+    margin-left: 18%;
+    top: 50px;
+    left: 0;
+    position:fixed;
+    padding:1px 16px;
+    width: 80%;
+    height: 82%;
+
+
+}
+
+.cardList{
+    display: flex;
+    flex-flow: row wrap;
+    margin: 5%;
+    gap: 5%;
+    .card{
+        flex: 20%;
+        border-radius: 25px;
+        padding: 20px;
+        background-color: $c-black;
+
+    }
+}
+
+@media (max-width: 800px) {
+    .cardList {
+      flex-direction: column;
+    }
+  }
