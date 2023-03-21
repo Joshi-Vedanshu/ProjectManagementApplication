@@ -3,15 +3,17 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavBar from "./NavBar";
 import NavSide from "./NavSide";
+import Routing from './Components/Routing'
 
 function App() {
   return (
     <div className="App">
+      <Routing/>
       {/* <Routing /> */}
-      <Router>
+      {/* <Router>
         <NavBar />
         <NavSide/>
-      </Router>
+      </Router> */}
     </div>
   );
 }

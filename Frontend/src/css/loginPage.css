@@ -1,14 +1,18 @@
+<<<<<<< HEAD
 :root{
     --bgcolor:#edf2fb;
     --head:#ccdbfd;
     --form:#e2eafc;
     --fontstyle:'Abel';
 }
+=======
+>>>>>>> 0049e5e96e942164eba5a373d36c7259aa2bef53
 *{
     margin: 0;
     padding: 0;
 }
 
+<<<<<<< HEAD
 main{
     background: var(--bgcolor);
     height: 100vh;
@@ -55,4 +59,15 @@ main{
 }
 .info-tag{
     font-family: var(--fontstyle);
+=======
+.login-form {
+    display:block;
+    width:50%;
+    margin:0 auto;
+    padding-top: 10%;
+    padding-left: 15%
+  }
+
+.login-heading{
+    justify-content: center;
 }

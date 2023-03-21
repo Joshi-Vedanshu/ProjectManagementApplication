@@ -5,16 +5,25 @@ import "../css/loginPage.css";
 function UserLogin(props) {
   // const email = useFormInput('')
   // const password = useFormInput('')
-  const email = "random.email";
-  const password = "12345";
+  // const email = "random.email";
+  // const password = "12345";
   const [error, setError] = useState(null);
   const [user, setUser] = useState(null);
 
   const login = () => {
-    setError(null);
-    console.log(error);
-    setUser("admin");
-    console.log(user);
+    axios.post('http://localhost:3005/services/userService/login', { user:email.value, password:password.value}).then((response) => {
+      setUser( response.data);
+      console.log(user);
+
+      localStorage.setItem("user",JSON.stringify(response.data));
+      console.log(JSON.parse(localStorage.getItem("user")).email);
+      console.log(JSON.parse(localStorage.getItem("user")).uid);
+      // history.push('/');
+
+    }).catch(error => {
+      if (error.response.status === 401) setError(error.response.data.message);
+      else setError("Invalid credentials ");
+    });
   };
 
   return (
@@ -37,7 +46,7 @@ function UserLogin(props) {
           <article className="button-container">
             <button className="submit-button btn btn-success">Submit</button>
           </article>
-          <p class="info-tag">For sign in contact admin of your organization</p>
+          <p className="info-tag">For sign in contact admin of your organization</p>
         </form>
       </main>
         
