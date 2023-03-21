@@ -1,44 +1,54 @@
-import React, { useState, useFormInput } from "react";
+import React, { useState, useRef } from "react";
 import "../css/signUp.css";
 import axios from 'axios';
 // import {Link, useHistory} from 'react-router-dom'
 // import Button from "./Button.js";
 
 function UserSignUp(props) {
-    const [loading, setLoading] = useState(false);
-    const firstName = '';
-    const lastName = '';
-    const email = '';
-    const phoneNumber= '';
-    const password = '';
-    const confirmPassword = '';
-    const [error, setError] = useState(null);
+
+
+  const [loading, setLoading] = useState(false);
+  const firstName = useRef("");
+  const lastName = useRef("");
+  const email = useRef("");
+  const contactNumber = useRef("");
+  const password = useRef("");
+  const confirmPassword = "";
+  const [error, setError] = useState(null);
 
 
 
-//   const signin = (e) => {
-//     setError(null)
-    
-//   };
+  //   const signin = (e) => {
+  //     setError(null)
 
-const SignUp = (e) => {
-  e.preventDefault();
-  setError(null);
-  setLoading(true);
-  axios.post('http://localhost:3005/services/userService/register',
-  {firstName:firstName.value,lastName:lastName.value, email:email.value,phoneNumber:phoneNumber.value,
-    password:password.value,confirmPassword:confirmPassword.value}).then((response) => {
-  console.log(firstName);
-    setLoading(false);
-    setUserSession(response.data.token, response.data.email);
-    setError("Registered");
-    history.push('/login');
-  }).catch(error => {
-    setLoading(false);
-    if (error.response.status === 401) setError(error.response.data.message);
-    else setError("User already exists. Please change your email..! ");
-  });
-}
+  //   };
+
+  const SignUp = (e) => {
+    console.log(email.current.value);
+    console.log(contactNumber.current.value);
+    console.log(password.current.value);
+    console.log(firstName.current.value);
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+    axios.post('http://localhost:3005/auth/register',
+      {
+        email: email.current.value.toString(),
+        contactNumber: contactNumber.current.value.toString(),
+        password: password.current.value.toString()
+      }).then((response) => {
+      console.log(response);
+      // setLoading(false);
+      // setUserSession(response.data.token, response.data.email);
+      // setError("Registered");
+      // history.push('/login');
+    }).catch(error => {
+      // setLoading(false);
+      console.log(error);
+      if (error.response.status === 401) setError(error.response.data.message);
+      else setError("User already exists. Please change your email..! ");
+    });
+  }
 
   return (
     <>
@@ -90,10 +100,11 @@ const SignUp = (e) => {
          
         </form>
       </main>
-        
+
     </>
 
   );
 }
+
 
 export default UserSignUp;
