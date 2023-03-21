@@ -8,7 +8,7 @@ var router = express.Router();
 const dashboardController = require('../controllers/dashboardController');
 
 router.get('/',async function (req, res, next) {
-
+  console.log("here");
   let auth = validateSessionAndHeader(sessions, req);
   if (auth.validation && auth.code === 202) {
     let data = await dashboardController.GetDashboardData(token.getUserFromTheToken(sessions.token), req);

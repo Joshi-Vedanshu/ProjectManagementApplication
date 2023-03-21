@@ -1,4 +1,4 @@
-
+const token = require('./token');
 
 function validateSessionAndHeader(sessions, req) {
     if (!(sessions.token == undefined || req.headers.authorization == undefined)) {

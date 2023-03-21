@@ -6,8 +6,9 @@ var userService = new UserService();
 
 const GetDashboardData = async function (email, req) {
     let userId = await userService.GetUserIdByEmail(email);
+    console.log(userId);
     let role = await roleService.getRolesByUser(userId);
-    
+    return role;
     //check the role
     //according to the role send the data
 }
