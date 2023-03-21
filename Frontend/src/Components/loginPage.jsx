@@ -28,7 +28,6 @@ function UserLogin(props) {
 
   return (
     <>
-      <main>
       <form className="login-card">
           <h3 className="heading">FARV Login</h3>
 
@@ -47,9 +46,7 @@ function UserLogin(props) {
             <button className="submit-button btn btn-success">Submit</button>
           </article>
           <p className="info-tag">For sign in contact admin of your organization</p>
-        </form>
-      </main>
-        
+        </form>        
     </>
 
   );

@@ -7,6 +7,13 @@
   width: 100%;
   left: 0;
 }
+.navigation img {
+  position: absolute;
+  top: 5px;
+  left: 0;
+  width: 100px;
+  height: 40px;
+}
 .navigation a {
   float: left;
   color: whitesmoke;
@@ -14,6 +21,7 @@
   padding: 14px 46px;
   text-decoration: none;
   font-size: 17px;
+  margin-left: 60px;
 }
 .navigation a:hover {
   background-color: whitesmoke;
