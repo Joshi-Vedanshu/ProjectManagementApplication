@@ -13,7 +13,13 @@ $gridmarks:300px 250px 450px 200px;
     top: 0;
     width: 100%;
     left: 0;
-
+    img{
+        position: absolute;
+        top: 5px;
+        left:  0;
+        width: 100px;
+        height: 40px;
+    }
     a {
         float: left;
         color: $c-white;
@@ -21,6 +27,7 @@ $gridmarks:300px 250px 450px 200px;
         padding: 14px 46px;
         text-decoration: none;
         font-size: 17px;
+        margin-left: 60px;
         &:hover{
             background-color: $c-white;
             color: $c-black;
