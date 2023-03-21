@@ -1,8 +1,6 @@
 const { Sequelize, DataTypes, Model } = require('sequelize');
 
-class UserProfiles extends Model { 
-    
-}
+class UserProfiles extends Model { }
 module.exports = (sequelize, Sequelize) => {
     const UserProfile = sequelize.define('UserProfile', {
         // Model attributes are defined here

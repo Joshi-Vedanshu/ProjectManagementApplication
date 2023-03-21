@@ -1,5 +1,3 @@
-var db = require("../models");
-const user = require("../models/product/user");
 var ProdctDb = require('../models').Product.models;
 
 this.UserService = function () {
@@ -52,47 +50,47 @@ this.UserService = function () {
     }
 
     this.GetUserInfo = async function(request){
-        let User = await ProdctDb.UserProfile.findAll({
+        let user = await ProdctDb.UserProfile.findAll({
             where:{
-                email : request.body.email
+                id : request.body.id
             }
         });
-        if(User != undefined){
-            return User;
+        if(user != undefined){
+            return user;
         }
         return null;
     }
 
     this.UpdateUser = async function(request){
 
-        let User = await ProdctDb.User.update(
-            {
-                firstName:request.body.firstName,
-                middleName:request.body.middleName,
-                lastName:request.body.lastName,
-                location:request.body.location,
-                dateOfBirth:request.body.dateOfBirth,
-                yearsOfExperience:request.body.yearsOfExperience
-            },
-            {
-            where:{
-                id : request.body.id
-            }});
-        userprof = request.body.userProfile
-        let UserProfile = await ProdctDb.UserProfile.update(
-                {
-                    contactNumber:userprof.contactNumber,
-                    password:userprof.password,
-                    dateOfHire:userprof.dateOfHire
-                },
-                {
-                where:{
-                    id : userprof.id
-                }});
-        if(User != undefined){
-            return true;
-        }
-        return false;
+        // let user = await ProdctDb.User.update(
+        //     {
+        //         firstName:request.body.firstName,
+        //         middleName:request.body.middleName,
+        //         lastName:request.body.lastName,
+        //         location:request.body.location,
+        //         dateOfBirth:request.body.dateOfBirth,
+        //         yearsOfExperience:request.body.yearsOfExperience
+        //     },
+        //     {
+        //     where:{
+        //         id : request.body.id
+        //     }});
+        // userprof = request.body.userProfile
+        // let userProfile = await ProdctDb.UserProfile.update(
+        //         {
+        //             contactNumber:userprof.contactNumber,
+        //             password:userprof.password,
+        //             dateOfHire:userprof.dateOfHire
+        //         },
+        //         {
+        //         where:{
+        //             id : userprof.id
+        //         }});
+        // if(user != undefined){
+        //     return true;
+        // }
+        // return false;
     }
 }
 

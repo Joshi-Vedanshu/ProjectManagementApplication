@@ -13,10 +13,13 @@ module.exports = (sequelize, Sequelize) => {
         code: {
             type: DataTypes.STRING(30)
         },
+        name: {
+            type: DataTypes.STRING(30)
+        },
         userId: {
             type: DataTypes.UUID,
             references: {
-                model: 'User', 
+                model: 'User',
                 key: 'id'
             }
         }

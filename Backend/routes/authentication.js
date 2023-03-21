@@ -1,21 +1,14 @@
 var express = require('express');
 var router = express.Router();
 const sessions = require('express-session');
-const userController = require('../controllers/userController');
+const userController = require('../controllers/authenticationController');
 const token = require('../middleware_functions/token');
+const { validateSessionAndHeader } = require('../middleware_functions/manageSessionAndHeader');
 
 router.post('/login', async function (req, res, next) {
-   if (!(sessions.token == undefined || req.headers.authorization == undefined)) {
-      if (sessions.token == req.headers.authorization.split(' ')[1]) {
-         if (token.validateToken(sessions.token)) {
-            res.status(200).send();
-         }
-         res.status(403).send();
-      }
-      else {
-         sessions.token = null;
-         res.status(404).send();
-      }
+   let auth = validateSessionAndHeader(sessions,req);
+   if (auth.validation) {
+      res.status(auth.code).send();
    }
    else if (!(req.body.email == undefined || req.body.password == undefined)) {
       let status = await userController.CheckIfUserExist(req);

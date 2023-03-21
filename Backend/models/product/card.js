@@ -72,6 +72,13 @@ module.exports = (sequelize, Sequelize) => {
                 model: 'Attachment', 
                 key: 'id'
             }
+        },
+        sprintId:{
+            type: DataTypes.UUID,
+            references: {
+                model: 'Sprint', 
+                key: 'id'
+            }
         }
     }, {
         tableName: 'Card'
