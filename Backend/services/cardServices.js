@@ -65,10 +65,10 @@ this.CardService = function () {
   };
 
   // READ (BY ASSIGNEE ID)
-  this.getCardsByAssigneeId = async function (request) {
+  this.GetCardsByAssigneeId = async function (userId) {
     let cards = await ProdctDb.Cards.findAll({
       where: {
-        assigneeId: request.body.assigneeId,
+        assigneeId: userId,
       },
     });
     if (cards != undefined) {
@@ -104,10 +104,10 @@ this.CardService = function () {
   };
 
   // READ (BY SPRINT ID)
-  this.getCardsBySprintId = async function (request) {
+  this.GetCardsBySprintId = async function (sprintId) {
     let cards = await ProdctDb.Cards.findAll({
       where: {
-        sprintId: request.body.sprintId,
+        sprintId: sprintId,
       },
     });
     if (cards != undefined) {
