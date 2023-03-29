@@ -2,7 +2,7 @@ const { Sequelize, DataTypes, Model } = require("sequelize");
 const Organization = require("./Organization");
 const sequelize = new Sequelize("mysql::memory:");
 
-class Assignments extends Model {}
+class Assignments extends Model { }
 module.exports = (sequelize, Sequelize) => {
   const Assignment = sequelize.define(
     "Assignment",
@@ -15,7 +15,7 @@ module.exports = (sequelize, Sequelize) => {
       },
       userId: {
         type: DataTypes.UUID,
-        unique: false,
+        allowNull: false,
         references: {
           model: "User",
           key: "id",
@@ -23,7 +23,7 @@ module.exports = (sequelize, Sequelize) => {
       },
       cardId: {
         type: DataTypes.UUID,
-        unique: false,
+        allowNull: false,
         references: {
           model: "Card",
           key: "id",

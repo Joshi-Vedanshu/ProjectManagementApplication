@@ -1,9 +1,10 @@
 const roles = {
-    "SuperAdmin": 0,
-    "Admin": 1,
-    "Manager": 2,
-    "Developer": 3,
-    "Tester": 4
+    "default":0,
+    "superAdmin": 1,
+    "admin": 2,
+    "manager": 3,
+    "developer": 4,
+    "tester": 5
 }
 Object.freeze(roles);
 

@@ -40,19 +40,21 @@ this.RoleService = function () {
   };
 
   // UPDATE
-  this.updateRoleByUser = async function (request) {
-    let status = true;
+  this.UpdateRole = async function (request) {
+    let status = false;
     await ProdctDb.Role.update(
       {
-        userId: request.body.userId,
-        code: request.body.code,
+        type: request.type,
+        name: request.name,
       },
       {
-        where: { id: request.body.id },
+        where: { id: request.id },
       }
-    )
-      .success((result) => (status = true))
-      .error((err) => (status = false));
+    ).then(function (role) {
+      if (role != undefined) {
+        status = true;
+      }
+    });
     return status;
   };
 

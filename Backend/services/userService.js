@@ -24,10 +24,13 @@ this.UserService = function () {
                         userProfileId: userProfile.dataValues.id
                     }).then(async function (user) {
                         if (user != undefined) {
-                            await ProdctDb.Role.create({
+                            let role = await ProdctDb.Role.create({
                                 type: 0,
                                 name: "default",
                                 userId: user.id
+                            });
+                            await ProdctDb.RolePermissionMapping.create({
+                                roleId: role.dataValues.id
                             });
                             console.log("User is created");
                         } else {
@@ -45,7 +48,7 @@ this.UserService = function () {
                 }
             });
         }
-        else{
+        else {
             status = false;
         }
         return status;
@@ -65,25 +68,37 @@ this.UserService = function () {
     }
 
     this.GetUserInfo = async function (request) {
-        let user = await ProdctDb.UserProfile.findAll({
+        let user = null;
+        let userProfile = await ProdctDb.UserProfile.findAll({
             where: {
                 id: request.body.id
             }
         });
-        if (user != undefined) {
-            return user;
+        if (userProfile != undefined) {
+            user = await ProdctDb.User.findAll({
+                where: {
+                    userProfileId: userProfile[0].dataValues.id
+                }
+            });
+            return [user, userProfile];
         }
         return null;
     }
 
     this.GetUserIdByEmail = async function (email) {
-        let user = await ProdctDb.UserProfile.findAll({
+        let user = null;
+        let userProfile = await ProdctDb.UserProfile.findAll({
             where: {
                 email: email
             }
         });
-        if (user != undefined) {
-            return user;
+        if (userProfile != undefined) {
+            user = await ProdctDb.User.findAll({
+                where: {
+                    userProfileId: userProfile[0].dataValues.id
+                }
+            });
+            return [user, userProfile];
         }
         return null;
     }

@@ -1,10 +1,10 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = new Sequelize("mysql::memory:");
 
-class Organizations extends Model { }
+class Notifications extends Model {}
 module.exports = (sequelize, Sequelize) => {
-  const Organization = sequelize.define(
-    "Organization",
+  const Notification = sequelize.define(
+    "Notification",
     {
       // Model attributes are defined here
       id: {
@@ -12,30 +12,32 @@ module.exports = (sequelize, Sequelize) => {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      name: {
-        type: DataTypes.STRING(20),
-        unique: true
-      },
-      code: {
-        type: DataTypes.STRING(10),
-        unique: true,
-      },
-      contact: {
-        type: DataTypes.INTEGER(10),
-      },
-      adminId: {
+      adminId:{
         type: DataTypes.UUID,
         allowNull: false,
         references: {
           model: 'User',
           key: 'id'
         }
+      },
+      requesterId:{
+        type: DataTypes.UUID,
+        allowNull: false,
+        references: {
+          model: 'User',
+          key: 'id'
+        }
+      },
+      status:{
+        type: DataTypes.CHAR,
+        defaultValue:'0',
+        allowNull: false
       }
     },
     {
-      tableName: "Organization",
+      tableName: "Notification",
     }
   );
 
-  return Organization;
+  return Notification;
 };

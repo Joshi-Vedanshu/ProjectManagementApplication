@@ -40,10 +40,10 @@ this.UserTeamMappingService = function () {
   };
 
   // READ (BY USER ID)
-  this.getUserTeamMappingsByUserId = async function (request) {
+  this.getUserTeamMappingsByUserId = async function (userId) {
     let userteammapping = await ProdctDb.UserTeamMapping.findAll({
       where: {
-        userId: request.body.userId,
+        userId: userId,
       },
     });
     if (userteammapping != undefined) {

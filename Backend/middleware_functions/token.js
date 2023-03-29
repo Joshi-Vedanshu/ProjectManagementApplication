@@ -39,7 +39,7 @@ function validateRefreshToken(token) {
 
 function getUserFromTheToken(token) {
     if (token == null) return false;
-    return jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    return jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
         if (err) {
             return null;
         }

@@ -13,12 +13,15 @@ module.exports = (sequelize, Sequelize) => {
       },
       email: {
         type: DataTypes.STRING(50),
+        unique: true,
+        allowNull: false
       },
       contactNumber: {
         type: DataTypes.STRING(30),
       },
       password: {
         type: DataTypes.STRING(60),
+        allowNull: false
       },
       dateOfHire: {
         type: DataTypes.DATE,

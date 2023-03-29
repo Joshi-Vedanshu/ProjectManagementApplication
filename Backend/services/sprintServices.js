@@ -43,10 +43,10 @@ this.SprintService = function () {
   };
 
   // READ (BY PROJECT ID)
-  this.getSprintsByProjectId = async function (request) {
+  this.GetSprintsByProjectId = async function (projectId) {
     let sprints = await ProdctDb.Sprint.findAll({
       where: {
-        projectId: request.body.projectId,
+        projectId: projectId,
       },
     });
     if (sprints != undefined) {

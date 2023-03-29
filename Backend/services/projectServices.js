@@ -1,3 +1,5 @@
+const { or } = require("sequelize");
+
 var ProdctDb = require("../models").Product.models;
 
 this.ProjectService = function () {
@@ -30,10 +32,10 @@ this.ProjectService = function () {
   };
 
   // READ BY USER
-  this.getProjectsByUser = async function (request) {
+  this.GetProjectsByUser = async function (userId) {
     let projects = await ProdctDb.Project.findAll({
       where: {
-        userId: request.body.userId,
+        userId: userId,
       },
     });
     if (projects != undefined) {
@@ -41,6 +43,32 @@ this.ProjectService = function () {
     }
     return null;
   };
+
+  this.GetAllProjectsOfUser = async function (userId) {
+    ProdctDb.UserTeamMapping.hasMany(ProdctDb.ProjectTeamMapping, { foreignKey: 'teamId' });
+    ProdctDb.ProjectTeamMapping.belongsTo(ProdctDb.UserTeamMapping, { foreignKey: 'teamId' });
+    let teams = await ProdctDb.UserTeamMapping.findAll({ where: { userId: userId }, include: [ProdctDb.ProjectTeamMapping] });
+    let projectIds = [].concat(...Object.values(teams.map(x => x.ProjectTeamMappings).map(y => y.map(c => c.projectId))));
+    let projects = await ProdctDb.Project.findAll({
+      where: {
+        id: projectIds
+      }
+    });
+    return projects;
+  }
+
+  this.GetAllProjectOfOrganization = async function (orgId) {
+    ProdctDb.Team.hasMany(ProdctDb.ProjectTeamMapping, { foreignKey: 'teamId' });
+    ProdctDb.ProjectTeamMapping.belongsTo(ProdctDb.Team, { foreignKey: 'teamId' });
+    let teams = await ProdctDb.Team.findAll({ where: { orgId: orgId }, include: [ProdctDb.ProjectTeamMapping] });
+    let projectIds = [].concat(...Object.values(teams.map(x => x.ProjectTeamMappings).map(y => y.map(c => c.projectId))));
+    let projects = await ProdctDb.Project.findAll({
+      where: {
+        id: projectIds
+      }
+    });
+    return projects;
+  }
 
   // UPDATE
   this.updateProject = async function (request) {
