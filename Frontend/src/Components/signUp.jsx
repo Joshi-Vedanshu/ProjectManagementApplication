@@ -1,6 +1,8 @@
 import React, { useState, useRef } from "react";
 import "../css/signUp.css";
 import axios from 'axios';
+import bcrypt from 'bcryptjs';
+
 // import {Link, useHistory} from 'react-router-dom'
 // import Button from "./Button.js";
 
@@ -31,11 +33,16 @@ function UserSignUp(props) {
     e.preventDefault();
     setError(null);
     setLoading(true);
+    
+    // let password = password.current.value.toString();
+    // const hashPassword = bcrypt.hashSync(password,10);
+    console.log("hashing pass");
+    // console.log(hashPassword);
     axios.post('http://localhost:3005/auth/register',
       {
         email: email.current.value.toString(),
         contactNumber: contactNumber.current.value.toString(),
-        password: password.current.value.toString()
+        password: bcrypt.hashSync(password.current.value.toString(),10)
       }).then((response) => {
       console.log(response);
       // setLoading(false);
@@ -53,7 +60,7 @@ function UserSignUp(props) {
   return (
     <>
       <main>
-        <form className="signin-card" onSubmit={SignUp}>
+        {/* <form className="signin-card" onSubmit={SignUp}> */}
           <h3 className="heading">FARV Sign In</h3>
           <div className="grid-style">
             <article className="fname-container">
@@ -93,12 +100,12 @@ function UserSignUp(props) {
             <p className="forgot-password">Already have an Account?</p>
 
             <article className="button-container">
-              <button className="submit-button btn btn-success">Submit</button>
+              <button className="submit-button btn btn-success" onClick={SignUp}>Submit</button>
             </article>
 
           </div>
 
-        </form>
+        {/* </form> */}
       </main>
 
     </>
