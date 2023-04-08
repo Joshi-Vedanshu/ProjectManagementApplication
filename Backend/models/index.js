@@ -21,7 +21,13 @@ for (let i = 0; i < 2; i++) {
     "password": process.env.DB_PASSWORD,
     "database": dbName,
     "host": process.env.DB_HOST,
-    "dialect": process.env.DB_DIALECT
+    "dialect": process.env.DB_DIALECT,
+    "ssl": true,
+    "dialectOptions": {
+       "ssl": {
+          "require": true
+       }
+     }
   };
   databases.push(obj);
 }
