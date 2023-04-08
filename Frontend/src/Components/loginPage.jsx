@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import "../css/loginPage.css";
 import axios from 'axios';
+// import { hashPassword } from '../Utils/bycrptSalt'
 // import {Link, useHistory} from 'react-router-dom';
 
 function UserLogin(props) {
@@ -11,12 +12,13 @@ function UserLogin(props) {
 
   // let history = useHistory();
 
-  const login = () => {
+  const login = async () => {
     // console.log(user)
     // console.log(password)
     setError(null);
     axios.post('http://localhost:3005/auth/login', { email:user.current.value, 
     password:password.current.value}).then((response) => {
+      console.log(response)
       localStorage.setItem("user", JSON.stringify(response.config.data))
       console.log(response.config.data.password);
       

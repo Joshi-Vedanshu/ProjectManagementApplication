@@ -1,10 +1,12 @@
 import React, { useState, useRef } from "react";
 import "../css/signUp.css";
 import axios from 'axios';
-import bcrypt from 'bcryptjs';
+// import { hashPassword } from '../Utils/bycrptSalt'
 
 // import {Link, useHistory} from 'react-router-dom'
 // import Button from "./Button.js";
+
+var saltRounds = 10
 
 function UserSignUp(props) {
 
@@ -25,7 +27,7 @@ function UserSignUp(props) {
 
   //   };
 
-  const SignUp = (e) => {
+  const SignUp = async (e) => {
     console.log(email.current.value);
     console.log(contactNumber.current.value);
     console.log(password.current.value);
@@ -43,6 +45,7 @@ function UserSignUp(props) {
         email: email.current.value.toString(),
         contactNumber: contactNumber.current.value.toString(),
         password: bcrypt.hashSync(password.current.value.toString(),10)
+        // password: await hashPassword(password.current.value.toString())
       }).then((response) => {
       console.log(response);
       // setLoading(false);
