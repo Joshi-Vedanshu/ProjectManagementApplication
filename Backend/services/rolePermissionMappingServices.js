@@ -43,10 +43,10 @@ this.RolePermissionMappingService = function () {
   };
 
   // READ (BY ROLE ID)
-  this.getRolePermissionMappingByRoleId = async function (request) {
+  this.getRolePermissionMappingByRoleId = async function (roleId) {
     let rolepermissionmapping = await ProdctDb.RolePermissionMapping.findAll({
       where: {
-        roleId: request.body.roleId,
+        roleId: roleId,
       },
     });
     if (rolepermissionmapping != undefined) {

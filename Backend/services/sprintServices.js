@@ -56,8 +56,8 @@ this.SprintService = function () {
   };
 
   // UPDATE
-  this.updateSprint = async function (request) {
-    let status = true;
+  this.UpdateSprint = async function (request) {
+    let status = false;
     await ProdctDb.Assignment.update(
       {
         name: request.body.name,
@@ -69,20 +69,24 @@ this.SprintService = function () {
       {
         where: { id: request.body.id },
       }
-    )
-      .success((result) => (status = true))
-      .error((err) => (status = false));
+    ).then(async function (sprint) {
+      if (sprint != undefined) {
+        status = true;
+      }
+    });
     return status;
   };
 
   // DELETE
-  this.deleteSprint = async function (request) {
+  this.DeleteSprint = async function (request) {
     let status = true;
     await ProdctDb.Sprint.destroy({
       where: { id: request.body.id },
-    })
-      .success((result) => (status = true))
-      .error((err) => (status = false));
+    }).then(async function (sprint) {
+      if (sprint != undefined) {
+        status = true;
+      }
+    });
     return status;
   };
 };

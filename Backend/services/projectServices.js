@@ -45,34 +45,60 @@ this.ProjectService = function () {
   };
 
   this.GetAllProjectsOfUser = async function (userId) {
-    ProdctDb.UserTeamMapping.hasMany(ProdctDb.ProjectTeamMapping, { foreignKey: 'teamId' });
-    ProdctDb.ProjectTeamMapping.belongsTo(ProdctDb.UserTeamMapping, { foreignKey: 'teamId' });
-    let teams = await ProdctDb.UserTeamMapping.findAll({ where: { userId: userId }, include: [ProdctDb.ProjectTeamMapping] });
-    let projectIds = [].concat(...Object.values(teams.map(x => x.ProjectTeamMappings).map(y => y.map(c => c.projectId))));
+    ProdctDb.UserTeamMapping.hasMany(ProdctDb.ProjectTeamMapping, {
+      foreignKey: "teamId",
+    });
+    ProdctDb.ProjectTeamMapping.belongsTo(ProdctDb.UserTeamMapping, {
+      foreignKey: "teamId",
+    });
+    let teams = await ProdctDb.UserTeamMapping.findAll({
+      where: { userId: userId },
+      include: [ProdctDb.ProjectTeamMapping],
+    });
+    let projectIds = [].concat(
+      ...Object.values(
+        teams
+          .map((x) => x.ProjectTeamMappings)
+          .map((y) => y.map((c) => c.projectId))
+      )
+    );
     let projects = await ProdctDb.Project.findAll({
       where: {
-        id: projectIds
-      }
+        id: projectIds,
+      },
     });
     return projects;
-  }
+  };
 
   this.GetAllProjectOfOrganization = async function (orgId) {
-    ProdctDb.Team.hasMany(ProdctDb.ProjectTeamMapping, { foreignKey: 'teamId' });
-    ProdctDb.ProjectTeamMapping.belongsTo(ProdctDb.Team, { foreignKey: 'teamId' });
-    let teams = await ProdctDb.Team.findAll({ where: { orgId: orgId }, include: [ProdctDb.ProjectTeamMapping] });
-    let projectIds = [].concat(...Object.values(teams.map(x => x.ProjectTeamMappings).map(y => y.map(c => c.projectId))));
+    ProdctDb.Team.hasMany(ProdctDb.ProjectTeamMapping, {
+      foreignKey: "teamId",
+    });
+    ProdctDb.ProjectTeamMapping.belongsTo(ProdctDb.Team, {
+      foreignKey: "teamId",
+    });
+    let teams = await ProdctDb.Team.findAll({
+      where: { orgId: orgId },
+      include: [ProdctDb.ProjectTeamMapping],
+    });
+    let projectIds = [].concat(
+      ...Object.values(
+        teams
+          .map((x) => x.ProjectTeamMappings)
+          .map((y) => y.map((c) => c.projectId))
+      )
+    );
     let projects = await ProdctDb.Project.findAll({
       where: {
-        id: projectIds
-      }
+        id: projectIds,
+      },
     });
     return projects;
-  }
+  };
 
   // UPDATE
-  this.updateProject = async function (request) {
-    let status = true;
+  this.UpdateProject = async function (request) {
+    let status = false;
     await ProdctDb.Project.update(
       {
         name: request.body.name,
@@ -84,20 +110,24 @@ this.ProjectService = function () {
       {
         where: { id: request.body.id },
       }
-    )
-      .success((result) => (status = true))
-      .error((err) => (status = false));
+    ).then(async function (project) {
+      if (project != undefined) {
+        status = true;
+      }
+    });
     return status;
   };
 
   // DELETE
-  this.deleteProject = async function (request) {
-    let status = true;
+  this.DeleteProject = async function (request) {
+    let status = false;
     await ProdctDb.Project.destroy({
       where: { id: request.body.id },
-    })
-      .success((result) => (status = true))
-      .error((err) => (status = false));
+    }).then(async function (project) {
+      if (project != undefined) {
+        status = true;
+      }
+    });
     return status;
   };
 };

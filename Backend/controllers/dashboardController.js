@@ -83,4 +83,95 @@ const AddOrganization = async function (email, req) {
   return false;
 };
 
-module.exports = { GetDashboardData, JoinOrganization, AddOrganization };
+const ManageProject = async function (email, req, type) {
+  let userId = (await userService.GetUserIdByEmail(email))[0][0].dataValues.id;
+  let role = await roleService.getRolesByUser(userId);
+  let permissions =
+    await rolePermissionMappingService.getRolePermissionMappingByRoleId(
+      role[0].dataValues.id
+    );
+  if (permissions[0].dataValues.projectAccess[type] == "1") {
+    switch (type) {
+      case "0":
+        return await projectService.AddProject(req);
+      case "1":
+        return await projectService.GetAllProjectsOfUser(userId);
+      case "2":
+        return await projectService.UpdateProject(req);
+      case "3":
+        return await projectService.DeleteProject(req);
+    }
+  } else {
+    return false;
+  }
+};
+
+const ManageSprint = async function (email, req, type) {
+  let userId = (await userService.GetUserIdByEmail(email))[0][0].dataValues.id;
+  let role = await roleService.getRolesByUser(userId);
+  let permissions =
+    await rolePermissionMappingService.getRolePermissionMappingByRoleId(
+      role[0].dataValues.id
+    );
+  if (permissions[0].dataValues.sprintAccess[type] == "1") {
+    switch (type) {
+      case "0":
+        return await sprintService.AddSprint(req);
+      case "1":
+        let projects = await projectService.GetAllProjectsOfUser(userId);
+        return await sprintService.GetSprintsByProjectId(
+          projects.map((x) => x.id)
+        );
+      case "2":
+        return await sprintService.UpdateSprint(req);
+      case "3":
+        return await sprintService.DeleteSprint(req);
+    }
+  } else {
+    return false;
+  }
+};
+
+const ManageTeam = async function (email, req, type) {
+  let userId = (await userService.GetUserIdByEmail(email))[0][0].dataValues.id;
+  let role = await roleService.getRolesByUser(userId);
+  let permissions =
+    await rolePermissionMappingService.getRolePermissionMappingByRoleId(
+      role[0].dataValues.id
+    );
+  if (permissions[0].dataValues.teamAccess[type] == "1") {
+    // switch (type) {
+    //   case "0":
+    //     return await teamService.AddTeam(req);
+    //   case "1":
+    //     let projects = await teamService.GetAllProjectsOfUser(userId);
+    //     return await teamService.GetSprintsByProjectId(
+    //       projects.map((x) => x.id)
+    //     );
+    //   case "2":
+    //     return await sprintService.UpdateSprint(req);
+    //   case "3":
+    //     return await sprintService.DeleteSprint(req);
+    // }
+  } else {
+    return false;
+  }
+};
+
+const GetPermissionsOfUser = async function (email) {
+  let userId = (await userService.GetUserIdByEmail(email))[0][0].dataValues.id;
+  let role = await roleService.getRolesByUser(userId);
+  return await rolePermissionMappingService.getRolePermissionMappingByRoleId(
+    role[0].dataValues.id
+  );
+};
+
+module.exports = {
+  GetDashboardData,
+  JoinOrganization,
+  AddOrganization,
+  ManageProject,
+  ManageSprint,
+  GetPermissionsOfUser,
+  ManageTeam,
+};
