@@ -40,7 +40,7 @@ this.UserTeamMappingService = function () {
   };
 
   // READ (BY USER ID)
-  this.getUserTeamMappingsByUserId = async function (userId) {
+  this.GetUserTeamMappingsByUserId = async function (userId) {
     let userteammapping = await ProdctDb.UserTeamMapping.findAll({
       where: {
         userId: userId,

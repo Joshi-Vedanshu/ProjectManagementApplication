@@ -19,8 +19,12 @@ this.TeamService = function () {
   };
 
   // READ
-  this.getTeams = async function (request) {
-    let teams = await ProdctDb.Team.findAll();
+  this.GetTeamsById = async function (teamIds) {
+    let teams = await ProdctDb.Team.findAll({
+      where: {
+        id: teamIds
+      }
+    });
     if (teams != undefined) {
       return teams;
     }
@@ -42,10 +46,10 @@ this.TeamService = function () {
   };
 
   // READ (BY ORG-ID)
-  this.getTeamsByOrgId = async function (request) {
+  this.GetTeamsByOrgId = async function (orgId) {
     let teams = await ProdctDb.Team.findAll({
       where: {
-        orgId: request.body.OrgId,
+        orgId: orgId,
       },
     });
     if (teams != undefined) {

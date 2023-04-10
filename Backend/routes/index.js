@@ -36,7 +36,6 @@ router.post('/join', async function (req, res, next) {
 });
 
 router.post('/add', async function (req, res, next) {
-  console.log("here");
   let auth = validateSessionAndHeader(sessions, req);
   if (auth.validation && auth.code === 202) {
     let data = await dashboardController.AddOrganization(token.getUserFromTheToken(sessions.token).id, req);
@@ -47,6 +46,242 @@ router.post('/add', async function (req, res, next) {
       res.status(502).send(data);
     }
 
+  }
+  else {
+    res.status(auth.code).send();
+  }
+});
+
+router.post('/project', async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.ManageProject(token.getUserFromTheToken(sessions.token).id, req, 0);
+    if (data) {
+      res.status(200).send(data);
+    }
+    else {
+      res.status(502).send(data);
+    }
+  }
+  else {
+    res.status(auth.code).send();
+  }
+});
+
+router.get('/project', async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.ManageProject(token.getUserFromTheToken(sessions.token).id, req, 1);
+    res.status(200).send(data);
+  }
+  else {
+    res.status(auth.code).send();
+  }
+});
+
+router.put('/project', async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.ManageProject(token.getUserFromTheToken(sessions.token).id, req, 2);
+    if (data) {
+      res.status(200).send(data);
+    }
+    else {
+      res.status(502).send(data);
+    }
+  }
+  else {
+    res.status(auth.code).send();
+  }
+});
+
+router.delete('/project', async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.ManageProject(token.getUserFromTheToken(sessions.token).id, req, 3);
+    if (data) {
+      res.status(200).send(data);
+    }
+    else {
+      res.status(502).send(data);
+    }
+  }
+  else {
+    res.status(auth.code).send();
+  }
+});
+
+router.post('/sprint', async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.ManageSprint(token.getUserFromTheToken(sessions.token).id, req, 0);
+    if (data) {
+      res.status(200).send(data);
+    }
+    else {
+      res.status(502).send(data);
+    }
+  }
+  else {
+    res.status(auth.code).send();
+  }
+});
+
+router.get('/sprint', async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.ManageSprint(token.getUserFromTheToken(sessions.token).id, req, 1);
+    res.status(200).send(data);
+  }
+  else {
+    res.status(auth.code).send();
+  }
+});
+
+router.put('/sprint', async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.ManageSprint(token.getUserFromTheToken(sessions.token).id, req, 2);
+    if (data) {
+      res.status(200).send(data);
+    }
+    else {
+      res.status(502).send(data);
+    }
+  }
+  else {
+    res.status(auth.code).send();
+  }
+});
+
+router.delete('/sprint', async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.ManageSprint(token.getUserFromTheToken(sessions.token).id, req, 3);
+    if (data) {
+      res.status(200).send(data);
+    }
+    else {
+      res.status(502).send(data);
+    }
+  }
+  else {
+    res.status(auth.code).send();
+  }
+});
+
+router.post('/team', async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.ManageTeam(token.getUserFromTheToken(sessions.token).id, req, 0);
+    if (data) {
+      res.status(200).send(data);
+    }
+    else {
+      res.status(502).send(data);
+    }
+  }
+  else {
+    res.status(auth.code).send();
+  }
+});
+
+router.get('/team', async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.ManageTeam(token.getUserFromTheToken(sessions.token).id, req, 1);
+    res.status(200).send(data);
+  }
+  else {
+    res.status(auth.code).send();
+  }
+});
+
+router.put('/team', async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.ManageTeam(token.getUserFromTheToken(sessions.token).id, req, 2);
+    if (data) {
+      res.status(200).send(data);
+    }
+    else {
+      res.status(502).send(data);
+    }
+  }
+  else {
+    res.status(auth.code).send();
+  }
+});
+
+router.delete('/team', async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.ManageTeam(token.getUserFromTheToken(sessions.token).id, req, 3);
+    if (data) {
+      res.status(200).send(data);
+    }
+    else {
+      res.status(502).send(data);
+    }
+  }
+  else {
+    res.status(auth.code).send();
+  }
+});
+
+router.post('/card', async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.ManageCard(token.getUserFromTheToken(sessions.token).id, req, 0);
+    if (data) {
+      res.status(200).send(data);
+    }
+    else {
+      res.status(502).send(data);
+    }
+  }
+  else {
+    res.status(auth.code).send();
+  }
+});
+
+router.get('/card', async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.ManageCard(token.getUserFromTheToken(sessions.token).id, req, 1);
+    res.status(200).send(data);
+  }
+  else {
+    res.status(auth.code).send();
+  }
+});
+
+router.put('/card', async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.ManageCard(token.getUserFromTheToken(sessions.token).id, req, 2);
+    if (data) {
+      res.status(200).send(data);
+    }
+    else {
+      res.status(502).send(data);
+    }
+  }
+  else {
+    res.status(auth.code).send();
+  }
+});
+
+router.delete('/card', async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.ManageCard(token.getUserFromTheToken(sessions.token).id, req, 3);
+    if (data) {
+      res.status(200).send(data);
+    }
+    else {
+      res.status(502).send(data);
+    }
   }
   else {
     res.status(auth.code).send();

@@ -35,6 +35,14 @@ module.exports = (sequelize, Sequelize) => {
         type: DataTypes.STRING.BINARY,
         defaultValue: 00000,
       },
+      teamUserMappingAccess: {
+        type: DataTypes.STRING.BINARY,
+        defaultValue: 00000,
+      },
+      projectTeamMappingAccess: {
+        type: DataTypes.STRING.BINARY,
+        defaultValue: 00000,
+      }
     },
     {
       tableName: "RolePermissionMapping",
