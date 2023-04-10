@@ -116,9 +116,21 @@ this.CardService = function () {
     return null;
   };
 
+  this.GetAllCardBasedOnSprints = async function (sprintId) {
+    let cards = await ProdctDb.Cards.findAll({
+      where: {
+        sprintId: sprintId,
+      },
+    });
+    if (cards != undefined) {
+      return cards;
+    }
+    return null;
+  };
+
   // UPDATE (BY ID)
-  this.updateCardsById = async function (request) {
-    let status = true;
+  this.UpdateCard = async function (request) {
+    let status = false;
     await ProdctDb.Card.update(
       {
         type: request.body.type,
@@ -139,9 +151,11 @@ this.CardService = function () {
       {
         where: { id: request.body.id },
       }
-    )
-      .success((result) => (status = true))
-      .error((err) => (status = false));
+    ).then(async function (card) {
+      if (card != undefined) {
+        status = true;
+      }
+    });
     return status;
   };
 
@@ -291,13 +305,15 @@ this.CardService = function () {
   };
 
   // DELETE
-  this.deleteCard = async function (request) {
-    let status = true;
+  this.DeleteCard = async function (request) {
+    let status = false;
     await ProdctDb.Card.destroy({
       where: { id: request.body.id },
-    })
-      .success((result) => (status = true))
-      .error((err) => (status = false));
+    }).then(async function (card) {
+      if (card != undefined) {
+        status = true;
+      }
+    });
     return status;
   };
 };

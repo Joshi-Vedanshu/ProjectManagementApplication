@@ -13,6 +13,10 @@ var NotificationService =
 var notificationService = new NotificationService();
 var SprintService = require("../services/sprintServices").SprintService;
 var sprintService = new SprintService();
+var TeamService = require("../services/teamServices").TeamService;
+var teamService = new TeamService();
+var CardService = require("../services/cardServices").CardService;
+var cardService = new CardService();
 var RolePermissionMappingService =
   require("../services/rolePermissionMappingServices").RolePermissionMappingService;
 var rolePermissionMappingService = new RolePermissionMappingService();
@@ -71,12 +75,12 @@ const AddOrganization = async function (email, req) {
 
       return status
         ? await rolePermissionMappingService.UpdateRolePermissionMapping({
-            roleId: role[0].dataValues.id,
-            projectAccess: "1111",
-            teamAccess: "1111",
-            organizationAccess: "1111",
-            sprintAccess: "1111",
-          })
+          roleId: role[0].dataValues.id,
+          projectAccess: "1111",
+          teamAccess: "1111",
+          organizationAccess: "1111",
+          sprintAccess: "1111",
+        })
         : false;
     }
   }
@@ -95,11 +99,38 @@ const ManageProject = async function (email, req, type) {
       case "0":
         return await projectService.AddProject(req);
       case "1":
-        return await projectService.GetAllProjectsOfUser(userId);
+        switch (roles.roles[role[0].name]) {
+          case 2:
+            let orgId = objMethods.GetFirstOrDefault(
+              await organizationService.GetOrganizationByUserId(userId)
+            ).dataValues.id;
+            let Orgprojects = await projectService.GetAllProjectOfOrganization(orgId);
+            return Orgprojects;
+          default:
+            return await projectService.GetAllProjectsOfUser(userId);
+        }
       case "2":
-        return await projectService.UpdateProject(req);
+        switch (roles.roles[role[0].name]) {
+          case 2:
+            return await projectService.UpdateProject(req);
+          default:
+            let projects = await projectService.GetAllProjectsOfUser(userId);
+            if (projects.map(x => x.id == req.body.id).lenght != 0 || projects.map(x => x.id == req.body.id).lenght != undefined) {
+              return await projectService.UpdateProject(req);
+            }
+            return false;
+        }
       case "3":
-        return await projectService.DeleteProject(req);
+        switch (roles.roles[role[0].name]) {
+          case 2:
+            return await projectService.DeleteProject(req);
+          default:
+            let projects = await projectService.GetAllProjectsOfUser(userId);
+            if (projects.map(x => x.id == req.body.id).lenght != 0 || projects.map(x => x.id == req.body.id).lenght != undefined) {
+              return await projectService.DeleteProject(req);
+            }
+            return false;
+        }
     }
   } else {
     return false;
@@ -118,14 +149,49 @@ const ManageSprint = async function (email, req, type) {
       case "0":
         return await sprintService.AddSprint(req);
       case "1":
-        let projects = await projectService.GetAllProjectsOfUser(userId);
-        return await sprintService.GetSprintsByProjectId(
-          projects.map((x) => x.id)
-        );
+        switch (roles.roles[role[0].name]) {
+          case 2:
+            let orgId = objMethods.GetFirstOrDefault(
+              await organizationService.GetOrganizationByUserId(userId)
+            ).dataValues.id;
+            let Orgprojects = await projectService.GetAllProjectOfOrganization(orgId);
+            return await sprintService.GetSprintsByProjectId(
+              Orgprojects.map((x) => x.id)
+            );
+          default:
+            let projects = await projectService.GetAllProjectsOfUser(userId);
+            return await sprintService.GetSprintsByProjectId(
+              projects.map((x) => x.id)
+            );
+        }
       case "2":
-        return await sprintService.UpdateSprint(req);
+        switch (roles.roles[role[0].name]) {
+          case 2:
+            return await sprintService.UpdateSprint(req);
+          default:
+            let projects = await projectService.GetAllProjectsOfUser(userId);
+            let sprints = await sprintService.GetSprintsByProjectId(
+              projects.map((x) => x.id)
+            );
+            if (sprints.map(x => x.id == req.body.id).lenght != 0 || sprints.map(x => x.id == req.body.id).lenght != undefined) {
+              return await sprintService.UpdateSprint(req);
+            }
+            return false;
+        }
       case "3":
-        return await sprintService.DeleteSprint(req);
+        switch (roles.roles[role[0].name]) {
+          case 2:
+            return await sprintService.DeleteSprint(req);
+          default:
+            let projects = await projectService.GetAllProjectsOfUser(userId);
+            let sprints = await sprintService.GetSprintsByProjectId(
+              projects.map((x) => x.id)
+            );
+            if (sprints.map(x => x.id == req.body.id).lenght != 0 || sprints.map(x => x.id == req.body.id).lenght != undefined) {
+              return await sprintService.DeleteSprint(req);
+            }
+            return false;
+        }
     }
   } else {
     return false;
@@ -140,30 +206,106 @@ const ManageTeam = async function (email, req, type) {
       role[0].dataValues.id
     );
   if (permissions[0].dataValues.teamAccess[type] == "1") {
-    // switch (type) {
-    //   case "0":
-    //     return await teamService.AddTeam(req);
-    //   case "1":
-    //     let projects = await teamService.GetAllProjectsOfUser(userId);
-    //     return await teamService.GetSprintsByProjectId(
-    //       projects.map((x) => x.id)
-    //     );
-    //   case "2":
-    //     return await sprintService.UpdateSprint(req);
-    //   case "3":
-    //     return await sprintService.DeleteSprint(req);
-    // }
+    switch (type) {
+      case "0":
+        return await cardService.AddCard(req);
+      case "1":
+        switch (roles.roles[role[0].name]) {
+          case 2:
+            let orgId = objMethods.GetFirstOrDefault(
+              await organizationService.GetOrganizationByUserId(userId)
+            ).dataValues.id;
+            let Orgprojects = await projectService.GetAllProjectOfOrganization(orgId);
+            let sprintsForOrg = await sprintService.GetSprintsByProjectId(
+              Orgprojects.map((x) => x.id)
+            );
+            return await cardService.GetAllCardBasedOnSprints(sprintsForOrg.map(x => x.id));
+          default:
+            let projects = await projectService.GetAllProjectsOfUser(userId);
+            let sprintsForUser = await sprintService.GetSprintsByProjectId(
+              projects.map((x) => x.id)
+            );
+            return await cardService.GetAllCardBasedOnSprints(sprintsForUser.map(x => x.id));
+        }
+      case "2":
+        switch (roles.roles[role[0].name]) {
+          case 2:
+            return await cardService.UpdateCard(req);
+          default:
+            let projects = await projectService.GetAllProjectsOfUser(userId);
+            if (projects.map(x => x.id == req.body.id).lenght != 0 || projects.map(x => x.id == req.body.id).lenght != undefined) {
+              return await cardService.UpdateCard(req);
+            }
+            return false;
+        }
+      case "3":
+        switch (roles.roles[role[0].name]) {
+          case 2:
+            return await cardService.DeleteCard(req);
+          default:
+            let projects = await projectService.GetAllProjectsOfUser(userId);
+            if (projects.map(x => x.id == req.body.id).lenght != 0 || projects.map(x => x.id == req.body.id).lenght != undefined) {
+              return await cardService.DeleteCard(req);
+            }
+            return false;
+        }
+    }
   } else {
     return false;
   }
 };
 
-const GetPermissionsOfUser = async function (email) {
+const ManageCard = async function (email, req, type) {
   let userId = (await userService.GetUserIdByEmail(email))[0][0].dataValues.id;
   let role = await roleService.getRolesByUser(userId);
-  return await rolePermissionMappingService.getRolePermissionMappingByRoleId(
-    role[0].dataValues.id
-  );
+  let permissions =
+    await rolePermissionMappingService.getRolePermissionMappingByRoleId(
+      role[0].dataValues.id
+    );
+  if (permissions[0].dataValues.teamAccess[type] == "1") {
+    switch (type) {
+      case "0":
+        return await teamService.AddTeam(req);
+      case "1":
+        switch (roles.roles[role[0].name]) {
+          case 2:
+            let orgId = objMethods.GetFirstOrDefault(
+              await organizationService.GetOrganizationByUserId(userId)
+            ).dataValues.id;
+            let Orgprojects = await projectService.GetAllProjectOfOrganization(orgId);
+            return await teamService.GetAllTeamBasedOnProjects(Orgprojects.map(x => x.id));
+          default:
+            let projects = await projectService.GetAllProjectsOfUser(userId);
+            return await teamService.GetAllTeamBasedOnProjects(projects.map(x => x.id));
+        }
+      case "2":
+        switch (roles.roles[role[0].name]) {
+          case 2:
+            return await teamService.UpdateTeam(req);
+          default:
+            let projects = await projectService.GetAllProjectsOfUser(userId);
+            let teams = await teamService.GetAllTeamBasedOnProjects(projects.map(x => x.id));
+            if (teams.map(x => x.id == req.body.id).lenght != 0 || teams.map(x => x.id == req.body.id).lenght != undefined) {
+              return await teamService.UpdateTeam(req);
+            }
+            return false;
+        }
+      case "3":
+        switch (roles.roles[role[0].name]) {
+          case 2:
+            return await teamService.DeleteTeam(req);
+          default:
+            let projects = await projectService.GetAllProjectsOfUser(userId);
+            let teams = await teamService.GetAllTeamBasedOnProjects(projects.map(x => x.id));
+            if (teams.map(x => x.id == req.body.id).lenght != 0 || teams.map(x => x.id == req.body.id).lenght != undefined) {
+              return await teamService.DeleteTeam(req);
+            }
+            return false;
+        }
+    }
+  } else {
+    return false;
+  }
 };
 
 module.exports = {
@@ -172,6 +314,6 @@ module.exports = {
   AddOrganization,
   ManageProject,
   ManageSprint,
-  GetPermissionsOfUser,
   ManageTeam,
+  ManageCard
 };
