@@ -17,8 +17,16 @@ const AddUserSkill = async function (req) {
 };
 
 const UpdateUserSkill = async function (req) {
-  return await skillService.updateSkills(req);
+  return await skillService.UpdateSkills(req);
 };
+
+const GetUserSkill = async function (req) {
+  return await skillService.GetSkills(req);
+};
+
+const DeleteUserSkill = async function (req) {
+  return await skillService.DeleteSkill(req);
+}
 
 const GetPermissionsOfUser = async function (email) {
   let userId = (await userService.GetUserIdByEmail(email))[0][0].dataValues.id;
@@ -38,5 +46,7 @@ module.exports = {
   AddUserSkill,
   UpdateUserSkill,
   GetPermissionsOfUser,
-  GetRoleOfUser
+  GetRoleOfUser,
+  GetUserSkill,
+  DeleteUserSkill
 };

@@ -19,7 +19,7 @@ this.SkillService = function () {
   };
 
   // READ
-  this.getSkills = async function (request) {
+  this.GetSkills = async function (request) {
     let skills = await ProdctDb.Skill.findAll({
       where: {
         id: request.body.id,
@@ -32,8 +32,8 @@ this.SkillService = function () {
   };
 
   // UPDATE
-  this.updateSkills = async function (request) {
-    let status = true;
+  this.UpdateSkills = async function (request) {
+    let status = false;
     await ProdctDb.Skill.update(
       {
         name: request.body.name,
@@ -43,20 +43,24 @@ this.SkillService = function () {
       {
         where: { id: request.body.id },
       }
-    )
-      .success((result) => (status = true))
-      .error((err) => (status = false));
+    ).then(async function (skill) {
+      if (skill != undefined) {
+        status = true;
+      }
+    });
     return status;
   };
 
   // DELETE
-  this.deleteSkill = async function (request) {
-    let status = true;
+  this.DeleteSkill = async function (request) {
+    let status = false;
     await ProdctDb.Skill.destroy({
       where: { id: request.body.id },
-    })
-      .success((result) => (status = true))
-      .error((err) => (status = false));
+    }).then(async function (skill) {
+      if (skill != undefined) {
+        status = true;
+      }
+    });
     return status;
   };
 };
