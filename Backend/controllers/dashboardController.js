@@ -23,6 +23,8 @@ var rolePermissionMappingService = new RolePermissionMappingService();
 var objMethods = require("../methods/objectMethods");
 var UserTeamMappingService = require("../services/userteammappingServices").UserTeamMappingService;
 var userteammappingService = new UserTeamMappingService();
+var TeamProjectMappingService = require("../services/projectTeamMappingServices").ProjectTeamMappingService;
+var teamProjectMappingService =  TeamProjectMappingService();
 
 const GetDashboardData = async function (email, req) {
   let userId = (await userService.GetUserIdByEmail(email))[0][0].dataValues.id;
@@ -326,40 +328,14 @@ const ManageUserTeamMapping = async function (email, req, type) {
       case 0:
         return await userteammappingService.AddUserTeamMappings(req);
       case 1:
-        switch (roles.roles[role[0].name]) {
-          case 2:
-            let orgId = objMethods.GetFirstOrDefault(
-              await organizationService.GetOrganizationByUserId(userId)
-            ).dataValues.id;
-            return await userteammappingService.GetUserTeamMappingByOrgId(orgId);
-          default:
-            let teams = await userteammappingService.GetUserTeamMappingsByUserId(userId);
-            return await teamService.GetTeamsById(teams.map(x => x.teamId));
-        }
+        let orgId = objMethods.GetFirstOrDefault(
+          await organizationService.GetOrganizationByUserId(userId)
+        ).dataValues.id;
+        return await userteammappingService.GetUserTeamMappingByOrgId(orgId);
       case 2:
-        switch (roles.roles[role[0].name]) {
-          case 2:
-            return await teamService.UpdateTeam(req);
-          default:
-            let projects = await projectService.GetAllProjectsOfUser(userId);
-            let teams = await teamService.GetAllTeamBasedOnProjects(projects.map(x => x.id));
-            if (teams.map(x => x.id == req.body.id).lenght != 0 || teams.map(x => x.id == req.body.id).lenght != undefined) {
-              return await teamService.UpdateTeam(req);
-            }
-            return false;
-        }
+        return await userteammappingService.UpdateUserTeamMappings(req);
       case 3:
-        switch (roles.roles[role[0].name]) {
-          case 2:
-            return await teamService.DeleteTeam(req);
-          default:
-            let projects = await projectService.GetAllProjectsOfUser(userId);
-            let teams = await teamService.GetAllTeamBasedOnProjects(projects.map(x => x.id));
-            if (teams.map(x => x.id == req.body.id).lenght != 0 || teams.map(x => x.id == req.body.id).lenght != undefined) {
-              return await teamService.DeleteTeam(req);
-            }
-            return false;
-        }
+        return await userteammappingService.DeleteUserTeamMappings(req);
     }
   } else {
     return false;
@@ -373,49 +349,23 @@ const ManageProjectTeamMapping = async function (email, req, type) {
     await rolePermissionMappingService.getRolePermissionMappingByRoleId(
       role[0].dataValues.id
     );
-  if (permissions[0].dataValues.projectTeamMappingAccess[type] == "1") {
-    switch (type) {
-      case 0:
-        return await teamService.AddTeam(req);
-      case 1:
-        switch (roles.roles[role[0].name]) {
-          case 2:
-            let orgId = objMethods.GetFirstOrDefault(
-              await organizationService.GetOrganizationByUserId(userId)
-            ).dataValues.id;
-            return await teamService.GetTeamsByOrgId(orgId);
-          default:
-            let teams = await userteammappingService.GetUserTeamMappingsByUserId(userId);
-            return await teamService.GetTeamsById(teams.map(x => x.teamId));
-        }
-      case 2:
-        switch (roles.roles[role[0].name]) {
-          case 2:
-            return await teamService.UpdateTeam(req);
-          default:
-            let projects = await projectService.GetAllProjectsOfUser(userId);
-            let teams = await teamService.GetAllTeamBasedOnProjects(projects.map(x => x.id));
-            if (teams.map(x => x.id == req.body.id).lenght != 0 || teams.map(x => x.id == req.body.id).lenght != undefined) {
-              return await teamService.UpdateTeam(req);
-            }
-            return false;
-        }
-      case 3:
-        switch (roles.roles[role[0].name]) {
-          case 2:
-            return await teamService.DeleteTeam(req);
-          default:
-            let projects = await projectService.GetAllProjectsOfUser(userId);
-            let teams = await teamService.GetAllTeamBasedOnProjects(projects.map(x => x.id));
-            if (teams.map(x => x.id == req.body.id).lenght != 0 || teams.map(x => x.id == req.body.id).lenght != undefined) {
-              return await teamService.DeleteTeam(req);
-            }
-            return false;
-        }
+    if (permissions[0].dataValues.projectTeamMappingAccess[type] == "1") {
+      switch (type) {
+        case 0:
+          return await teamProjectMappingService.AddProjectTeamMappings(req);
+        case 1:
+          let orgId = objMethods.GetFirstOrDefault(
+            await organizationService.GetOrganizationByUserId(userId)
+          ).dataValues.id;
+          return await teamProjectMappingService.GetProjectTeamMappingsByOrgId(orgId);
+        case 2:
+          return await teamProjectMappingService.UpdateProjectTeamMappings(req);
+        case 3:
+          return await teamProjectMappingService.DeleteProjectTeamMappings(req);
+      }
+    } else {
+      return false;
     }
-  } else {
-    return false;
-  }
 };
 
 module.exports = {

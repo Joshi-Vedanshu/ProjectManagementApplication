@@ -288,4 +288,123 @@ router.delete('/card', async function (req, res, next) {
   }
 });
 
+router.post('/user-team', async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.ManageUserTeamMapping(token.getUserFromTheToken(sessions.token).id, req, 0);
+    if (data) {
+      res.status(200).send(data);
+    }
+    else {
+      res.status(502).send(data);
+    }
+  }
+  else {
+    res.status(auth.code).send();
+  }
+});
+
+router.get('/user-team', async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.ManageUserTeamMapping(token.getUserFromTheToken(sessions.token).id, req, 1);
+    res.status(200).send(data);
+  }
+  else {
+    res.status(auth.code).send();
+  }
+});
+
+router.put('/user-team', async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.ManageUserTeamMapping(token.getUserFromTheToken(sessions.token).id, req, 2);
+    if (data) {
+      res.status(200).send(data);
+    }
+    else {
+      res.status(502).send(data);
+    }
+  }
+  else {
+    res.status(auth.code).send();
+  }
+});
+
+router.delete('/user-team', async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.ManageUserTeamMapping(token.getUserFromTheToken(sessions.token).id, req, 3);
+    if (data) {
+      res.status(200).send(data);
+    }
+    else {
+      res.status(502).send(data);
+    }
+  }
+  else {
+    res.status(auth.code).send();
+  }
+});
+
+
+router.post('/project-team', async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.ManageProjectTeamMapping(token.getUserFromTheToken(sessions.token).id, req, 0);
+    if (data) {
+      res.status(200).send(data);
+    }
+    else {
+      res.status(502).send(data);
+    }
+  }
+  else {
+    res.status(auth.code).send();
+  }
+});
+
+router.get('/project-team', async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.ManageProjectTeamMapping(token.getUserFromTheToken(sessions.token).id, req, 1);
+    res.status(200).send(data);
+  }
+  else {
+    res.status(auth.code).send();
+  }
+});
+
+router.put('/project-team', async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.ManageProjectTeamMapping(token.getUserFromTheToken(sessions.token).id, req, 2);
+    if (data) {
+      res.status(200).send(data);
+    }
+    else {
+      res.status(502).send(data);
+    }
+  }
+  else {
+    res.status(auth.code).send();
+  }
+});
+
+router.delete('/project-team', async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await dashboardController.ManageProjectTeamMapping(token.getUserFromTheToken(sessions.token).id, req, 3);
+    if (data) {
+      res.status(200).send(data);
+    }
+    else {
+      res.status(502).send(data);
+    }
+  }
+  else {
+    res.status(auth.code).send();
+  }
+});
+
 module.exports = router;

@@ -39,10 +39,16 @@ this.UserTeamMappingService = function () {
     return null;
   };
 
-  this.GetUserTeamMappingByOrgId = async function(orgId){
-    let userteammapping = await ProdctDb.UserTeamMapping.findAll({
+  this.GetUserTeamMappingByOrgId = async function (orgId) {
+    let teams = await ProdctDb.Team.findAll({
       where: {
-        id: request.body.id,
+        orgId: orgId,
+      },
+    });
+    let userteammapping = await ProdctDb.UserTeamMapping.findAll({
+      group: ['teamId'],
+      where: {
+        teamId: teams.map(x => x.id),
       },
     });
     if (userteammapping != undefined) {
@@ -78,7 +84,7 @@ this.UserTeamMappingService = function () {
   };
 
   // UPDATE
-  this.updateUserTeamMappings = async function (request) {
+  this.UpdateUserTeamMappings = async function (request) {
     let status = true;
     await ProdctDb.UserTeamMapping.update(
       {
@@ -88,20 +94,26 @@ this.UserTeamMappingService = function () {
       {
         where: { id: request.body.id },
       }
-    )
-      .success((result) => (status = true))
-      .error((err) => (status = false));
+    ).then(async function (userteammapping) {
+      if (userteammapping == undefined) {
+        status = false;
+      }
+    });
     return status;
   };
 
   // DELETE
-  this.deleteUserTeamMappings = async function (request) {
+  this.DeleteUserTeamMappings = async function (request) {
     let status = true;
     await ProdctDb.UserTeamMapping.destroy({
       where: { id: request.body.id },
-    })
-      .success((result) => (status = true))
-      .error((err) => (status = false));
+    }).then(async function (userteammapping) {
+      console.log("UserTeamMapping is created");
+
+      if (userteammapping == undefined) {
+        status = false;
+      }
+    });
     return status;
   };
 };
