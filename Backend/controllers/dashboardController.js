@@ -315,11 +315,107 @@ const ManageTeam = async function (email, req, type) {
 };
 
 const ManageUserTeamMapping = async function (email, req, type) {
-
+  let userId = (await userService.GetUserIdByEmail(email))[0][0].dataValues.id;
+  let role = await roleService.getRolesByUser(userId);
+  let permissions =
+    await rolePermissionMappingService.getRolePermissionMappingByRoleId(
+      role[0].dataValues.id
+    );
+  if (permissions[0].dataValues.teamUserMappingAccess[type] == "1") {
+    switch (type) {
+      case 0:
+        return await userteammappingService.AddUserTeamMappings(req);
+      case 1:
+        switch (roles.roles[role[0].name]) {
+          case 2:
+            let orgId = objMethods.GetFirstOrDefault(
+              await organizationService.GetOrganizationByUserId(userId)
+            ).dataValues.id;
+            return await userteammappingService.GetUserTeamMappingByOrgId(orgId);
+          default:
+            let teams = await userteammappingService.GetUserTeamMappingsByUserId(userId);
+            return await teamService.GetTeamsById(teams.map(x => x.teamId));
+        }
+      case 2:
+        switch (roles.roles[role[0].name]) {
+          case 2:
+            return await teamService.UpdateTeam(req);
+          default:
+            let projects = await projectService.GetAllProjectsOfUser(userId);
+            let teams = await teamService.GetAllTeamBasedOnProjects(projects.map(x => x.id));
+            if (teams.map(x => x.id == req.body.id).lenght != 0 || teams.map(x => x.id == req.body.id).lenght != undefined) {
+              return await teamService.UpdateTeam(req);
+            }
+            return false;
+        }
+      case 3:
+        switch (roles.roles[role[0].name]) {
+          case 2:
+            return await teamService.DeleteTeam(req);
+          default:
+            let projects = await projectService.GetAllProjectsOfUser(userId);
+            let teams = await teamService.GetAllTeamBasedOnProjects(projects.map(x => x.id));
+            if (teams.map(x => x.id == req.body.id).lenght != 0 || teams.map(x => x.id == req.body.id).lenght != undefined) {
+              return await teamService.DeleteTeam(req);
+            }
+            return false;
+        }
+    }
+  } else {
+    return false;
+  }
 };
 
 const ManageProjectTeamMapping = async function (email, req, type) {
-
+  let userId = (await userService.GetUserIdByEmail(email))[0][0].dataValues.id;
+  let role = await roleService.getRolesByUser(userId);
+  let permissions =
+    await rolePermissionMappingService.getRolePermissionMappingByRoleId(
+      role[0].dataValues.id
+    );
+  if (permissions[0].dataValues.projectTeamMappingAccess[type] == "1") {
+    switch (type) {
+      case 0:
+        return await teamService.AddTeam(req);
+      case 1:
+        switch (roles.roles[role[0].name]) {
+          case 2:
+            let orgId = objMethods.GetFirstOrDefault(
+              await organizationService.GetOrganizationByUserId(userId)
+            ).dataValues.id;
+            return await teamService.GetTeamsByOrgId(orgId);
+          default:
+            let teams = await userteammappingService.GetUserTeamMappingsByUserId(userId);
+            return await teamService.GetTeamsById(teams.map(x => x.teamId));
+        }
+      case 2:
+        switch (roles.roles[role[0].name]) {
+          case 2:
+            return await teamService.UpdateTeam(req);
+          default:
+            let projects = await projectService.GetAllProjectsOfUser(userId);
+            let teams = await teamService.GetAllTeamBasedOnProjects(projects.map(x => x.id));
+            if (teams.map(x => x.id == req.body.id).lenght != 0 || teams.map(x => x.id == req.body.id).lenght != undefined) {
+              return await teamService.UpdateTeam(req);
+            }
+            return false;
+        }
+      case 3:
+        switch (roles.roles[role[0].name]) {
+          case 2:
+            return await teamService.DeleteTeam(req);
+          default:
+            let projects = await projectService.GetAllProjectsOfUser(userId);
+            let teams = await teamService.GetAllTeamBasedOnProjects(projects.map(x => x.id));
+            if (teams.map(x => x.id == req.body.id).lenght != 0 || teams.map(x => x.id == req.body.id).lenght != undefined) {
+              return await teamService.DeleteTeam(req);
+            }
+            return false;
+        }
+    }
+  } else {
+    return false;
+  }
 };
 
 module.exports = {
@@ -329,5 +425,7 @@ module.exports = {
   ManageProject,
   ManageSprint,
   ManageTeam,
-  ManageCard
+  ManageCard,
+  ManageUserTeamMapping,
+  ManageProjectTeamMapping
 };

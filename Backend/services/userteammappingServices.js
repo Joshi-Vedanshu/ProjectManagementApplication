@@ -39,6 +39,18 @@ this.UserTeamMappingService = function () {
     return null;
   };
 
+  this.GetUserTeamMappingByOrgId = async function(orgId){
+    let userteammapping = await ProdctDb.UserTeamMapping.findAll({
+      where: {
+        id: request.body.id,
+      },
+    });
+    if (userteammapping != undefined) {
+      return userteammapping;
+    }
+    return null;
+  };
+
   // READ (BY USER ID)
   this.GetUserTeamMappingsByUserId = async function (userId) {
     let userteammapping = await ProdctDb.UserTeamMapping.findAll({

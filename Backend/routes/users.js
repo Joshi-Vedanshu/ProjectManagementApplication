@@ -1,11 +1,78 @@
 var express = require("express");
 var router = express.Router();
+const sessions = require('express-session');
+const token = require('../middleware_functions/token');
+const { validateSessionAndHeader } = require('../middleware_functions/manageSessionAndHeader');
+var userController = require('../controllers/userController');
 
-// const cardController = require("../controllers/cardController");
+router.post('/skills', async function (req, res, next) {
+    let auth = validateSessionAndHeader(sessions, req);
+    if (auth.validation && auth.code === 202) {
+        let data = await userController.AddUserSkill(req);
+        if (data) {
+            res.status(200).send(data);
+        }
+        else {
+            res.status(502).send(data);
+        }
+    }
+    else {
+        res.status(auth.code).send();
+    }
+});
 
-// /* GET users listing. */
-// router.get("/", async function (req, res, next) {
-//   res.send(await cardController.GetCardsBySprintId("abc@gmail.com"));
-// });
+router.put('/skills', async function (req, res, next) {
+    let auth = validateSessionAndHeader(sessions, req);
+    if (auth.validation && auth.code === 202) {
+        let data = await userController.UpdateUserSkill(req);
+        if (data) {
+            res.status(200).send(data);
+        }
+        else {
+            res.status(502).send(data);
+        }
+    }
+    else {
+        res.status(auth.code).send();
+    }
+});
+
+router.put('/userprofile', async function (req, res, next) {
+    let auth = validateSessionAndHeader(sessions, req);
+    if (auth.validation && auth.code === 202) {
+        let data = await userController.ChangeUserProfileInformation(req);
+        if (data) {
+            res.status(200).send(data);
+        }
+        else {
+            res.status(502).send(data);
+        }
+    }
+    else {
+        res.status(auth.code).send();
+    }
+});
+
+router.get('/permissions', async function (req, res, next) {
+    let auth = validateSessionAndHeader(sessions, req);
+    if (auth.validation && auth.code === 202) {
+        let data = await userController.GetPermissionsOfUser(token.getUserFromTheToken(sessions.token).id);
+        res.status(200).send(data);
+    }
+    else {
+        res.status(auth.code).send();
+    }
+});
+
+router.get('/role', async function (req, res, next) {
+    let auth = validateSessionAndHeader(sessions, req);
+    if (auth.validation && auth.code === 202) {
+        let data = await userController.GetRoleOfUser(token.getUserFromTheToken(sessions.token).id);
+        res.status(200).send(data);
+    }
+    else {
+        res.status(auth.code).send();
+    }
+});
 
 module.exports = router;
