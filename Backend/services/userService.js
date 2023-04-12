@@ -101,7 +101,7 @@ this.UserService = function () {
     return null;
   };
 
-  this.UpdateUser = async function (request) {
+  this.UpdateUser = async function (request, userId) {
     let user = await ProdctDb.User.update(
       {
         firstName: request.body.firstName,
@@ -113,7 +113,7 @@ this.UserService = function () {
       },
       {
         where: {
-          id: request.body.id,
+          id: userId,
         },
       }
     ).then(async function (user) {

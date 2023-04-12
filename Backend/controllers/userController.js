@@ -8,8 +8,9 @@ var userService = new UserService();
 var skillService = new SkillService();
 var rolePermissionMappingService = new RolePermissionMappingService();
 
-const ChangeUserProfileInformation = async function (req) {
-  return await userService.UpdateUser(req);
+const ChangeUserProfileInformation = async function (req, email) {
+  let userId = (await userService.GetUserIdByEmail(email))[0][0].dataValues.id;
+  return await userService.UpdateUser(req, userId);
 };
 
 const AddUserSkill = async function (req) {

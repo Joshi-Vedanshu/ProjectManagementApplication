@@ -40,7 +40,7 @@ router.put('/skills', async function (req, res, next) {
 router.put('/userprofile', async function (req, res, next) {
     let auth = validateSessionAndHeader(sessions, req);
     if (auth.validation && auth.code === 202) {
-        let data = await userController.ChangeUserProfileInformation(req);
+        let data = await userController.ChangeUserProfileInformation(req,token.getUserFromTheToken(sessions.token).id);
         if (data) {
             res.status(200).send(data);
         }
