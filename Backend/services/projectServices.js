@@ -1,10 +1,10 @@
-const { or } = require("sequelize");
+var Op = require("sequelize");
 
 var ProdctDb = require("../models").Product.models;
 
 this.ProjectService = function () {
   // CREATE
-  this.AddProject = async function (request) {
+  this.AddProject = async function (request, orgId) {
     let status = true;
     await ProdctDb.Project.create({
       name: request.body.name,
@@ -12,6 +12,7 @@ this.ProjectService = function () {
       startDate: request.body.startDate,
       endDate: request.body.endDate,
       userId: request.body.userId,
+      orgId: orgId
     }).then(async function (project) {
       console.log("Project is created");
 
@@ -90,10 +91,15 @@ this.ProjectService = function () {
     );
     let projects = await ProdctDb.Project.findAll({
       where: {
-        id: projectIds,
+        id: projectIds
       },
     });
-    return projects;
+    let orgProjects = await ProdctDb.Project.findAll({
+      where: {
+        orgId: orgId
+      }
+    });
+    return [...projects, ...orgProjects];
   };
 
   // UPDATE
