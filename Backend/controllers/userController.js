@@ -42,6 +42,9 @@ const GetRoleOfUser = async function (email) {
   return await roleService.getRolesByUser(userId);
 };
 
+const GetUserInformation = async function (email) {
+  return await userService.GetUserIdByEmail(email);
+}
 module.exports = {
   ChangeUserProfileInformation,
   AddUserSkill,
@@ -49,5 +52,6 @@ module.exports = {
   GetPermissionsOfUser,
   GetRoleOfUser,
   GetUserSkill,
-  DeleteUserSkill
+  DeleteUserSkill,
+  GetUserInformation
 };

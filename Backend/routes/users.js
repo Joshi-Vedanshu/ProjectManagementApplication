@@ -53,6 +53,17 @@ router.put('/userprofile', async function (req, res, next) {
     }
 });
 
+router.get('/userprofile',async function(req,res,next){
+    let auth = validateSessionAndHeader(sessions, req);
+    if (auth.validation && auth.code === 202) {
+        let data = await userController.GetUserInformation(token.getUserFromTheToken(sessions.token).id);
+        res.status(200).send(data);
+    }
+    else {
+        res.status(auth.code).send();
+    }
+});
+
 router.get('/permissions', async function (req, res, next) {
     let auth = validateSessionAndHeader(sessions, req);
     if (auth.validation && auth.code === 202) {
