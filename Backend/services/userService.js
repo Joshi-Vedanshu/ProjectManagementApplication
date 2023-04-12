@@ -59,7 +59,7 @@ this.UserService = function () {
         password: request.body.password,
       },
     });
-    if (user != undefined) {
+    if (user != undefined && user.length > 0) {
       return true;
     }
     return false;
