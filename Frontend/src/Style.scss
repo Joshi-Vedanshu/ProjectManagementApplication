@@ -49,7 +49,7 @@ $gridmarks:300px 250px 450px 200px;
     top: 50px;
     left: 0;
     padding-top: 3px;
-    width: 20%;
+    width: 18%;
     background-color: $c-black;
     color: white;
     position: fixed;
@@ -73,14 +73,25 @@ $gridmarks:300px 250px 450px 200px;
 }
 
 .content{
-    margin-left: 18%;
-    top: 15%;
+    margin-left: 19%;
+    top: 14%;
     left: 0;
     position:fixed;
     padding:1px 16px;
     width: 80%;
     height: 82%;
-    
+
+}
+.content-back{
+    margin-left: 19%;
+    top: 7%;
+    left: 0;
+    position:fixed;
+    padding:1px 16px;
+    width: 85%;
+    height: 82%;
+    z-index: 1;
+
 }
 
 .content-center{
