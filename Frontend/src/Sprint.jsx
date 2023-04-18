@@ -6,6 +6,7 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { HeaderStories } from "./headerstories";
+import Modal from 'react-bootstrap/Modal';
 
 
 export function Sprint() {
@@ -15,6 +16,9 @@ export function Sprint() {
         <NavBar/>
         <NavSide/>
         <HeaderStories/>
+        <Modal scrollable={true}>
+
+        </Modal>
         <div className="content">
             <Row xs={2} md={4} className="g-4">
                 {Array.from({ length: 16 }).map((_, idx) => (
