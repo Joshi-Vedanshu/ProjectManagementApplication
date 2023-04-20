@@ -19,20 +19,11 @@ this.TeamService = function () {
   };
 
   // READ
-  this.getTeams = async function (request) {
-    let teams = await ProdctDb.Team.findAll();
-    if (teams != undefined) {
-      return teams;
-    }
-    return null;
-  };
-
-  // READ (BY ID)
-  this.getTeamsById = async function (request) {
+  this.GetTeamsById = async function (teamIds) {
     let teams = await ProdctDb.Team.findAll({
       where: {
-        id: request.body.id,
-      },
+        id: teamIds
+      }
     });
     if (teams != undefined) {
       return teams;
@@ -40,11 +31,25 @@ this.TeamService = function () {
     return null;
   };
 
+  // READ (BY ID)
+  this.GetAllTeamBasedOnProjects = async function (Orgprojects) {
+    ProdctDb.Team.hasMany(ProdctDb.ProjectTeamMapping, {
+      foreignKey: "teamId",
+    });
+    ProdctDb.ProjectTeamMapping.belongsTo(ProdctDb.Team, {
+      foreignKey: "teamId",
+    });
+    return await ProdctDb.ProjectTeamMapping.findAll({
+      where: { projectId: Orgprojects },
+      include: [ProdctDb.Team],
+    });
+  };
+
   // READ (BY ORG-ID)
-  this.getTeamsByOrgId = async function (request) {
+  this.GetTeamsByOrgId = async function (orgId) {
     let teams = await ProdctDb.Team.findAll({
       where: {
-        orgId: request.body.OrgId,
+        orgId: orgId,
       },
     });
     if (teams != undefined) {
@@ -54,8 +59,8 @@ this.TeamService = function () {
   };
 
   // UPDATE
-  this.updateTeam = async function (request) {
-    let status = true;
+  this.UpdateTeam = async function (request) {
+    let status = false;
     await ProdctDb.Team.update(
       {
         name: request.body.name,
@@ -65,20 +70,24 @@ this.TeamService = function () {
       {
         where: { id: request.body.id },
       }
-    )
-      .success((result) => (status = true))
-      .error((err) => (status = false));
+    ).then(async function (team) {
+      if (team != undefined) {
+        status = true;
+      }
+    });
     return status;
   };
 
   // DELETE
-  this.deleteTeam = async function (request) {
-    let status = true;
+  this.DeleteTeam = async function (request) {
+    let status = false;
     await ProdctDb.Team.destroy({
       where: { id: request.body.id },
-    })
-      .success((result) => (status = true))
-      .error((err) => (status = false));
+    }).then(async function (team) {
+      if (team != undefined) {
+        status = true;
+      }
+    });
     return status;
   };
 };

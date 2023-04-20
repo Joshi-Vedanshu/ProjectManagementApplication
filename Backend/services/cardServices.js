@@ -65,10 +65,10 @@ this.CardService = function () {
   };
 
   // READ (BY ASSIGNEE ID)
-  this.getCardsByAssigneeId = async function (request) {
+  this.GetCardsByAssigneeId = async function (userId) {
     let cards = await ProdctDb.Cards.findAll({
       where: {
-        assigneeId: request.body.assigneeId,
+        assigneeId: userId,
       },
     });
     if (cards != undefined) {
@@ -104,10 +104,22 @@ this.CardService = function () {
   };
 
   // READ (BY SPRINT ID)
-  this.getCardsBySprintId = async function (request) {
+  this.GetCardsBySprintId = async function (sprintId) {
     let cards = await ProdctDb.Cards.findAll({
       where: {
-        sprintId: request.body.sprintId,
+        sprintId: sprintId,
+      },
+    });
+    if (cards != undefined) {
+      return cards;
+    }
+    return null;
+  };
+
+  this.GetAllCardBasedOnSprints = async function (sprintId) {
+    let cards = await ProdctDb.Cards.findAll({
+      where: {
+        sprintId: sprintId,
       },
     });
     if (cards != undefined) {
@@ -117,8 +129,8 @@ this.CardService = function () {
   };
 
   // UPDATE (BY ID)
-  this.updateCardsById = async function (request) {
-    let status = true;
+  this.UpdateCard = async function (request) {
+    let status = false;
     await ProdctDb.Card.update(
       {
         type: request.body.type,
@@ -139,9 +151,11 @@ this.CardService = function () {
       {
         where: { id: request.body.id },
       }
-    )
-      .success((result) => (status = true))
-      .error((err) => (status = false));
+    ).then(async function (card) {
+      if (card != undefined) {
+        status = true;
+      }
+    });
     return status;
   };
 
@@ -291,13 +305,15 @@ this.CardService = function () {
   };
 
   // DELETE
-  this.deleteCard = async function (request) {
-    let status = true;
+  this.DeleteCard = async function (request) {
+    let status = false;
     await ProdctDb.Card.destroy({
       where: { id: request.body.id },
-    })
-      .success((result) => (status = true))
-      .error((err) => (status = false));
+    }).then(async function (card) {
+      if (card != undefined) {
+        status = true;
+      }
+    });
     return status;
   };
 };

@@ -2,12 +2,13 @@ var ProdctDb = require("../models").Product.models;
 
 this.OrganizationService = function () {
   // CREATE
-  this.AddOrganization = async function (request) {
+  this.AddOrganization = async function (request,userId) {
     let status = true;
     await ProdctDb.Organization.create({
       name: request.body.name,
       code: request.body.code,
       contact: request.body.contact,
+      adminId: userId
     }).then(async function (organization) {
       console.log("Organization is created");
 
@@ -19,10 +20,10 @@ this.OrganizationService = function () {
   };
 
   // READ
-  this.getOrganizations = async function (request) {
+  this.GetOrganizationByUserId = async function (userId) {
     let organizations = await ProdctDb.Organization.findAll({
       where: {
-        id: request.body.id,
+        adminId: userId,
       },
     });
     if (organizations != undefined) {
@@ -30,6 +31,26 @@ this.OrganizationService = function () {
     }
     return null;
   };
+
+  this.GetAllOrganizations = async function () {
+    let organizations = await ProdctDb.Organization.findAll();
+    if (organizations != undefined) {
+      return organizations;
+    }
+    return null;
+  };
+
+  this.GetAdminId = async function (orgId) {
+    let organization = await ProdctDb.Organization.findAll({
+      where: {
+        id: orgId
+      }
+    });
+    if (organization != undefined) {
+      return organization;
+    }
+    return null;
+  }
 
   // UPDATE
   this.updateOrganization = async function (request) {

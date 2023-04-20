@@ -43,10 +43,10 @@ this.RolePermissionMappingService = function () {
   };
 
   // READ (BY ROLE ID)
-  this.getRolePermissionMappingByRoleId = async function (request) {
+  this.getRolePermissionMappingByRoleId = async function (roleId) {
     let rolepermissionmapping = await ProdctDb.RolePermissionMapping.findAll({
       where: {
-        roleId: request.body.roleId,
+        roleId: roleId,
       },
     });
     if (rolepermissionmapping != undefined) {
@@ -56,22 +56,23 @@ this.RolePermissionMappingService = function () {
   };
 
   // UPDATE
-  this.updateRolePermissionMapping = async function (request) {
-    let status = true;
+  this.UpdateRolePermissionMapping = async function (request) {
+    let status = false;
     await ProdctDb.RolePermissionMapping.update(
       {
-        roleId: request.body.roleId,
-        projectAccess: request.body.projectAccess,
-        teamAccess: request.body.teamAccess,
-        organizationAccess: request.body.organizationAccess,
-        sprintAccess: request.body.sprintAccess,
+        projectAccess: request.projectAccess,
+        teamAccess: request.teamAccess,
+        organizationAccess: request.organizationAccess,
+        sprintAccess: request.sprintAccess,
       },
       {
-        where: { id: request.body.id },
+        where: { roleId: request.roleId },
       }
-    )
-      .success((result) => (status = true))
-      .error((err) => (status = false));
+    ).then(function (rolePermission) {
+      if (rolePermission != undefined) {
+        status = true;
+      }
+    });
     return status;
   };
 

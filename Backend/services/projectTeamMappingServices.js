@@ -65,8 +65,26 @@ this.ProjectTeamMappingService = function () {
     return null;
   };
 
+  this.GetProjectTeamMappingsByOrgId = async function (orgId) {
+    let teams = await ProdctDb.Team.findAll({
+      where: {
+        orgId: orgId,
+      },
+    });
+    let projectteammapping = await ProdctDb.ProjectTeamMapping.findAll({
+      group: ['projectId'],
+      where: {
+        teamId: teams.map(x => x.id),
+      },
+    });
+    if (projectteammapping != undefined) {
+      return projectteammapping;
+    }
+    return null;
+  };
+
   // UPDATE
-  this.updateProjectTeamMappings = async function (request) {
+  this.UpdateProjectTeamMappings = async function (request) {
     let status = true;
     await ProdctDb.ProjectTeamMapping.update(
       {
@@ -76,20 +94,28 @@ this.ProjectTeamMappingService = function () {
       {
         where: { id: request.body.id },
       }
-    )
-      .success((result) => (status = true))
-      .error((err) => (status = false));
+    ).then(async function (projectteammapping) {
+      console.log("ProjectTeamMapping is created");
+
+      if (projectteammapping == undefined) {
+        status = false;
+      }
+    });
     return status;
   };
 
   // DELETE
-  this.deleteProjectTeamMappings = async function (request) {
+  this.DeleteProjectTeamMappings = async function (request) {
     let status = true;
     await ProdctDb.ProjectTeamMapping.destroy({
       where: { id: request.body.id },
-    })
-      .success((result) => (status = true))
-      .error((err) => (status = false));
+    }).then(async function (projectteammapping) {
+      console.log("ProjectTeamMapping is created");
+
+      if (projectteammapping == undefined) {
+        status = false;
+      }
+    });
     return status;
   };
 };

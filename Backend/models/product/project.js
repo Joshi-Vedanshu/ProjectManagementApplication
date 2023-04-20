@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = new Sequelize("mysql::memory:");
 
-class Projects extends Model {}
+class Projects extends Model { }
 module.exports = (sequelize, Sequelize) => {
   const Project = sequelize.define(
     "Project",
@@ -33,6 +33,13 @@ module.exports = (sequelize, Sequelize) => {
           key: "id",
         },
       },
+      orgId: {
+        type: DataTypes.UUID,
+        references: {
+          model: "Organization",
+          key: "id",
+        },
+      }
     },
     {
       tableName: "Project",

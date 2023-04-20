@@ -11,7 +11,13 @@ module.exports = (sequelize, Sequelize) => {
         primaryKey: true,
       },
       roleId: {
-        type: DataTypes.STRING(30),
+        type: DataTypes.UUID,
+        allowNull: false,
+        unique: true,
+        references: {
+          model: "Role",
+          key: "id",
+        },
       },
       projectAccess: {
         type: DataTypes.STRING.BINARY,
@@ -29,6 +35,14 @@ module.exports = (sequelize, Sequelize) => {
         type: DataTypes.STRING.BINARY,
         defaultValue: 00000,
       },
+      teamUserMappingAccess: {
+        type: DataTypes.STRING.BINARY,
+        defaultValue: 00000,
+      },
+      projectTeamMappingAccess: {
+        type: DataTypes.STRING.BINARY,
+        defaultValue: 00000,
+      }
     },
     {
       tableName: "RolePermissionMapping",
