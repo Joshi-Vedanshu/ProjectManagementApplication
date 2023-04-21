@@ -76,14 +76,37 @@ this.RolePermissionMappingService = function () {
     return status;
   };
 
+  this.UpdatePermissionByRoleId = async function (request, roleId) {
+    let status = false;
+    await ProdctDb.RolePermissionMapping.update(
+      {
+        projectAccess: request.projectAccess,
+        teamAccess: request.teamAccess,
+        organizationAccess: request.organizationAccess,
+        sprintAccess: request.sprintAccess,
+      },
+      {
+        where: { roleId: roleId },
+      }
+    ).then(function (rolePermission) {
+      if (rolePermission != undefined) {
+        status = true;
+      }
+    });
+    return status;
+  };
+
+
   // DELETE
   this.deleteRolePermissionMapping = async function (request) {
     let status = true;
     await ProdctDb.RolePermissionMapping.destroy({
       where: { id: request.body.id },
-    })
-      .success((result) => (status = true))
-      .error((err) => (status = false));
+    }).then(function (rolePermission) {
+      if (rolePermission != undefined) {
+        status = true;
+      }
+    });
     return status;
   };
 };

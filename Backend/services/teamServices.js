@@ -2,12 +2,12 @@ var ProdctDb = require("../models").Product.models;
 
 this.TeamService = function () {
   // CREATE
-  this.AddTeam = async function (request) {
+  this.AddTeam = async function (request, orgId) {
     let status = true;
     await ProdctDb.Team.create({
       name: request.body.name,
       description: request.body.description,
-      orgId: request.body.orgId,
+      orgId: orgId,
     }).then(async function (team) {
       console.log("Team is created");
 
@@ -64,8 +64,7 @@ this.TeamService = function () {
     await ProdctDb.Team.update(
       {
         name: request.body.name,
-        description: request.body.description,
-        orgId: request.body.orgId,
+        description: request.body.description
       },
       {
         where: { id: request.body.id },

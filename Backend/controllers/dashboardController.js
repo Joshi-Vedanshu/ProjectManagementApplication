@@ -28,7 +28,7 @@ var teamProjectMappingService = TeamProjectMappingService();
 
 const GetDashboardData = async function (email, req) {
   let userId = (await userService.GetUserIdByEmail(email))[0][0].dataValues.id;
-  let role = await roleService.getRolesByUser(userId);
+  let role = await roleService.GetRolesByUser(userId);
   switch (roles.roles[role[0].name]) {
     case 0:
       return await organizationService.GetAllOrganizations();
@@ -68,7 +68,7 @@ const AddOrganization = async function (email, req) {
   let userId = objMethods.GetFirstOrDefault(
     objMethods.GetFirstOrDefault(await userService.GetUserIdByEmail(email))
   ).dataValues.id;
-  let role = await roleService.getRolesByUser(userId);
+  let role = await roleService.GetRolesByUser(userId);
   if (role[0].dataValues.type !== roles.roles["admin"]) {
     if (await organizationService.AddOrganization(req, userId)) {
       let status = await roleService.UpdateRole({
@@ -95,7 +95,7 @@ const AddOrganization = async function (email, req) {
 
 const ManageProject = async function (email, req, type) {
   let userId = (await userService.GetUserIdByEmail(email))[0][0].dataValues.id;
-  let role = await roleService.getRolesByUser(userId);
+  let role = await roleService.GetRolesByUser(userId);
   let permissions =
     await rolePermissionMappingService.getRolePermissionMappingByRoleId(
       role[0].dataValues.id
@@ -151,16 +151,16 @@ const ManageProject = async function (email, req, type) {
 
 const ManageSprint = async function (email, req, type) {
   let userId = (await userService.GetUserIdByEmail(email))[0][0].dataValues.id;
-  let role = await roleService.getRolesByUser(userId);
+  let role = await roleService.GetRolesByUser(userId);
   let permissions =
     await rolePermissionMappingService.getRolePermissionMappingByRoleId(
       role[0].dataValues.id
     );
   if (permissions[0].dataValues.sprintAccess[type] == "1") {
     switch (type) {
-      case "0":
+      case 0:
         return await sprintService.AddSprint(req);
-      case "1":
+      case 1:
         switch (roles.roles[role[0].name]) {
           case 2:
             let orgId = objMethods.GetFirstOrDefault(
@@ -176,7 +176,7 @@ const ManageSprint = async function (email, req, type) {
               projects.map((x) => x.id)
             );
         }
-      case "2":
+      case 2:
         switch (roles.roles[role[0].name]) {
           case 2:
             return await sprintService.UpdateSprint(req);
@@ -190,7 +190,7 @@ const ManageSprint = async function (email, req, type) {
             }
             return false;
         }
-      case "3":
+      case 3:
         switch (roles.roles[role[0].name]) {
           case 2:
             return await sprintService.DeleteSprint(req);
@@ -212,16 +212,16 @@ const ManageSprint = async function (email, req, type) {
 
 const ManageCard = async function (email, req, type) {
   let userId = (await userService.GetUserIdByEmail(email))[0][0].dataValues.id;
-  let role = await roleService.getRolesByUser(userId);
+  let role = await roleService.GetRolesByUser(userId);
   let permissions =
     await rolePermissionMappingService.getRolePermissionMappingByRoleId(
       role[0].dataValues.id
     );
   if (permissions[0].dataValues.teamAccess[type] == "1") {
     switch (type) {
-      case "0":
+      case 0:
         return await cardService.AddCard(req);
-      case "1":
+      case 1:
         switch (roles.roles[role[0].name]) {
           case 2:
             let orgId = objMethods.GetFirstOrDefault(
@@ -239,7 +239,7 @@ const ManageCard = async function (email, req, type) {
             );
             return await cardService.GetAllCardBasedOnSprints(sprintsForUser.map(x => x.id));
         }
-      case "2":
+      case 2:
         switch (roles.roles[role[0].name]) {
           case 2:
             return await cardService.UpdateCard(req);
@@ -250,7 +250,7 @@ const ManageCard = async function (email, req, type) {
             }
             return false;
         }
-      case "3":
+      case 3:
         switch (roles.roles[role[0].name]) {
           case 2:
             return await cardService.DeleteCard(req);
@@ -269,7 +269,7 @@ const ManageCard = async function (email, req, type) {
 
 const ManageTeam = async function (email, req, type) {
   let userId = (await userService.GetUserIdByEmail(email))[0][0].dataValues.id;
-  let role = await roleService.getRolesByUser(userId);
+  let role = await roleService.GetRolesByUser(userId);
   let permissions =
     await rolePermissionMappingService.getRolePermissionMappingByRoleId(
       role[0].dataValues.id
@@ -277,7 +277,10 @@ const ManageTeam = async function (email, req, type) {
   if (permissions[0].dataValues.teamAccess[type] == "1") {
     switch (type) {
       case 0:
-        return await teamService.AddTeam(req);
+        let orgId = objMethods.GetFirstOrDefault(
+          await organizationService.GetOrganizationByUserId(userId)
+        ).dataValues.id;
+        return await teamService.AddTeam(req, orgId);
       case 1:
         switch (roles.roles[role[0].name]) {
           case 2:
@@ -321,7 +324,7 @@ const ManageTeam = async function (email, req, type) {
 
 const ManageUserTeamMapping = async function (email, req, type) {
   let userId = (await userService.GetUserIdByEmail(email))[0][0].dataValues.id;
-  let role = await roleService.getRolesByUser(userId);
+  let role = await roleService.GetRolesByUser(userId);
   let permissions =
     await rolePermissionMappingService.getRolePermissionMappingByRoleId(
       role[0].dataValues.id
@@ -347,7 +350,7 @@ const ManageUserTeamMapping = async function (email, req, type) {
 
 const ManageProjectTeamMapping = async function (email, req, type) {
   let userId = (await userService.GetUserIdByEmail(email))[0][0].dataValues.id;
-  let role = await roleService.getRolesByUser(userId);
+  let role = await roleService.GetRolesByUser(userId);
   let permissions =
     await rolePermissionMappingService.getRolePermissionMappingByRoleId(
       role[0].dataValues.id

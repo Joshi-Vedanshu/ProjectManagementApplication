@@ -58,7 +58,7 @@ this.SprintService = function () {
   // UPDATE
   this.UpdateSprint = async function (request) {
     let status = false;
-    await ProdctDb.Assignment.update(
+    await ProdctDb.Sprint.update(
       {
         name: request.body.name,
         description: request.body.description,
