@@ -1,29 +1,29 @@
 import React, { useState, useRef } from "react";
 import "../css/loginPage.css";
 import axios from 'axios';
-// import Button from "./Button.js";
+// import { hashPassword } from '../Utils/bycrptSalt'
+// import {Link, useHistory} from 'react-router-dom';
 
 function UserLogin(props) {
   const user = useRef("")
   const password = useRef("")
-  // const email = "random.email";
-  // const password = "12345";
   const [error, setError] = useState(null);
-  // const [user, setUser] = useState(null);
+  const [data,setData] = useState([])
 
-  const login = () => {
-    console.log(user)
-    console.log(password)
-    axios.post('http://localhost:3005/auth/login', { email:user.current.value, password:password.current.value}).then((response) => {
-      // setUser( response.data);
-      console.log(response);
-      console.log(user);
+  // let history = useHistory();
 
-      // localStorage.setItem("user",JSON.stringify(response.data));
-      // console.log(JSON.parse(localStorage.getItem("user")).email);
-      // console.log(JSON.parse(localStorage.getItem("user")).uid);
-      // history.push('/');
-
+  const login = async () => {
+    // console.log(user)
+    // console.log(password)
+    setError(null);
+    axios.post('http://localhost:3005/auth/login', { email:user.current.value, 
+    password:password.current.value}).then((response) => {
+      console.log(response.data.accessToken)
+      const dataString = JSON.stringify(response.data.accessToken.toString());
+      localStorage.setItem("accesstoken", dataString)
+      setData(response.data)
+      console.log(dataString)
+      console.log( localStorage.getItem("accesstoken"));
     }).catch(error => {
       console.log(error);
       if (error.response.status === 401) setError(error.response.data.message);
@@ -34,7 +34,7 @@ function UserLogin(props) {
   return (
     <>
     <main className="login-card">
-          <h3 className="heading">FRAV Login</h3>
+          <h3 className="heading">FARV Login</h3>
 
           <article className="user-container">
             <label className="username-label">Username</label>
@@ -56,18 +56,6 @@ function UserLogin(props) {
     </>
 
   );
-}
-
-const useFormInput = initialValue => {
-  const [value, setValue] = useState(initialValue);
-
-  const userChange = e => {
-    setValue(e.target.value);
-  }
-  return {
-    value,
-    onChange: userChange
-  }
 }
 
 export default UserLogin;

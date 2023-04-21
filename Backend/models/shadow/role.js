@@ -10,13 +10,16 @@ module.exports = (sequelize, Sequelize) => {
             defaultValue: DataTypes.UUIDV4,
             primaryKey: true
         },
-        code: {
+        type: {
+            type: DataTypes.SMALLINT
+        },
+        name: {
             type: DataTypes.STRING(30)
         },
         userId: {
             type: DataTypes.UUID,
             references: {
-                model: 'User', 
+                model: 'User',
                 key: 'id'
             }
         }
