@@ -3,6 +3,18 @@ var Op = require("sequelize");
 var ProdctDb = require("../models").Product.models;
 
 this.ProjectService = function () {
+  // SEARCH
+  this.Search = async function (request) {
+    let data = await ProdctDb.Project.findAll({
+      where: {
+        name: {
+          [Op.like]: request.query + "%",
+        },
+      },
+    });
+    return data;
+  };
+
   // CREATE
   this.AddProject = async function (request, orgId) {
     let status = true;
@@ -12,7 +24,7 @@ this.ProjectService = function () {
       startDate: request.body.startDate,
       endDate: request.body.endDate,
       userId: request.body.userId,
-      orgId: orgId
+      orgId: orgId,
     }).then(async function (project) {
       console.log("Project is created");
 
@@ -91,13 +103,13 @@ this.ProjectService = function () {
     );
     let projects = await ProdctDb.Project.findAll({
       where: {
-        id: projectIds
+        id: projectIds,
       },
     });
     let orgProjects = await ProdctDb.Project.findAll({
       where: {
-        orgId: orgId
-      }
+        orgId: orgId,
+      },
     });
     return [...projects, ...orgProjects];
   };

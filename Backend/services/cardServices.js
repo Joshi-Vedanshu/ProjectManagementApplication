@@ -1,6 +1,17 @@
 var ProdctDb = require("../models").Product.models;
 
 this.CardService = function () {
+  // SEARCH
+  this.Search = async function (request) {
+    let data = await ProdctDb.Card.findAll({
+      where: {
+        name: {
+          [Op.like]: request.query + "%",
+        },
+      },
+    });
+    return data;
+  };
   // CREATE
   this.AddCard = async function (request) {
     let status = true;

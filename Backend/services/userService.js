@@ -1,6 +1,18 @@
 var ProdctDb = require("../models").Product.models;
 
 this.UserService = function () {
+  // SEARCH
+  this.Search = async function (request) {
+    let data = await ProdctDb.UserProfile.findAll({
+      where: {
+        name: {
+          [Op.like]: request.query + "%",
+        },
+      },
+    });
+    return data;
+  };
+
   this.AddUser = async function (request) {
     let status = true;
     let userPresent = await ProdctDb.UserProfile.findAll({
