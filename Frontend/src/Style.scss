@@ -1,5 +1,6 @@
 $c-white: whitesmoke;
 $c-black:#333;
+$c-blackdown:#3339;
 $l-margin: 120px;
 $gridmarks:300px 250px 450px 200px;
 
@@ -50,6 +51,7 @@ $gridmarks:300px 250px 450px 200px;
     padding-top: 3px;
     width: 18%;
     background-color: $c-black;
+    color: white;
     position: fixed;
     height: 100%;
     overflow: auto;
@@ -67,31 +69,69 @@ $gridmarks:300px 250px 450px 200px;
         background-color:  #04AA6D;;
         color: $c-white;
     }
+
 }
 
 .content{
-    margin-left: 18%;
-    top: 50px;
+    margin-left: 19%;
+    top: 14%;
     left: 0;
     position:fixed;
     padding:1px 16px;
     width: 80%;
     height: 82%;
+    overflow-y: scroll;
 
 
+}
+.content-back{
+    margin-left: 19%;
+    top: 7%;
+    left: 0;
+    position:fixed;
+    padding:1px 16px;
+    width: 85%;
+    height: 82%;
+    z-index: 1;
+
+}
+
+.content-center{
+    margin-left: 18%;
+    top: 2%;
+    left: 0;
+    position:fixed;
+    padding:1px 16px;
+    width: 80%;
+    height: 82%;
 }
 
 .cardList{
     display: flex;
     flex-flow: row wrap;
     margin: 5%;
-    gap: 5%;
+    gap: 30px 5%;
+    justify-content: center;
+
     .card{
         flex: 20%;
         border-radius: 25px;
         padding: 20px;
         background-color: $c-black;
 
+    }
+    .card-plus{
+        flex: 20%;
+        border-radius: 25px;
+        padding: 20px;
+        background-color: $c-blackdown;
+        vertical-align: center;
+
+    }
+    .card-empty{
+        flex: 20%;
+        border-radius: 25px;
+        padding: 20px;
     }
 }
 
