@@ -1,10 +1,10 @@
 import React from "react";
-import NavBar from "./NavBar";
-import NavSide from "./NavSide";
+import NavBar from "../../NavBar";
+import NavSide from "../../NavSide";
 import './Style.css'
 import ListGroup from 'react-bootstrap/ListGroup';
 import Badge from 'react-bootstrap/Badge';
-import { HeaderStories } from "./headerstories";
+import { HeaderStories } from "../../headerstories";
 
 
 export function Backlog() {

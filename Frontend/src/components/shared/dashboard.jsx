@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import Sidebar from "./sidebar";
+import Sidebar from "../primary/sidebar";
 
 export default function Dashboard() {
   return (

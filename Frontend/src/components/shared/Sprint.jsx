@@ -1,11 +1,11 @@
 import React from "react";
-import NavBar from "./NavBar";
+import NavBar from "../../NavBar";
 import NavSide from "./NavSide";
 import './Style.css'
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
-import { HeaderStories } from "./headerstories";
+import { HeaderStories } from "../../headerstories";
 import Modal from 'react-bootstrap/Modal';
 
 

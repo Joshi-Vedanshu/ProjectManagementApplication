@@ -1,5 +1,5 @@
 import React from "react";
-import NavBar from "./NavBar";
+import NavBar from "../../NavBar";
 import NavSide from "./NavSide";
 import './Style.css'
 import {BsPlusCircle} from 'react-icons/bs'
