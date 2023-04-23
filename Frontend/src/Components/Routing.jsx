@@ -5,6 +5,8 @@ import UserLogin from "./loginPage";
 import UserSignUp from "./signUp";
 import UserProfile from "./userProfile";
 import UpdateUserProfile from "./updateUserProfile"
+import  SearchUser  from "./searchUser";
+import SprintAndStoryPermissions from "./permissonProvide"
 
 import AddProject from "./../AddProject";
 import { Backlog } from "../Backlog";
@@ -29,6 +31,9 @@ export default class Routing extends React.Component {
             <Route path="/updateUserProfile" element = {<UpdateUserProfile/>}/>
             <Route path="/addproject" element={<AddProject/>}/>
             <Route path="/organization" element={<Organization/>}/>
+
+            <Route path="/searchUser" element = {<SearchUser/>}/>
+            <Route path="providepermisson" element ={<SprintAndStoryPermissions/>}/>
           </Routes>
         </BrowserRouter>
       </div>
