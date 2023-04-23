@@ -1,23 +1,26 @@
 import React, { useState, useRef } from "react";
 import "../css/loginPage.css";
 import axios from 'axios';
-// import { hashPassword } from '../Utils/bycrptSalt'
-// import {Link, useHistory} from 'react-router-dom';
+import bcrypt from 'bcryptjs'; // import bcryptjs library
 
+var saltRounds = 10
 function UserLogin(props) {
   const user = useRef("")
   const password = useRef("")
   const [error, setError] = useState(null);
   const [data,setData] = useState([])
 
-  // let history = useHistory();
+  
 
   const login = async () => {
     // console.log(user)
     // console.log(password)
     setError(null);
+    console.log("hashing pass");
+    const hashedPassword = bcrypt.hashSync(password.current.value, saltRounds);
+    console.log(hashedPassword);
     axios.post('http://localhost:3005/auth/login', { email:user.current.value, 
-    password:password.current.value}).then((response) => {
+    password:hashedPassword}).then((response) => {
       console.log(response.data.accessToken)
       const dataString = JSON.stringify(response.data.accessToken.toString());
       localStorage.setItem("accesstoken", dataString)

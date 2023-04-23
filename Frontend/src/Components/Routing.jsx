@@ -5,6 +5,8 @@ import UserLogin from "./loginPage";
 import UserSignUp from "./signUp";
 import UserProfile from "./userProfile";
 import UpdateUserProfile from "./updateUserProfile"
+import  SearchUser  from "./searchUser";
+import SprintAndStoryPermissions from "./permissonProvide"
 
 // add your page add Route below between switch and inside route add your component
 
@@ -20,6 +22,8 @@ export default class Routing extends React.Component {
             <Route path="/signup" element={<UserSignUp/>}/>
             <Route path="/userProfile" element={<UserProfile/>}/>
             <Route path="/updateUserProfile" element = {<UpdateUserProfile/>}/>
+            <Route path="/searchUser" element = {<SearchUser/>}/>
+            <Route path="providepermisson" element ={<SprintAndStoryPermissions/>}/>
           </Routes>
         </BrowserRouter>
       </div>
