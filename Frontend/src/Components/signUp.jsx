@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react";
-import "../css/signUp.css";
 import axios from 'axios';
 import bcrypt from 'bcryptjs'; // import bcryptjs library
 
