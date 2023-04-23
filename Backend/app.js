@@ -3,33 +3,45 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var initializeDbConnection = require('./db/database').InitializeDbConnection;
+const mysql = require('mysql');
+const Sequelize = require('sequelize');
+
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var authenticationRouter = require('./routes/authentication');
-var cors = require('cors');
-
+var db =  require("./models");
 
 var app = express();
 
-
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors({ origin: '*' }));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/auth', authenticationRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });
 
+// db configuration
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'password'
+});
+
+const sequelize = new Sequelize('Product', 'root',
+  'password', {
+  host: 'localhost',
+  dialect: 'mysql'
+});
 
 // error handler
 app.use(function (err, req, res, next) {
@@ -39,12 +51,28 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.send({ 'error': err.message });
+  res.render('error');
 });
 
-
 app.listen(3005, function () {
-  initializeDbConnection();
+  connection.connect((err) => {
+    if (err) throw err;
+    console.log('Connected to MySQL Server!');
+  });
+
+  sequelize
+    .authenticate()
+    .then(() => {
+      db.sequelize.sync()
+      .then(() => {
+        console.log("Synced db.");
+      })
+      console.log('Connection has been established successfully.');
+      console.log("The table for the organization model was just created!");
+    })
+    .catch(err => {
+      console.error('Unable to connect to the database:', err);
+    });
 });
 
 
