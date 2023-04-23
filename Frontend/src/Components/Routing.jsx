@@ -11,6 +11,7 @@ import SprintAndStoryPermissions from "./permissonProvide"
 import AddProject from "./../AddProject";
 import { Backlog } from "../Backlog";
 import { Sprint } from "../Sprint";
+import { Organization } from "../Organization";
 
 // add your page add Route below between switch and inside route add your component
 
@@ -28,9 +29,11 @@ export default class Routing extends React.Component {
             <Route path="/signup" element={<UserSignUp/>}/>
             <Route path="/userProfile" element={<UserProfile/>}/>
             <Route path="/updateUserProfile" element = {<UpdateUserProfile/>}/>
+            <Route path="/addproject" element={<AddProject/>}/>
+            <Route path="/organization" element={<Organization/>}/>
+
             <Route path="/searchUser" element = {<SearchUser/>}/>
             <Route path="providepermisson" element ={<SprintAndStoryPermissions/>}/>
-           <Route path="/addproject" element={<AddProject/>}/>
           </Routes>
         </BrowserRouter>
       </div>
