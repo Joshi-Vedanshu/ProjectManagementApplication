@@ -24,6 +24,7 @@ const GetNotifications = async function (email) {
 const SetRolePermissionOfUser = async function (email, req) {
     let userId = (await userService.GetUserIdByEmail(email))[0][0].dataValues.id;
     let role = await roleService.GetRolesByUser(userId);
+    // add entry in user organization mapping table
     switch (roles.roles[role[0].name]) {
         case 0:
             let user_role = await roleService.GetRolesByUser(req.body.requesterId);
