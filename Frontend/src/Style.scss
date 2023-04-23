@@ -20,17 +20,20 @@ $gridmarks:300px 250px 450px 200px;
         width: 100px;
         height: 40px;
     }
-    a {
-        float: left;
-        color: $c-white;
-        text-align: center;
-        padding: 14px 46px;
-        text-decoration: none;
-        font-size: 17px;
-        margin-left: 60px;
-        &:hover{
-            background-color: $c-white;
-            color: $c-black;
+    .navleft{
+        position: relative;
+        left: 80px;
+        a {
+            float: left;
+            color: $c-white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 15px;
+            &:hover{
+                background-color: $c-white;
+                color: $c-black;
+            }
         }
     }
     .active{
@@ -41,6 +44,19 @@ $gridmarks:300px 250px 450px 200px;
         position: absolute;
         right: 0;
         text-align: right;
+        a {
+            float: left;
+            color: $c-white;
+            text-align: center;
+            padding: 14px 46px;
+            text-decoration: none;
+            font-size: 15px;
+            margin-left: 55px;
+            &:hover{
+                background-color: $c-white;
+                color: $c-black;
+            }
+        }
     }
 }
 
@@ -126,6 +142,7 @@ $gridmarks:300px 250px 450px 200px;
         padding: 20px;
         background-color: $c-blackdown;
         vertical-align: center;
+        cursor: pointer;
 
     }
     .card-empty{

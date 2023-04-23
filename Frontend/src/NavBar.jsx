@@ -9,8 +9,11 @@ export default function NavBar() {
     return (
         
         <nav className='navigation'>
-                <img src="images/FRAV2.png" alt="FRAV Logo"/>
-                <NavLink to="/some" className={({isActive})=>isActive?" active":""}>Projects</NavLink>
+            <img src="images/FRAV2.png" alt="FRAV Logo"/>
+            <div className='navleft'>
+                <NavLink to="/Organization" className={({isActive})=>isActive?" active":""}>Organization</NavLink>
+                <NavLink to="/Projects" className={({isActive})=>isActive?" active":""}>Projects</NavLink>
+            </div>
             <div className='navright'>
                 <NavLink to="/about" className={({isActive})=>isActive?" active":""}>Profile</NavLink>
                 <NavLink to="/events" className={({isActive})=>+isActive?" active":""}><BsGear/></NavLink>
