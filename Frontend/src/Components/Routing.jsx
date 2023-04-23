@@ -21,12 +21,12 @@ export default class Routing extends React.Component {
       <div>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Dashboard />} />
+            {/* <Route path="/" element={<Dashboard />} /> */}
             <Route path="/login" element={<UserLogin />} />
             <Route path="/projects" element={<Project />} />
             <Route path="/backlog" element={<Backlog />} />
             <Route path="/sprint" element={<Sprint />} />
-            <Route path="/signup" element={<UserSignUp />} />
+            <Route path="/register" element={<UserSignUp />} />
             <Route path="/userProfile" element={<UserProfile />} />
             <Route path="/updateUserProfile" element={<UpdateUserProfile />} />
             <Route path="/searchUser" element={<SearchUser />} />

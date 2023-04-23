@@ -27,7 +27,7 @@ function UserSignUp(props) {
   const middleNameRegex = /^[A-Za-z]*$/;
   const contactNumberRegex = /^\d{2}[ -]?\d{3}[ -]?\d{4}$/;
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  
+
   const SignUp = async (e) => {
     console.log(email.current.value);
     console.log(contactNumber.current.value);
@@ -46,12 +46,12 @@ function UserSignUp(props) {
 
     const passwordValid = passwordRegex.test(password.current.value);
     if (!passwordValid) {
-    setError("Password must have at least 8 characters, one uppercase letter, one lowercase letter, one digit, and one special character");
-    setLoading(false);
-    return;
-}
+      setError("Password must have at least 8 characters, one uppercase letter, one lowercase letter, one digit, and one special character");
+      setLoading(false);
+      return;
+    }
 
-    
+
     // let password = password.current.value.toString();
     // const hashPassword = bcrypt.hashSync(password,10);
     console.log("hashing pass");
@@ -61,79 +61,77 @@ function UserSignUp(props) {
       {
         email: email.current.value.toString(),
         contactNumber: contactNumber.current.value.toString(),
-        password:hashedPassword
-       
-      }).then((response) => {
-      console.log(response);
-      setSuccessMessage("User successfully signed up.");
-    }).catch(error => {
+        password: hashedPassword
 
-      console.log(error);
-      // if (error.response.status === 401) setError(error.response.data.message);
-      setError("User already exists. Please change your email..! ");
-    });
+      }).then((response) => {
+        console.log(response);
+        setSuccessMessage("User successfully signed up.");
+      }).catch(error => {
+
+        console.log(error);
+        // if (error.response.status === 401) setError(error.response.data.message);
+        setError("User already exists. Please change your email..! ");
+      });
   }
 
   return (
     <>
-      <main>
-        {/* <form className="signin-card" onSubmit={SignUp}> */}
-          <h3 className="heading">FARV Sign In</h3>
-          <div className="grid-style">
-            <article className="fname-container">
-              <label className="fname-label">First Name*</label>
-              <input type="text" placeholder="John" required ref={firstName} id="fname" pattern={firstNameRegex}></input>
-            </article>
-
-            <article className="mname-container">
-              <label className="mname-label">Middle Name</label>
-              <input type="text" placeholder="C" id="mname" pattern={middleNameRegex} ></input>
-            </article>
-
-            <article className="lname-container">
-              <label className="lname-label" id="lname">Last Name*</label>
-              <input type="text" placeholder="Parker" required pattern={lastNameRegex}></input>
-            </article>
-
-            <article className="email-container">
-              <label className="email-label">Email*</label>
-              <input type="text" placeholder="John@abc.com" ref={email} required id="email" pattern={emailRegex}></input>
-            </article>
-
-            <article className="phone-number-container">
-              <label className="phone-label">Phone Number*</label>
-              <input type="text" placeholder="91x-xxx-xxxx" ref={contactNumber} required id="cnum" pattern={contactNumberRegex}></input>
-            </article>
-
-            <article className="password-container">
-              <label className="password-label">Password*</label>
-              <input type="password" placeholder="password" required ref={password} id="password"></input>
-            </article>
-
-            <article className="confirm-password-container">
-              <label className="confirm-password-label"> Confirm Password*</label>
-              <input type="password" placeholder="Retype password"  required ref={confirmPassword} id="confirmPassword"></input>
-            </article>
-            <article className="error-container">
-              {error && <p className="error-message">{error}</p>}
-            </article>
-            
-            <article className="success-container">
-            {successMessage && <p className="success-message">{successMessage}</p>}
-            </article>  
-
-            <p className="forgot-password">Already have an Account?</p>
-
-            <article className="button-container">
-            <button className="submit-button btn btn-success" onClick={SignUp} disabled={loading}>
-            {loading ? 'Loading...' : 'Submit'}
-            </button>
-          </article>
-
+      <div className="container">
+        <div className="card o-hidden border-0 shadow-lg my-5">
+          <div className="card-body p-0">
+            <div className="row">
+              <div className="col-lg-5 d-none d-lg-block bg-register-image"></div>
+              <div className="col-lg-7">
+                <div className="p-5">
+                  <div className="text-center">
+                    <h1 className="h4 text-gray-900 mb-4">Create an Account!</h1>
+                  </div>
+                  <form className="user">
+                    <div className="form-group row">
+                      <div className="col-sm-6 mb-3 mb-sm-0">
+                        <input type="text" className="form-control form-control-user" placeholder="First Name" required ref={firstName} id="fname" pattern={firstNameRegex} />
+                      </div>
+                      <div className="col-sm-6">
+                        <input type="text" className="form-control form-control-user" placeholder="Middle Name" id="mname" pattern={middleNameRegex} />
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <div className="col-sm-6 mb-3 mb-sm-0">
+                        <input type="text" className="form-control form-control-user" placeholder="Last Name" id="lname" required pattern={lastNameRegex} />
+                      </div>
+                      <div className="col-sm-6">
+                        <input type="text" className="form-control form-control-user" placeholder="Email Address" ref={email} required id="email" pattern={emailRegex} />
+                      </div>
+                    </div>
+                    <div className="form-group row">
+                      <div className="col-sm-6 mb-3 mb-sm-0">
+                        <input type="password" className="form-control form-control-user" placeholder="Password" required ref={password} id="password" />
+                      </div>
+                      <div className="col-sm-6">
+                        <input type="password" placeholder="Repeat password" className="form-control form-control-user" required ref={confirmPassword} id="confirmPassword" />
+                      </div>
+                    </div>
+                    <button className="btn btn-primary btn-user btn-block" onClick={SignUp} disabled={loading}>
+                      {loading ? 'Loading...' : 'Register Account'}
+                    </button>
+                  </form>
+                  <article className="success-container">
+                    {successMessage && <p className="success-message">{successMessage}</p>}
+                  </article>
+                  <hr />
+                  <div className="text-center">
+                    <a className="small" href="/forgotpassword">Forgot Password?</a>
+                  </div>
+                  <div className="text-center">
+                    <a className="small" href="/login">Already have an account? Login!</a>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+        </div>
 
-        {/* </form> */}
-      </main>
+      </div>
 
     </>
 

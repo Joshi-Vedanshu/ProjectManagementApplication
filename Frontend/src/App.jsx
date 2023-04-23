@@ -9,8 +9,7 @@ import Dashboard from "./Components/dashboard";
 function App() {
   return (
     <div className="App">
-      <Dashboard />
-      {/* <Routing/> */}
+      <Routing/>
       {/* <Routing /> */}
       {/* <Router>
         <NavBar />
