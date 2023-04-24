@@ -52,7 +52,7 @@ function UserSignUp(props) {
     // let password = password.current.value.toString();
     // const hashPassword = bcrypt.hashSync(password,10);
     console.log("hashing pass");
-    const hashedPassword = bcrypt.hashSync(password.current.value, saltRounds);
+    const hashedPassword = bcrypt.hashSync(password.current.value, "$2a$10$1hUhzKenVi7zJnoJECxbfOitjjjAfrWpqqXFNFSfEMQK");
     console.log(hashedPassword);
     axios
       .post("http://localhost:3005/auth/register", {

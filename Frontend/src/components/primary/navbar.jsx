@@ -1,6 +1,11 @@
 import React, { useState, useRef } from "react";
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+
 
 export default function Navbar() {
+  const navigateTo = useNavigate();
+
   return (
     <>
       <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -172,8 +177,9 @@ export default function Navbar() {
               <a
                 className="dropdown-item"
                 href="#"
-                data-toggle="modal"
+                data-toggle="modal" 
                 data-target="#logoutModal"
+                data-backdrop="false"
               >
                 <i className="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                 Logout

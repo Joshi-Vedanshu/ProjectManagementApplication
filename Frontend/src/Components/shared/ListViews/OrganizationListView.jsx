@@ -30,7 +30,7 @@ export default function OrganizationListView() {
                             </div>
                             <div className="row">
                                 <div className="col-sm-12">
-                                    <table className="table table-bordered dataTable" id="dataTable" width="100%" cellspacing="0"
+                                    <table className="table table-bordered dataTable" id="dataTable" width="100%" cellSpacing="0"
                                         role="grid" aria-describedby="dataTable_info" style={{ "width": "100%" }}>
                                         <thead>
                                             <tr role="row">

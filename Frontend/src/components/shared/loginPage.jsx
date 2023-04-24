@@ -1,37 +1,69 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
 import bcrypt from "bcryptjs"; // import bcryptjs library
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from "react";
 
-var saltRounds = 10;
 function UserLogin(props) {
   const user = useRef("");
   const password = useRef("");
   const [error, setError] = useState(null);
   const [data, setData] = useState([]);
+  const navigateTo = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem("accesstoken") !== null) {
+      axios
+        .post("http://localhost:3005/auth/login", {}, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem("accesstoken").replace(/^"(.*)"$/, '$1')}`
+          }
+        })
+        .then((response) => {
+          if (response.status === 202) {
+            navigateTo('/');
+          }
+        });
+    }
+  }, []);
 
   const login = async () => {
-    // console.log(user)
-    // console.log(password)
     setError(null);
-    console.log("hashing pass");
-    const hashedPassword = bcrypt.hashSync(password.current.value, saltRounds);
-    console.log(hashedPassword);
+    const hashedPassword = bcrypt.hashSync(password.current.value, "$2a$10$1hUhzKenVi7zJnoJECxbfOitjjjAfrWpqqXFNFSfEMQK");
     axios
       .post("http://localhost:3005/auth/login", {
         email: user.current.value,
         password: hashedPassword,
       })
-      .then((response) => {
-        console.log(response.data.accessToken);
-        const dataString = JSON.stringify(response.data.accessToken.toString());
-        localStorage.setItem("accesstoken", dataString);
-        setData(response.data);
-        console.log(dataString);
-        console.log(localStorage.getItem("accesstoken"));
+      .then(async (response) => {
+        if (response.status === 201) {
+          const dataString = JSON.stringify(response.data.accessToken);
+          localStorage.setItem("accesstoken", dataString);
+          setData(response.data);
+          let permissions = await axios
+            .get("http://localhost:3005/users/permissions", {
+              headers: {
+                'Authorization': `Bearer ${response.data.accessToken}`
+              }
+            });
+          localStorage.setItem("permissions", permissions);
+          let role = await axios
+            .get("http://localhost:3005/users/role", {
+              headers: {
+                'Authorization': `Bearer ${response.data.accessToken}`
+              }
+            });
+          localStorage.setItem("role", role);
+
+        }
+        else {
+          setError("Invalid credentials ");
+        }
+        navigateTo('/');
       })
       .catch((error) => {
         console.log(error);
-        if (error.response.status === 401)
+        if (error.response.status === 404)
           setError(error.response.data.message);
         else setError("Invalid credentials ");
       });
@@ -73,21 +105,6 @@ function UserLogin(props) {
                             ref={password}
                           />
                         </div>
-                        <div className="form-group">
-                          <div className="custom-control custom-checkbox small">
-                            <input
-                              type="checkbox"
-                              className="custom-control-input"
-                              id="customCheck"
-                            />
-                            <label
-                              className="custom-control-label"
-                              for="customCheck"
-                            >
-                              Remember Me
-                            </label>
-                          </div>
-                        </div>
                         <a
                           href="#"
                           className="btn btn-primary btn-user btn-block"
@@ -95,9 +112,7 @@ function UserLogin(props) {
                         >
                           Login
                         </a>
-                        <hr />
                       </form>
-                      <hr />
                       <div className="text-center">
                         <a className="small" href="forgot-password.html">
                           Forgot Password?
