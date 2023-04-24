@@ -34,10 +34,10 @@ export default function UserUpdate() {
           </h6>
         </div>
         <div className="card-body">
-          <div class="row">
-            <div class="col">
+          <div className="row">
+            <div className="col">
               <div>
-                <label for="pname" class="form-label">
+                <label htmlFor="pname" className="form-label">
                   First Name
                 </label>
                 <input
@@ -50,9 +50,9 @@ export default function UserUpdate() {
                 />
               </div>
             </div>
-            <div class="col">
+            <div className="col">
               <div>
-                <label for="mname" class="form-label">
+                <label htmlFor="mname" className="form-label">
                   Middle Name
                 </label>
                 <input
@@ -64,10 +64,10 @@ export default function UserUpdate() {
                 />
               </div>
             </div>
-            <div class="w-100"></div>
-            <div class="col">
+            <div className="w-100"></div>
+            <div className="col">
               <div>
-                <label for="lname" class="form-label">
+                <label htmlFor="lname" className="form-label">
                   Last Name
                 </label>
                 <input
@@ -80,9 +80,9 @@ export default function UserUpdate() {
                 />
               </div>
             </div>
-            <div class="col">
+            <div className="col">
               <div>
-                <label for="loc" class="form-label">
+                <label htmlFor="loc" className="form-label">
                   Location
                 </label>
                 <input
@@ -94,10 +94,10 @@ export default function UserUpdate() {
                 />
               </div>
             </div>
-            <div class="w-100"></div>
-            <div class="col">
+            <div className="w-100"></div>
+            <div className="col">
               <div>
-                <label for="bdate" class="form-label">
+                <label htmlFor="bdate" className="form-label">
                   Date of Birth
                 </label>
                 <input
@@ -111,9 +111,9 @@ export default function UserUpdate() {
                 />
               </div>
             </div>
-            <div class="col">
+            <div className="col">
               <div>
-                <label for="yoj" class="form-label">
+                <label htmlFor="yoj" className="form-label">
                   Year of Joining
                 </label>
                 <input
@@ -126,10 +126,10 @@ export default function UserUpdate() {
                 />
               </div>
             </div>
-            <div class="w-100"></div>
-            <div class="col">
+            <div className="w-100"></div>
+            <div className="col">
               <div>
-                <label for="email" class="form-label">
+                <label htmlFor="email" className="form-label">
                   Email
                 </label>
                 <input
@@ -142,9 +142,9 @@ export default function UserUpdate() {
                 />
               </div>
             </div>
-            <div class="col">
+            <div className="col">
               <div>
-                <label for="number" class="form-label">
+                <label htmlFor="number" className="form-label">
                   Contact Number
                 </label>
                 <input
@@ -156,10 +156,10 @@ export default function UserUpdate() {
                 />
               </div>
             </div>
-            <div class="w-100"></div>
-            <div class="col">
+            <div className="w-100"></div>
+            <div className="col">
               <div>
-                <label for="hdate" class="form-label">
+                <label htmlFor="hdate" className="form-label">
                   Date of Hire
                 </label>
                 <input
@@ -173,7 +173,7 @@ export default function UserUpdate() {
                 />
               </div>
             </div>
-            <div class="col"></div>
+            <div className="col"></div>
           </div>
         </div>
         <div className="btn btn-success mx-auto">Update User</div>

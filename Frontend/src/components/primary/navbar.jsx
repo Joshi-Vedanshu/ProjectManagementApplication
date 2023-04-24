@@ -5,7 +5,33 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
   const navigateTo = useNavigate();
-
+  const logout = async () => {
+    try {
+      const token = localStorage
+        .getItem("accesstoken")
+        .replace(/^"(.*)"$/, "$1");
+      const response = await fetch("http://localhost:3005/auth/logout", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ token: token }),
+      });
+      if (response.ok) {
+        localStorage.removeItem("accesstoken");
+        localStorage.removeItem("role");
+        localStorage.removeItem("permissions");
+        console.log(`user is deleted`);
+        navigateTo("/");
+      } else {
+        console.log(
+          `Failed to delete user: ${response.status} ${response.statusText}`
+        );
+      }
+    } catch (error) {
+      console.log(`Failed to delete user: ${error}`);
+    }
+  };
   return (
     <>
       <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -177,9 +203,7 @@ export default function Navbar() {
               <a
                 className="dropdown-item"
                 href="#"
-                data-toggle="modal" 
-                data-target="#logoutModal"
-                data-backdrop="false"
+                onClick={logout}
               >
                 <i className="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                 Logout

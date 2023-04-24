@@ -25,7 +25,7 @@ export default function Team() {
         <div className="card-body">
           <div className="form-group row">
             <div className="col-md-12 mb-3 mb-sm-0">
-              <label for="pname" class="form-label">
+              <label htmlFor="pname" className="form-label">
                 Team Name
               </label>
               <input
@@ -40,7 +40,7 @@ export default function Team() {
             </div>
 
             <div className="col-md-12 mb-3 mb-sm-0">
-              <label for="tarea" class="form-label">
+              <label htmlFor="tarea" className="form-label">
                 Team Description
               </label>
               <textarea

@@ -39,10 +39,11 @@ export default function Cards() {
           <div className="row">
             <div className="col">
               <div>
-                <label for="type" class="form-label">
+                <label htmlFor="type" className="form-label">
                   Type
                 </label>
                 <Typeahead
+                  id="TypeId"
                   onChange={(selected) => {
                     // Handle selections...
                   }}
@@ -59,7 +60,7 @@ export default function Cards() {
             </div>
             <div className="col">
               <div>
-                <label for="name" className="form-label">
+                <label htmlFor="name" className="form-label">
                   Name
                 </label>
                 <input
@@ -88,7 +89,7 @@ export default function Cards() {
             </div>
             <div className="col">
               <div>
-                <label name="sdate" classname="form-label">
+                <label name="sdate" className="form-label">
                   Start Date
                 </label>
                 <input
@@ -104,7 +105,7 @@ export default function Cards() {
             <div className="w-100"></div>
             <div className="col">
               <div>
-                <label for="edate" classname="form-label">
+                <label htmlFor="edate" className="form-label">
                   End Date
                 </label>
                 <input
@@ -119,10 +120,11 @@ export default function Cards() {
             </div>
             <div className="col">
               <div>
-                <label name="parent" class="form-label">
+                <label name="parent" className="form-label">
                   Parent
                 </label>
                 <Typeahead
+                  id="ParentId"
                   onChange={(selected) => {
                     // Handle selections...
                   }}
@@ -133,10 +135,11 @@ export default function Cards() {
             <div className="w-100"></div>
             <div className="col">
               <div>
-                <label name="username" class="form-label">
+                <label name="username" className="form-label">
                   Username
                 </label>
                 <Typeahead
+                  id="UserId"
                   onChange={(selected) => {
                     // Handle selections...
                   }}
@@ -146,10 +149,11 @@ export default function Cards() {
             </div>
             <div className="col">
               <div>
-                <label name="reporter" class="form-label">
+                <label name="reporter" className="form-label">
                   Reporter
                 </label>
                 <Typeahead
+                  id="ReporterId"
                   onChange={(selected) => {
                     // Handle selections...
                   }}
@@ -181,7 +185,7 @@ export default function Cards() {
             </div>
             <div className="col">
               <div>
-                <label name="storypoint" classname="form-label">
+                <label name="storypoint" className="form-label">
                   Story Point
                 </label>
                 <input
@@ -196,7 +200,7 @@ export default function Cards() {
             <div className="w-100"></div>
             <div className="col">
               <div>
-                <label name="duration" classname="form-label">
+                <label name="duration" className="form-label">
                   Duration
                 </label>
                 <input
@@ -210,7 +214,7 @@ export default function Cards() {
             </div>
             <div className="col">
               <div>
-                <label for="comment" className="form-label">
+                <label htmlFor="comment" className="form-label">
                   Comment
                 </label>
                 <input
@@ -225,7 +229,7 @@ export default function Cards() {
             <div className="w-100"></div>
             <div className="col">
               <div>
-                <label for="file" className="form-label">
+                <label htmlFor="file" className="form-label">
                   File Upload
                 </label>
                 <input
@@ -239,10 +243,11 @@ export default function Cards() {
             </div>
             <div className="col">
               <div>
-                <label name="sprint" class="form-label">
+                <label name="sprint" className="form-label">
                   Sprint
                 </label>
                 <Typeahead
+                  id="SprintId"
                   onChange={(selected) => {
                     // Handle selections...
                   }}

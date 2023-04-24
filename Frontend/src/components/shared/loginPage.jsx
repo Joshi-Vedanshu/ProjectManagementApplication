@@ -21,7 +21,7 @@ function UserLogin(props) {
         })
         .then((response) => {
           if (response.status === 202) {
-            navigateTo('/');
+            navigateTo('/app');
           }
         });
     }
@@ -46,26 +46,23 @@ function UserLogin(props) {
                 'Authorization': `Bearer ${response.data.accessToken}`
               }
             });
-          localStorage.setItem("permissions", permissions);
+          localStorage.setItem("permissions", JSON.stringify(permissions.data[0]));
           let role = await axios
             .get("http://localhost:3005/users/role", {
               headers: {
                 'Authorization': `Bearer ${response.data.accessToken}`
               }
             });
-          localStorage.setItem("role", role);
+          localStorage.setItem("role", JSON.stringify(role.data[0]));
 
         }
         else {
           setError("Invalid credentials ");
         }
-        navigateTo('/');
+        navigateTo('/app');
       })
       .catch((error) => {
-        console.log(error);
-        if (error.response.status === 404)
-          setError(error.response.data.message);
-        else setError("Invalid credentials ");
+        console.log("error");
       });
   };
 

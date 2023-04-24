@@ -24,8 +24,8 @@ export default class Routing extends React.Component {
       <div>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/login" element={<UserLogin />} />
+            <Route path="/" element={<UserLogin />} />
+            <Route path="/app" element={<Dashboard />} />
             {/* <Route path="/projects" element={<Project />} /> */}
             {/* <Route path="/backlog" element={<Backlog />} />
             <Route path="/sprint" element={<Sprint />} /> */}

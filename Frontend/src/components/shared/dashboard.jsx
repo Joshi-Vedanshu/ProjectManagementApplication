@@ -12,64 +12,83 @@ import Cards from "./entities/cards";
 
 export default function Dashboard() {
   const navigateTo = useNavigate();
+  const [role, setRole] = useState({a:""});
+  const [permission, setPermission] = useState({a:""});
+  let nav_links = [["Organization"], ["Project", "Team"], [], []]
+  const [nav, setNav] = useState(nav_links[0]);
 
-  const logout = async () => {
-    try {
-      const token = localStorage
-        .getItem("accesstoken")
-        .replace(/^"(.*)"$/, "$1");
-      const response = await fetch("http://localhost:3005/auth/logout", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ token: token }),
-      });
-      if (response.ok) {
-        console.log(`user is deleted`);
-        navigateTo("/login");
-      } else {
-        console.log(
-          `Failed to delete user: ${response.status} ${response.statusText}`
-        );
-      }
-    } catch (error) {
-      console.log(`Failed to delete user: ${error}`);
-    }
-  };
   useEffect(() => {
-    if (localStorage.getItem("accesstoken") !== null) {
-      axios
-        .post(
-          "http://localhost:3005/auth/login",
-          {},
-          {
-            headers: {
-              Authorization:
-                "Bearer " +
-                localStorage.getItem("accesstoken").replace(/^"(.*)"$/, "$1"),
-            },
-          }
-        )
-        .then((response) => {
-          if (response.status !== 202) {
-            navigateTo("/login");
-          }
-        })
-        .catch((error) => {
-          console.log("error", error);
-          navigateTo("/login");
-        });
-    } else {
-      navigateTo("/login");
+    async function getData() {
+      if (localStorage.getItem("accesstoken") !== null) {
+        await axios
+          .post(
+            "http://localhost:3005/auth/login",
+            {},
+            {
+              headers: {
+                Authorization:
+                  "Bearer " +
+                  localStorage.getItem("accesstoken").replace(/^"(.*)"$/, "$1"),
+              },
+            }
+          )
+          .then(async (response) => {
+            if (response.status !== 202) {
+              navigateTo("/");
+            }
+
+          })
+          .catch((error) => {
+            console.log("error in dashboard");
+            localStorage.removeItem("accesstoken");
+            localStorage.removeItem("role");
+            localStorage.removeItem("permissions");
+            navigateTo("/");
+          });
+      } else {
+        localStorage.removeItem("accesstoken");
+        localStorage.removeItem("role");
+        localStorage.removeItem("permissions");
+        navigateTo("/");
+      }
     }
+    getData();
   }, []);
+
+  useEffect(() => {
+    let tempRole = JSON.parse(localStorage.getItem("role"));
+    let tempPermission = JSON.parse(localStorage.getItem("permissions"))
+    let data = {
+      role: { type: tempRole.type, userId: tempRole.userId },
+      permission: {
+        organizationAccess: tempPermission.organizationAccess, projectAccess: tempPermission.projectAccess,
+        projectTeamMappingAccess: tempPermission.projectTeamMappingAccess, roleId: tempPermission.roleId,
+        sprintAccess: tempPermission.sprintAccess, teamAccess: tempPermission.teamAccess,
+        teamUserMappingAccess: tempPermission.teamUserMappingAccess
+      }
+    };
+    switch (data.role.type) {
+      case 0:
+        setNav(nav_links[0])
+        console.log(nav);
+        break
+      default:
+        console.log("here");
+        break
+    }
+    console.log(data);
+    setRole(data.role);
+    setPermission(data.permission);
+    console.log(role);
+    console.log(permission);
+  }, [nav]);
+
 
   return (
     <>
       <section>
         <div id="wrapper">
-          <Sidebar />
+          <Sidebar links ={nav} />
           <div id="content-wrapper" className="d-flex flex-column">
             <div id="content">
               <Navbar />
@@ -97,49 +116,6 @@ export default function Dashboard() {
         <a className="scroll-to-top rounded" href="#page-top">
           <i className="fas fa-angle-up"></i>
         </a>
-
-        <div
-          className="modal fade"
-          id="logoutModal"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">
-                  Ready to Leave?
-                </h5>
-                <button
-                  className="close"
-                  type="button"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">×</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                Select "Logout" below if you are ready to end your current
-                session.
-              </div>
-              <div className="modal-footer">
-                <button
-                  className="btn btn-secondary"
-                  type="button"
-                  data-dismiss="modal"
-                >
-                  Cancel
-                </button>
-                <a className="btn btn-primary" onClick={logout}>
-                  Logout
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
       </section>
     </>
   );

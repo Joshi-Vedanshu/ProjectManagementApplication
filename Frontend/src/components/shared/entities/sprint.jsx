@@ -29,7 +29,7 @@ export default function Sprint() {
         <div className="card-body">
           <div className="form-group row">
             <div className="col-md-12 mb-3 mb-sm-0">
-              <label for="pname" class="form-label">
+              <label htmlFor="pname" className="form-label">
                 Sprint Name
               </label>
               <input
@@ -44,7 +44,7 @@ export default function Sprint() {
             </div>
 
             <div className="col-md-12 mb-3 mb-sm-0">
-              <label for="tarea" class="form-label">
+              <label htmlFor="tarea" className="form-label">
                 Sprint Description
               </label>
               <textarea
@@ -55,9 +55,9 @@ export default function Sprint() {
               />
             </div>
 
-            <div class="col-md-12 row mb-6">
+            <div className="col-md-12 row mb-6">
               <div className="col-sm-6">
-                <label for="sdate" class="form-label">
+                <label htmlFor="sdate" className="form-label">
                   Start Date
                 </label>
                 <input
@@ -70,7 +70,7 @@ export default function Sprint() {
                 />
               </div>
               <div className="col-sm-6">
-                <label for="edate" class="form-label">
+                <label htmlFor="edate" className="form-label">
                   End Date
                 </label>
                 <input

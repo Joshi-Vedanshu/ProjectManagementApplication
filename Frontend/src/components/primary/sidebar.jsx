@@ -13,7 +13,7 @@ export default function Sidebar() {
             <i className="fas fa-laugh-wink"></i>
           </div>
           <div className="sidebar-brand-text mx-3">
-            SB Admin <sup>2</sup>
+           FRAV
           </div>
         </a>
 
