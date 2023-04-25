@@ -10,6 +10,7 @@ import AddProject from "./../AddProject";
 import { Backlog } from "../Backlog";
 import { Sprint } from "../Sprint";
 import { Organization } from "../Organization";
+import { AddToTeam } from "../AddtoTeam";
 
 // add your page add Route below between switch and inside route add your component
 
@@ -29,6 +30,7 @@ export default class Routing extends React.Component {
             <Route path="/updateUserProfile" element = {<UpdateUserProfile/>}/>
             <Route path="/addproject" element={<AddProject/>}/>
             <Route path="/organization" element={<Organization/>}/>
+            <Route path="/addtoteam" element={<AddToTeam/>}/>
           </Routes>
         </BrowserRouter>
       </div>
