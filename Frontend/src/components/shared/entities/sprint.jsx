@@ -1,12 +1,15 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Typeahead } from "react-bootstrap-typeahead";
 
+
+
 export default function Sprint({ View, add, updateData }) {
   const sprintName = useRef("");
   const sprintDescription = useRef("");
   const startDate = useRef("");
   const endDate = useRef("");
   const project = useRef([]);
+  const [projectList, setProjectList] = useState([]);
 
   const sprintRegex = /^[A-Za-z]+$/;
   const dateRegex = /^\d{2}([./-])\d{2}\1\d{4}$/;
@@ -17,7 +20,25 @@ export default function Sprint({ View, add, updateData }) {
     document.getElementById("sdate").value = add ? "" : updateData.startdate;
     document.getElementById("edate").value = add ? "" : updateData.enddate;
     // document.getElementById("project").value = add ? "" : updateData.project;
+    //fetch project
   }, []);
+
+  useEffect(() => {
+    fetch("http://localhost:3005/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage
+          .getItem("accesstoken")
+          .replace(/^"(.*)"$/, "$1")}`,
+      }
+    })
+      .then(response => response.json())
+      .then(data => setProjectList(data));
+    console.log("projectList", projectList)
+  },[]);
+
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -39,7 +60,7 @@ export default function Sprint({ View, add, updateData }) {
       body: JSON.stringify(obj),
     })
       .then((response) => response.json())
-      .then((data) => console.log(data));
+      .then((data) => console.log("data"));
     View("Sprint", false, null);
   };
 
