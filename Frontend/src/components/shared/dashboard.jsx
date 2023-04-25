@@ -12,12 +12,16 @@ import Cards from "./entities/cards";
 import Organization from "./entities/organization";
 import RolePermissionMapping from "./entities/rolePermissionMapping";
 import OrganizationListView from "./listviews/organizationlistview";
+import ProjectListView from "./listviews/projectListView";
+import TeamListView from "./listviews/teamListView";
+import SprintListView from "./listviews/sprintListView";
+import CardListView from "./listviews/cardListView";
 
 export default function Dashboard() {
   const navigateTo = useNavigate();
   let nav_links = [["Organization"], []];
   let viewName = "";
-  const [nav, setNav] = useState(nav_links[0]);
+  const [nav, setNav] = useState([]);
   const [view, setView] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -77,7 +81,7 @@ export default function Dashboard() {
     switch (data.role.type) {
       case 0:
         setNav(nav_links[0]);
-        console.log(nav);
+        viewSet(nav_links[0][0]);
         break;
       case 2:
         if (parseInt(data.permission.projectAccess, 2) > 0) {
@@ -95,7 +99,9 @@ export default function Dashboard() {
         if (parseInt(data.permission.teamUserMappingAccess, 2) > 0) {
           nav_links[1].push("Team-User");
         }
+        nav_links[1].push("Cards");
         setNav(nav_links[1]);
+        viewSet(nav_links[1][0]);
         break;
       default:
         if (parseInt(data.permission.projectAccess, 2) > 0) {
@@ -113,10 +119,12 @@ export default function Dashboard() {
         if (parseInt(data.permission.teamUserMappingAccess, 2) > 0) {
           nav_links[1].push("Team-User");
         }
+        nav_links[1].push("Cards");
         setNav(nav_links[1]);
+        viewSet(nav_links[1][0]);
         break;
     }
-    console.log(nav);
+
   }, []);
 
   useEffect(() => {
@@ -127,22 +135,30 @@ export default function Dashboard() {
     }
   }, [isAdmin]);
 
-  const viewSet = (link) => {
+  const viewSet = (link, flag, data) => {
     //alert(link);
     console.log(link);
     switch (link) {
       case "Project":
-        setView(<Project />);
+        setView(<ProjectListView />);
         break;
       case "Team":
-        setView(<Team />);
+        setView(<TeamListView addView={viewSet} />);
         break;
       case "Sprint":
-        setView(<Sprint />);
+        setView(<SprintListView />);
         break;
       case "Organization":
         setView(<OrganizationListView />);
         break;
+      case "Cards":
+        setView(<CardListView />);
+        break;
+      case "Team-CU":
+        setView(<Team View={viewSet} add={flag} updateData={data} />);
+        break;
+      case "SetPermission":
+        setView(<RolePermissionMapping userData={data} />);
     }
   };
 
@@ -153,7 +169,7 @@ export default function Dashboard() {
           <Sidebar viewChange={viewSet} links={nav} />
           <div id="content-wrapper" className="d-flex flex-column">
             <div id="content">
-              <Navbar isNotify={isAdmin} />
+              <Navbar viewChange={viewSet} isNotify={isAdmin} />
 
               <div className="container-fluid">
                 <Content value={view} />

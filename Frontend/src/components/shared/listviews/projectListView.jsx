@@ -1,5 +1,19 @@
+import { useState, useEffect } from "react";
 import "../../../assets/vendor/datatables/dataTables.bootstrap4.min.css";
 export default function ProjectListView() {
+  const [projects, setProjects] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:3005/", {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("accesstoken").replace(/^"(.*)"$/, "$1")}`
+      },
+    })
+      .then(response => response.json())
+      .then(data => setProjects(data));
+    console.log(projects);
+  }, []);
   return (
     <>
       <div className="container-fluid">
@@ -132,10 +146,14 @@ export default function ProjectListView() {
                         </tr>
                       </tfoot>
                       <tbody>
-                        <tr className="odd">
-                          <td className="sorting_1">Airi Satou</td>
-                          <td>Accountant</td>
-                        </tr>
+                        {projects.map((item) => (
+                          <tr className="even" key={item.id}>
+                            <td className="sorting_1">{item.name}</td>
+                            <td className="sorting_1">{item.description}</td>
+                            <td className="sorting_1">{item.startDate}</td>
+                            <td className="sorting_1">{item.endDate}</td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>

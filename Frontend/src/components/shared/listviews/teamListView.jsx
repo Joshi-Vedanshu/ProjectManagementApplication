@@ -1,5 +1,19 @@
 import "../../../assets/vendor/datatables/dataTables.bootstrap4.min.css";
-export default function TeamListView() {
+import { useState, useEffect } from "react";
+export default function TeamListView({ addView }) {
+  const [teams, setTeams] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:3005/team", {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("accesstoken").replace(/^"(.*)"$/, "$1")}`
+      },
+    })
+      .then(response => response.json())
+      .then(data => setTeams(data));
+    console.log(teams);
+  }, []);
   return (
     <>
       <div className="container-fluid">
@@ -10,7 +24,7 @@ export default function TeamListView() {
                 <h4 className="m-0 font-weight-bold text-primary">TEAMS</h4>
               </div>
               <div className="col-md-6">
-                <button className="btn btn-primary float-right px-4 py-2">
+                <button onClick={() => { addView("Team-CU", true, null) }} className="btn btn-primary float-right px-4 py-2">
                   Add
                 </button>
               </div>
@@ -104,10 +118,12 @@ export default function TeamListView() {
                         </tr>
                       </tfoot>
                       <tbody>
-                        <tr className="odd">
-                          <td className="sorting_1">Airi Satou</td>
-                          <td>Accountant</td>
-                        </tr>
+                        {teams.map((item) => (
+                          <tr className="even" key={item.id}>
+                            <td onClick={() => { addView("Team-CU", false, item) }} className="sorting_1">{item.name}</td>
+                            <td onClick={() => { addView("Team-CU", false, item) }} className="sorting_1">{item.description}</td>
+                          </tr>
+                        ))}
                       </tbody>
                     </table>
                   </div>
@@ -116,7 +132,7 @@ export default function TeamListView() {
             </div>
           </div>
         </div>
-      </div>
+      </div >
       <script src="vendor/datatables/jquery.dataTables.min.js"></script>
       <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
       <script src="js/demo/datatables-demo.js"></script>

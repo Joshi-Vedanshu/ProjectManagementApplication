@@ -1,20 +1,54 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 
-export default function Team() {
+export default function Team({ View, add, updateData }) {
   const teamName = useRef("");
   const teamDescription = useRef("");
 
   const teamRegex = /^[A-Za-z]+$/;
   const dateRegex = /^\d{2}([./-])\d{2}\1\d{4}$/;
 
-  const handleSubmit = (event) => {
+  useEffect(()=>{
+    document.getElementById("pname").value = add ? "" : updateData.name;
+    document.getElementById("tarea").value =add ? "" : updateData.description;
+  },[])
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log({
-      teamName,
-      teamDescription,
-    });
+    let obj = {
+      name: teamName.current.value,
+      description: teamDescription.current.value
+    }
+    await fetch("http://localhost:3005/team", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("accesstoken").replace(/^"(.*)"$/, "$1")}`
+      },
+      body: JSON.stringify(obj)
+    })
+      .then(response => response.json());
+    View("Team", false, null);
     // Call API to create project here
   };
+
+  const handleUpdate = async (event) => {
+    event.preventDefault();
+    let obj = {
+      id: updateData.id,
+      name: teamName.current.value,
+      description: teamDescription.current.value
+    }
+    await fetch("http://localhost:3005/team", {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("accesstoken").replace(/^"(.*)"$/, "$1")}`
+      },
+      body: JSON.stringify(obj)
+    })
+      .then(response => response.json());
+    View("Team", false, null);
+  }
 
   return (
     <>
@@ -51,8 +85,8 @@ export default function Team() {
               />
             </div>
           </div>
-          <div className="btn btn-primary float-left">Create Team </div>
-          <div className="btn btn-success float-right">Update Team</div>
+          {add ? (<div onClick={handleSubmit} className="btn btn-primary float-left">Create Team </div>)
+            : (<div onClick={handleUpdate} className="btn btn-success float-right">Update Team</div>)}
         </div>
       </div>
     </>

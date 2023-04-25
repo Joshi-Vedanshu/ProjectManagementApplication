@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-export default function RolePermissionMapping() {
+export default function RolePermissionMapping({ userData }) {
   const firstName = useRef("");
   const middleName = useRef("");
   const lastName = useRef("");
@@ -20,6 +20,32 @@ export default function RolePermissionMapping() {
   const nameRegex = /^[A-Za-z]+$/;
   const dateRegex = /^\d{2}([./-])\d{2}\1\d{4}$/;
   const emailRegex = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/;
+
+
+  useEffect(() => {
+    fetch("http://localhost:3005/users/user?id=" + userData, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("accesstoken").replace(/^"(.*)"$/, "$1")}`
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("pname").value = data[0][1][0].firstName;
+        document.getElementById("mname").value = data[0][1][0].middleName;
+        document.getElementById("lname").value = data[0][1][0].lastName;
+        document.getElementById("loc").value = data[0][1][0].location;
+        document.getElementById("bdate").value = data[0][1][0].dateOfBirth;
+        document.getElementById("YOJ").value = data[0][1][0].yearsOfExperience;
+        document.getElementById("email").value = data[0][0][0].email;
+        document.getElementById("number").value = data[0][0][0].contactNumber;
+        document.getElementById("hdate").value = data[0][0][0].dateOfHire;
+      });
+
+
+
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -203,7 +229,7 @@ export default function RolePermissionMapping() {
             <div className="col">
               <div>
                 <label htmlFor="yoj" className="form-label">
-                  Year of Joining
+                  Year of Experience
                 </label>
                 <input
                   type="text"
@@ -261,8 +287,37 @@ export default function RolePermissionMapping() {
                   required
                 />
               </div>
+              <div>
+                <label htmlFor="type" className="form-label">
+                  Role Type
+                </label>
+                <select
+                  className="form-control form-control-user"
+                  required
+                  id="type"
+                >
+                  <option disabled selected>select</option>
+                  <option value="3">Manager</option>
+                  <option value="4">Developer</option>
+                  <option value="5">Tester</option>
+                </select>
+              </div>
             </div>
             <div className="col">
+              <div>
+                <label htmlFor="name" className="form-label">
+                  Role Name
+                </label>
+                <input
+                  type="text"
+                  className="form-control form-control-user"
+                  placeholder="Role Name"
+                  ref={dateOfHire}
+                  id="name"
+                  pattern={dateRegex}
+                  required
+                />
+              </div>
               <div>
                 <label htmlFor="paccess" className="form-label">
                   Project Access
@@ -562,7 +617,7 @@ export default function RolePermissionMapping() {
             <div className="col"></div>
           </div>
         </div>
-        <div className="btn btn-success mx-auto">Add To Organization</div><br/>
+        <div className="btn btn-success mx-auto">Add To Organization</div><br />
       </div>
     </>
   );

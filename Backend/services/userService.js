@@ -113,6 +113,24 @@ this.UserService = function () {
     return null;
   };
 
+  this.GetUserInformationByUserId = async function (request) {
+    let user = null;
+    let userProfile = await ProdctDb.User.findAll({
+      where: {
+        id: request.query.id,
+      },
+    });
+    if (userProfile != undefined && userProfile != null) {
+      user = await ProdctDb.UserProfile.findAll({
+        where: {
+          id: userProfile[0].dataValues.userProfileId,
+        },
+      });
+      return [user, userProfile];
+    }
+    return null;
+  };
+
   this.UpdateUser = async function (request, userId) {
     let user = await ProdctDb.User.update(
       {
@@ -148,6 +166,45 @@ this.UserService = function () {
     }
     return false;
   };
+
+  this.GetOrgIdByUserId = async function (userId) {
+    let orgId = await ProdctDb.Organization.findAll({
+      where: {
+        adminId: userId,
+      },
+    });
+    if (orgId != undefined) {
+      return orgId[0].dataValues.id;
+    }
+    else {
+      orgId = await ProdctDb.UserOrganizationMapping.findAll({
+        where: {
+          userId: userId,
+        }
+      });
+      if (orgId != undefined) {
+        return orgId[0].dataValues.id;
+      }
+      else {
+        return null;
+      }
+    }
+  };
+
+  this.GetUsersOfOrganizationByOrgId = async function (orgId) {
+    let users = await ProdctDb.UserOrganizationMapping.findAll({
+      where: {
+        orgId: userId,
+      }
+    });
+
+    if (users != undefined) {
+      return users;
+    }
+    return null;
+  };
+
+
 };
 
 exports.UserService = this.UserService;

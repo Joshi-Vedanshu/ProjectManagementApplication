@@ -1,5 +1,19 @@
 import "../../../assets/vendor/datatables/dataTables.bootstrap4.min.css";
+import { useState, useEffect } from "react";
 export default function SprintListView() {
+  const [sprints, setSprints] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:3005/sprint", {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("accesstoken").replace(/^"(.*)"$/, "$1")}`
+      },
+    })
+      .then(response => response.json())
+      .then(data => setSprints(data));
+    console.log(sprints);
+  }, []);
   return (
     <>
       <div className="container-fluid">
@@ -131,10 +145,14 @@ export default function SprintListView() {
                           </tr>
                         </tfoot>
                         <tbody>
-                          <tr className="odd">
-                            <td className="sorting_1">Airi Satou</td>
-                            <td>Accountant</td>
+                        {sprints.map((item) => (
+                          <tr className="even" key={item.id}>
+                            <td className="sorting_1">{item.name}</td>
+                            <td className="sorting_1">{item.description}</td>
+                            <td className="sorting_1">{item.startDate}</td>
+                            <td className="sorting_1">{item.endDate}</td>
                           </tr>
+                        ))}
                         </tbody>
                       </table>
                     </div>

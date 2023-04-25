@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
 
-export default function Navbar({ isNotify }) {
+export default function Navbar({ isNotify, viewChange }) {
   const navigateTo = useNavigate();
   const [notifications, setNotifications] = useState([]);
 
@@ -45,10 +45,11 @@ export default function Navbar({ isNotify }) {
     })
       .then(response => response.json())
       .then(data => setNotifications(data));
-  },[]);
+  }, []);
 
   const handleNotificationClick = async (notification) => {
-    alert(notification);
+    let userId = notification.requesterId;
+    viewChange("SetPermission", false, userId);
   };
 
 

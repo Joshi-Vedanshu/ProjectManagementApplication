@@ -29,7 +29,7 @@ export default function OrganizationListView() {
         })
             .then(response => response.json())
             .then(data => setOrganizations(data));
-    }, [])
+    }, []);
 
     return (<>
         <div className="container-fluid">

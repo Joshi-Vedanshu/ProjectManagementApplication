@@ -40,7 +40,7 @@ router.put('/skills', async function (req, res, next) {
 router.put('/userprofile', async function (req, res, next) {
     let auth = validateSessionAndHeader(sessions, req);
     if (auth.validation && auth.code === 202) {
-        let data = await userController.ChangeUserProfileInformation(req,token.getUserFromTheToken(sessions.token).id);
+        let data = await userController.ChangeUserProfileInformation(req, token.getUserFromTheToken(sessions.token).id);
         if (data) {
             res.status(200).send(data);
         }
@@ -53,7 +53,7 @@ router.put('/userprofile', async function (req, res, next) {
     }
 });
 
-router.get('/userprofile',async function(req,res,next){
+router.get('/userprofile', async function (req, res, next) {
     let auth = validateSessionAndHeader(sessions, req);
     if (auth.validation && auth.code === 202) {
         let data = await userController.GetUserInformation(token.getUserFromTheToken(sessions.token).id);
@@ -79,6 +79,28 @@ router.get('/role', async function (req, res, next) {
     let auth = validateSessionAndHeader(sessions, req);
     if (auth.validation && auth.code === 202) {
         let data = await userController.GetRoleOfUser(token.getUserFromTheToken(sessions.token).id);
+        res.status(200).send(data);
+    }
+    else {
+        res.status(auth.code).send();
+    }
+});
+
+router.get('/user', async function (req, res, next) {
+    let auth = validateSessionAndHeader(sessions, req);
+    if (auth.validation && auth.code === 202) {
+        let data = await userController.GetUserInformationByUserId(req);
+        res.status(200).send(data);
+    }
+    else {
+        res.status(auth.code).send();
+    }
+});
+
+router.get("/", async function (req, res, next) {
+    let auth = validateSessionAndHeader(sessions, req);
+    if (auth.validation && auth.code === 202) {
+        let data = await userController.GetUsersOfOrganization(token.getUserFromTheToken(sessions.token).id);
         res.status(200).send(data);
     }
     else {
