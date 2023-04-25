@@ -153,7 +153,7 @@ export default function Dashboard() {
         setView(<OrganizationListView addView={viewSet} />);
         break;
       case "Cards":
-        setView(<CardListView />);
+        setView(<CardListView addView={viewSet} />);
         break;
       case "Team-CU":
         setView(<Team View={viewSet} add={flag} updateData={data} />);

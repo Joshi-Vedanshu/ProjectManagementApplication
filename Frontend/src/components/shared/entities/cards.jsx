@@ -144,7 +144,7 @@ export default function Cards({ View, add, updateData }) {
                   className="form-control form-control-user"
                   required
                   ref={name}
-                  id="mname"
+                  id="name"
                 />
               </div>
             </div>

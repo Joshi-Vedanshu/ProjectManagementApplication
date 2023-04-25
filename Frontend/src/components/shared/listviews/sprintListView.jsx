@@ -16,6 +16,37 @@ export default function SprintListView({ addView }) {
       .then((data) => setSprints(data));
     console.log(sprints);
   }, []);
+
+  const handleDelete = async (event) => {
+    await fetch("http://localhost:3005/sprint", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage
+          .getItem("accesstoken")
+          .replace(/^"(.*)"$/, "$1")}`,
+      },
+      body: JSON.stringify({
+        id: event, // ID of the data to delete
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => {
+        console.error("Error deleting data:", error);
+      });
+    fetch("http://localhost:3005/sprint", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage
+          .getItem("accesstoken")
+          .replace(/^"(.*)"$/, "$1")}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => setTeams(data));
+  };
   return (
     <>
       <div className="container-fluid">
@@ -213,6 +244,16 @@ export default function SprintListView({ addView }) {
                                 className="sorting_1"
                               >
                                 {item.endDate}
+                              </td>
+                              <td></td>
+                              <td>
+                                <button
+                                  onClick={() => handleDelete(item.id)}
+                                  type="button"
+                                  className="btn btn-danger mx-1 px-2"
+                                >
+                                  Delete
+                                </button>
                               </td>
                             </tr>
                           ))}

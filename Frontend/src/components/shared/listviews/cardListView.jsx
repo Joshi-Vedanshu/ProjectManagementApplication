@@ -1,5 +1,53 @@
 import "../../../assets/vendor/datatables/dataTables.bootstrap4.min.css";
-export default function CardListView() {
+import { useState, useEffect } from "react";
+export default function CardListView({ addView }) {
+  const [cards, setCards] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:3005/card", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage
+          .getItem("accesstoken")
+          .replace(/^"(.*)"$/, "$1")}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => setCards(data));
+    console.log(cards);
+  }, []);
+
+  const handleDelete = async (event) => {
+    await fetch("http://localhost:3005/card", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage
+          .getItem("accesstoken")
+          .replace(/^"(.*)"$/, "$1")}`,
+      },
+      body: JSON.stringify({
+        id: event, // ID of the data to delete
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => {
+        console.error("Error deleting data:", error);
+      });
+    fetch("http://localhost:3005/card", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage
+          .getItem("accesstoken")
+          .replace(/^"(.*)"$/, "$1")}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => setCards(data));
+  };
+
   return (
     <>
       <div className="container-fluid">
@@ -10,7 +58,12 @@ export default function CardListView() {
                 <h4 className="m-0 font-weight-bold text-primary">CARDS</h4>
               </div>
               <div className="col-md-6">
-                <button className="btn btn-primary float-right px-4 py-2">
+                <button
+                  onClick={() => {
+                    addView("Card-CU", true, null);
+                  }}
+                  className="btn btn-primary float-right px-4 py-2"
+                >
                   Add
                 </button>
               </div>
@@ -288,6 +341,27 @@ export default function CardListView() {
                           <tr className="odd">
                             <td className="sorting_1">Airi Satou</td>
                             <td>Accountant</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                              <button
+                                onClick={() => handleDelete(item.id)}
+                                type="button"
+                                className="btn btn-danger mx-1 px-2"
+                              >
+                                Delete
+                              </button>
+                            </td>
                           </tr>
                         </tbody>
                       </table>
