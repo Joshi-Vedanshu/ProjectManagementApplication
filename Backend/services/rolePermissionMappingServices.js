@@ -60,15 +60,15 @@ this.RolePermissionMappingService = function () {
     let status = false;
     await ProdctDb.RolePermissionMapping.update(
       {
-        projectAccess: request.projectAccess,
-        teamAccess: request.teamAccess,
-        organizationAccess: request.organizationAccess,
-        sprintAccess: request.sprintAccess,
-        teamUserMappingAccess: request.teamUserMappingAccess,
-        projectTeamMappingAccess: request.projectTeamMappingAccess,
+        projectAccess: request.body.projectAccess,
+        teamAccess: request.body.teamAccess,
+        organizationAccess: request.body.organizationAccess,
+        sprintAccess: request.body.sprintAccess,
+        teamUserMappingAccess: request.body.teamUserMappingAccess,
+        projectTeamMappingAccess: request.body.projectTeamMappingAccess,
       },
       {
-        where: { roleId: request.roleId },
+        where: { roleId: request.body.roleId },
       }
     ).then(function (rolePermission) {
       if (rolePermission != undefined) {
@@ -82,10 +82,12 @@ this.RolePermissionMappingService = function () {
     let status = false;
     await ProdctDb.RolePermissionMapping.update(
       {
-        projectAccess: request.projectAccess,
-        teamAccess: request.teamAccess,
-        organizationAccess: request.organizationAccess,
-        sprintAccess: request.sprintAccess,
+        projectAccess: request.body.projectAccess,
+        teamAccess: request.body.teamAccess,
+        organizationAccess: request.body.organizationAccess,
+        sprintAccess: request.body.sprintAccess,
+        teamUserMappingAccess: request.body.teamUserMappingAccess,
+        projectTeamMappingAccess: request.body.projectTeamMappingAccess,
       },
       {
         where: { roleId: roleId },
