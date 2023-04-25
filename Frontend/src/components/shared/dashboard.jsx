@@ -141,7 +141,7 @@ export default function Dashboard() {
     console.log(link);
     switch (link) {
       case "Project":
-        setView(<ProjectListView addView={viewSet} />);
+        setView(<ProjectListView key={"Project"} addView={viewSet} />);
         break;
       case "Team":
         setView(<TeamListView addView={viewSet} />);
@@ -169,6 +169,12 @@ export default function Dashboard() {
         break;
       case "SetPermission":
         setView(<RolePermissionMapping userData={data} View={viewSet} />);
+        break;
+      case "Project-Team":
+        setView(<ProjectTeam />);
+        break;
+      case "Team-User":
+        setView(<UserTeam />);
         break;
     }
   };

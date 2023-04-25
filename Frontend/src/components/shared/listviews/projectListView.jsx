@@ -3,7 +3,7 @@ import "../../../assets/vendor/datatables/dataTables.bootstrap4.min.css";
 export default function ProjectListView({ addView }) {
   const [projects, setProjects] = useState([]);
   useEffect(() => {
-    fetch("http://localhost:3005/", {
+    fetch("http://localhost:3005/project", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -36,7 +36,7 @@ export default function ProjectListView({ addView }) {
       .catch((error) => {
         console.error("Error deleting data:", error);
       });
-    await fetch("http://localhost:3005/", {
+    await fetch("http://localhost:3005/project", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -203,6 +203,7 @@ export default function ProjectListView({ addView }) {
                         {projects.map((item) => (
                           <tr className="even" key={item.id}>
                             <td
+                              key={item.id + "name"}
                               onClick={() => {
                                 addView("Project-CU", false, item);
                               }}
@@ -211,6 +212,7 @@ export default function ProjectListView({ addView }) {
                               {item.name}
                             </td>
                             <td
+                              key={item.id + "des"}
                               onClick={() => {
                                 addView("Project-CU", false, item);
                               }}
@@ -219,6 +221,7 @@ export default function ProjectListView({ addView }) {
                               {item.description}
                             </td>
                             <td
+                              key={item.id + "sd"}
                               onClick={() => {
                                 addView("Project-CU", false, item);
                               }}
@@ -227,6 +230,7 @@ export default function ProjectListView({ addView }) {
                               {item.startDate}
                             </td>
                             <td
+                              key={item.id + "ed"}
                               onClick={() => {
                                 addView("Project-CU", false, item);
                               }}

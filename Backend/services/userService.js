@@ -1,3 +1,5 @@
+const user = require("../models/product/user");
+
 var ProdctDb = require("../models").Product.models;
 
 this.UserService = function () {
@@ -182,7 +184,6 @@ this.UserService = function () {
         requesterId: userId
       }
     });
-
   }
 
   this.GetOrgIdByUserId = async function (userId) {
@@ -212,7 +213,7 @@ this.UserService = function () {
   this.GetUsersOfOrganizationByOrgId = async function (orgId) {
     let users = await ProdctDb.UserOrganizationMapping.findAll({
       where: {
-        orgId: userId,
+        orgId: orgId,
       }
     });
 
@@ -221,7 +222,18 @@ this.UserService = function () {
     }
     return null;
   };
-
+  this.GetOrganizationByUserId = async function (userId) {
+    let users = await ProdctDb.UserOrganizationMapping.findAll({
+      where: {
+        userId: userId,
+      }
+    });
+    console.log(users);
+    if (users != undefined) {
+      return users;
+    }
+    return null;
+  };
 
 };
 
