@@ -27,7 +27,7 @@ this.RoleService = function () {
   };
 
   // READ (BY USER)
-  this.getRolesByUser = async function (userId) {
+  this.GetRolesByUser = async function (userId) {
     let roles = await ProdctDb.Role.findAll({
       where: {
         userId: userId,
@@ -40,15 +40,15 @@ this.RoleService = function () {
   };
 
   // UPDATE
-  this.UpdateRole = async function (request) {
+  this.UpdateRole = async function (request, id) {
     let status = false;
     await ProdctDb.Role.update(
       {
-        type: request.type,
-        name: request.name,
+        type: request.body.type,
+        name: request.body.name,
       },
       {
-        where: { id: request.id },
+        where: { id: id },
       }
     ).then(function (role) {
       if (role != undefined) {

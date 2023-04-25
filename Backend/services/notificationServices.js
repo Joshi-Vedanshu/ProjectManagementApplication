@@ -18,10 +18,11 @@ this.NotificationService = function () {
   };
 
   // READ
-  this.getnotifications = async function (request) {
+  this.GetNotificationsOfOrganization = async function (adminId) {
     let notifications = await ProdctDb.Notification.findAll({
       where: {
-        id: request.body.id,
+        adminId: adminId,
+        status: 0,
       },
     });
     if (notifications != undefined) {

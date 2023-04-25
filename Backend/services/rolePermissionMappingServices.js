@@ -60,13 +60,37 @@ this.RolePermissionMappingService = function () {
     let status = false;
     await ProdctDb.RolePermissionMapping.update(
       {
-        projectAccess: request.projectAccess,
-        teamAccess: request.teamAccess,
-        organizationAccess: request.organizationAccess,
-        sprintAccess: request.sprintAccess,
+        projectAccess: request.body.projectAccess,
+        teamAccess: request.body.teamAccess,
+        organizationAccess: request.body.organizationAccess,
+        sprintAccess: request.body.sprintAccess,
+        teamUserMappingAccess: request.body.teamUserMappingAccess,
+        projectTeamMappingAccess: request.body.projectTeamMappingAccess,
       },
       {
-        where: { roleId: request.roleId },
+        where: { roleId: request.body.roleId },
+      }
+    ).then(function (rolePermission) {
+      if (rolePermission != undefined) {
+        status = true;
+      }
+    });
+    return status;
+  };
+
+  this.UpdatePermissionByRoleId = async function (request, roleId) {
+    let status = false;
+    await ProdctDb.RolePermissionMapping.update(
+      {
+        projectAccess: request.body.projectAccess,
+        teamAccess: request.body.teamAccess,
+        organizationAccess: request.body.organizationAccess,
+        sprintAccess: request.body.sprintAccess,
+        teamUserMappingAccess: request.body.teamUserMappingAccess,
+        projectTeamMappingAccess: request.body.projectTeamMappingAccess,
+      },
+      {
+        where: { roleId: roleId },
       }
     ).then(function (rolePermission) {
       if (rolePermission != undefined) {
@@ -81,9 +105,11 @@ this.RolePermissionMappingService = function () {
     let status = true;
     await ProdctDb.RolePermissionMapping.destroy({
       where: { id: request.body.id },
-    })
-      .success((result) => (status = true))
-      .error((err) => (status = false));
+    }).then(function (rolePermission) {
+      if (rolePermission != undefined) {
+        status = true;
+      }
+    });
     return status;
   };
 };

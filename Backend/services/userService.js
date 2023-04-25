@@ -1,6 +1,20 @@
+const user = require("../models/product/user");
+
 var ProdctDb = require("../models").Product.models;
 
 this.UserService = function () {
+  // SEARCH
+  this.Search = async function (request) {
+    let data = await ProdctDb.UserProfile.findAll({
+      where: {
+        name: {
+          [Op.like]: request.query + "%",
+        },
+      },
+    });
+    return data;
+  };
+
   this.AddUser = async function (request) {
     let status = true;
     let userPresent = await ProdctDb.UserProfile.findAll({
@@ -101,7 +115,28 @@ this.UserService = function () {
     return null;
   };
 
+  this.GetUserInformationByUserId = async function (request) {
+    let user = null;
+    let userProfile = await ProdctDb.User.findAll({
+      where: {
+        id: request.query.id,
+      },
+    });
+    if (userProfile != undefined && userProfile != null) {
+      user = await ProdctDb.UserProfile.findAll({
+        where: {
+          id: userProfile[0].dataValues.userProfileId,
+        },
+      });
+      return [user, userProfile];
+    }
+    return null;
+  };
+
   this.UpdateUser = async function (request, userId) {
+    console.log(userId);
+    console.log(request.body);
+    let id = userId;
     let user = await ProdctDb.User.update(
       {
         firstName: request.body.firstName,
@@ -113,29 +148,93 @@ this.UserService = function () {
       },
       {
         where: {
-          id: userId,
+          id: userId
+        }
+      }
+    );
+
+    let userProfile = await ProdctDb.UserProfile.update(
+      {
+        contactNumber: request.body.contactNumber,
+        password: request.body.password,
+        dateOfHire: request.body.dateOfHire,
+      },
+      {
+        where: {
+          id: user.userProfileId,
         },
       }
-    ).then(async function (user) {
-      await ProdctDb.UserProfile.update(
-        {
-          contactNumber: request.body.contactNumber,
-          password: request.body.password,
-          dateOfHire: request.body.dateOfHire,
-        },
-        {
-          where: {
-            id: user.userProfileId,
-          },
-        }
-      );
-    });
+    );
 
     if (user != undefined) {
       return true;
     }
     return false;
   };
+
+  this.UpdateNotificationsAndAddUserId = async function (userId, orgId) {
+    await ProdctDb.UserOrganizationMapping.create({
+      userId: userId,
+      orgId: orgId
+    });
+    await ProdctDb.Notification.update({
+      status: 1,
+    }, {
+      where: {
+        requesterId: userId
+      }
+    });
+  }
+
+  this.GetOrgIdByUserId = async function (userId) {
+    let orgId = await ProdctDb.Organization.findAll({
+      where: {
+        adminId: userId,
+      },
+    });
+    if (orgId != undefined) {
+      return orgId[0].dataValues.id;
+    }
+    else {
+      orgId = await ProdctDb.UserOrganizationMapping.findAll({
+        where: {
+          userId: userId,
+        }
+      });
+      if (orgId != undefined) {
+        return orgId[0].dataValues.id;
+      }
+      else {
+        return null;
+      }
+    }
+  };
+
+  this.GetUsersOfOrganizationByOrgId = async function (orgId) {
+    let users = await ProdctDb.UserOrganizationMapping.findAll({
+      where: {
+        orgId: orgId,
+      }
+    });
+
+    if (users != undefined) {
+      return users;
+    }
+    return null;
+  };
+  this.GetOrganizationByUserId = async function (userId) {
+    let users = await ProdctDb.UserOrganizationMapping.findAll({
+      where: {
+        userId: userId,
+      }
+    });
+    console.log(users);
+    if (users != undefined) {
+      return users;
+    }
+    return null;
+  };
+
 };
 
 exports.UserService = this.UserService;

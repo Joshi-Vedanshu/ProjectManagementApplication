@@ -1,13 +1,25 @@
 var ProdctDb = require("../models").Product.models;
 
 this.TeamService = function () {
+  // SEARCH
+  this.Search = async function (request) {
+    let data = await ProdctDb.Team.findAll({
+      where: {
+        name: {
+          [Op.like]: request.query + "%",
+        },
+      },
+    });
+    return data;
+  };
+
   // CREATE
-  this.AddTeam = async function (request) {
+  this.AddTeam = async function (request, orgId) {
     let status = true;
     await ProdctDb.Team.create({
       name: request.body.name,
       description: request.body.description,
-      orgId: request.body.orgId,
+      orgId: orgId,
     }).then(async function (team) {
       console.log("Team is created");
 
@@ -22,8 +34,8 @@ this.TeamService = function () {
   this.GetTeamsById = async function (teamIds) {
     let teams = await ProdctDb.Team.findAll({
       where: {
-        id: teamIds
-      }
+        id: teamIds,
+      },
     });
     if (teams != undefined) {
       return teams;
@@ -65,7 +77,6 @@ this.TeamService = function () {
       {
         name: request.body.name,
         description: request.body.description,
-        orgId: request.body.orgId,
       },
       {
         where: { id: request.body.id },

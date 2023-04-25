@@ -31,7 +31,7 @@ const DeleteUserSkill = async function (req) {
 
 const GetPermissionsOfUser = async function (email) {
   let userId = (await userService.GetUserIdByEmail(email))[0][0].dataValues.id;
-  let role = await roleService.getRolesByUser(userId);
+  let role = await roleService.GetRolesByUser(userId);
   return await rolePermissionMappingService.getRolePermissionMappingByRoleId(
     role[0].dataValues.id
   );
@@ -39,12 +39,26 @@ const GetPermissionsOfUser = async function (email) {
 
 const GetRoleOfUser = async function (email) {
   let userId = (await userService.GetUserIdByEmail(email))[0][0].dataValues.id;
-  return await roleService.getRolesByUser(userId);
+  return await roleService.GetRolesByUser(userId);
 };
 
 const GetUserInformation = async function (email) {
   return await userService.GetUserIdByEmail(email);
-}
+};
+
+const GetUserInformationByUserId = async function (req) {
+  let role = await roleService.GetRolesByUser(req.query.id);
+  let permissions = await rolePermissionMappingService.getRolePermissionMappingByRoleId(role[0].dataValues.id);
+  return [await userService.GetUserInformationByUserId(req), role, permissions];
+};
+
+const GetUsersOfOrganization = async function(email){
+  let userId = (await userService.GetUserIdByEmail(email))[0][0].dataValues.id;
+  let orgId = await userService.GetOrgIdByUserId(userId);
+  return await userService.GetUsersOfOrganizationByOrgId(orgId);
+};
+
+
 module.exports = {
   ChangeUserProfileInformation,
   AddUserSkill,
@@ -53,5 +67,7 @@ module.exports = {
   GetRoleOfUser,
   GetUserSkill,
   DeleteUserSkill,
-  GetUserInformation
+  GetUserInformation,
+  GetUserInformationByUserId,
+  GetUsersOfOrganization
 };

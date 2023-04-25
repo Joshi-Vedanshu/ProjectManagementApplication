@@ -1,6 +1,18 @@
 var ProdctDb = require("../models").Product.models;
 
 this.SprintService = function () {
+  // SEARCH
+  this.Search = async function (request) {
+    let data = await ProdctDb.Sprint.findAll({
+      where: {
+        name: {
+          [Op.like]: request.query + "%",
+        },
+      },
+    });
+    return data;
+  };
+
   // CREATE
   this.AddSprint = async function (request) {
     let status = true;
@@ -58,7 +70,7 @@ this.SprintService = function () {
   // UPDATE
   this.UpdateSprint = async function (request) {
     let status = false;
-    await ProdctDb.Assignment.update(
+    await ProdctDb.Sprint.update(
       {
         name: request.body.name,
         description: request.body.description,

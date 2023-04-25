@@ -1,6 +1,17 @@
 var ProdctDb = require("../models").Product.models;
 
 this.CardService = function () {
+  // SEARCH
+  this.Search = async function (request) {
+    let data = await ProdctDb.Card.findAll({
+      where: {
+        name: {
+          [Op.like]: request.query + "%",
+        },
+      },
+    });
+    return data;
+  };
   // CREATE
   this.AddCard = async function (request) {
     let status = true;
@@ -31,7 +42,7 @@ this.CardService = function () {
 
   // READ
   this.getCards = async function (request) {
-    let cards = await ProdctDb.Cards.findAll();
+    let cards = await ProdctDb.Card.findAll();
     if (cards != undefined) {
       return cards;
     }
@@ -40,7 +51,7 @@ this.CardService = function () {
 
   // READ (BY ID)
   this.getCardsById = async function (request) {
-    let cards = await ProdctDb.Cards.findAll({
+    let cards = await ProdctDb.Card.findAll({
       where: {
         id: request.body.id,
       },
@@ -53,7 +64,7 @@ this.CardService = function () {
 
   // READ (BY PARENT ID)
   this.getCardsByParentId = async function (request) {
-    let cards = await ProdctDb.Cards.findAll({
+    let cards = await ProdctDb.Card.findAll({
       where: {
         parentId: request.body.parentId,
       },
@@ -66,7 +77,7 @@ this.CardService = function () {
 
   // READ (BY ASSIGNEE ID)
   this.GetCardsByAssigneeId = async function (userId) {
-    let cards = await ProdctDb.Cards.findAll({
+    let cards = await ProdctDb.Card.findAll({
       where: {
         assigneeId: userId,
       },
@@ -79,7 +90,7 @@ this.CardService = function () {
 
   // READ (BY REPORTER ID)
   this.getCardsByReporterId = async function (request) {
-    let cards = await ProdctDb.Cards.findAll({
+    let cards = await ProdctDb.Card.findAll({
       where: {
         reporterId: request.body.reporterId,
       },
@@ -92,7 +103,7 @@ this.CardService = function () {
 
   // READ (BY ATTACHMENT ID)
   this.getCardsByAttachmentId = async function (request) {
-    let cards = await ProdctDb.Cards.findAll({
+    let cards = await ProdctDb.Card.findAll({
       where: {
         attachmentId: request.body.attachmentId,
       },
@@ -105,7 +116,7 @@ this.CardService = function () {
 
   // READ (BY SPRINT ID)
   this.GetCardsBySprintId = async function (sprintId) {
-    let cards = await ProdctDb.Cards.findAll({
+    let cards = await ProdctDb.Card.findAll({
       where: {
         sprintId: sprintId,
       },
@@ -117,7 +128,7 @@ this.CardService = function () {
   };
 
   this.GetAllCardBasedOnSprints = async function (sprintId) {
-    let cards = await ProdctDb.Cards.findAll({
+    let cards = await ProdctDb.Card.findAll({
       where: {
         sprintId: sprintId,
       },

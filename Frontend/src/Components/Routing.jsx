@@ -1,5 +1,9 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import UserLogin from "./shared/loginPage";
+import UserSignUp from "./shared/signUp";
+import Dashboard from "./shared/dashboard";
+import axios from "axios";
 import { Project } from "../Projects";
 import UserLogin from "./loginPage";
 import UserSignUp from "./signUp";
@@ -22,18 +26,8 @@ export default class Routing extends React.Component {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<UserLogin />} />
-            <Route path="/login" element={<UserLogin />} />
-            <Route path="/projects" element={<Project />} />
-            <Route path="/backlog" element={<Backlog />} />
-            <Route path="/sprint" element={<Sprint />} />
-            <Route path="/signup" element={<UserSignUp/>}/>
-            <Route path="/userProfile" element={<UserProfile/>}/>
-            <Route path="/updateUserProfile" element = {<UpdateUserProfile/>}/>
-            <Route path="/addproject" element={<AddProject/>}/>
-            <Route path="/organization" element={<Organization/>}/>
-
-            <Route path="/searchUser" element = {<SearchUser/>}/>
-            <Route path="providepermisson" element ={<SprintAndStoryPermissions/>}/>
+            <Route path="/app" element={<Dashboard />} />
+            <Route path="/register" element={<UserSignUp />} />
           </Routes>
         </BrowserRouter>
       </div>
