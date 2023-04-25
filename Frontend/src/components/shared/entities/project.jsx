@@ -25,7 +25,7 @@ export default function Project() {
     <>
       <div className="card shadow mb-4">
         <div className="card-header py-3">
-          <h4 className="m-0 font-weight-bold text-primary">PROJECTS</h4>
+          <h4 className="m-0 font-weight-bold text-primary">PROJECT</h4>
         </div>
         <div className="card-body">
           <div className="form-group row">

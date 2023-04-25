@@ -20,7 +20,7 @@ export default function Team() {
     <>
       <div className="card shadow mb-4">
         <div className="card-header py-3">
-          <h4 className="m-0 font-weight-bold text-primary">TEAMS</h4>
+          <h4 className="m-0 font-weight-bold text-primary">TEAM</h4>
         </div>
         <div className="card-body">
           <div className="form-group row">
@@ -31,7 +31,7 @@ export default function Team() {
               <input
                 type="text"
                 className="form-control form-control-user"
-                placeholder="Ex. Sprint 1"
+                placeholder="Ex. Team 1"
                 required
                 ref={teamName}
                 id="pname"

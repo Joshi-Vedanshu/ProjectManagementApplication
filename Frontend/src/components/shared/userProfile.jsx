@@ -11,7 +11,7 @@ function Profile(props) {
   };
 
   useEffect(() => {
-    const storedItem = localStorage.getItem("accesstoken");
+    const storedItem = localStorage.getItem("-accesstoken");
     const accesstoken = JSON.parse(storedItem);
     const config = {
       headers: { Authorization: `Bearer ${accesstoken}` },
@@ -25,7 +25,7 @@ function Profile(props) {
       })
       .catch((error) => {
         console.log(error);
-        // handle errors here
+        
       });
   }, [axios]);
 

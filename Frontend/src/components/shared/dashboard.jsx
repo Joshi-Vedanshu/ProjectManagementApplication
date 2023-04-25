@@ -12,6 +12,9 @@ import Cards from "./entities/cards";
 import Organization from "./entities/organization";
 import RolePermissionMapping from "./entities/rolePermissionMapping";
 import OrganizationListView from "./listviews/organizationlistview";
+import TeamListView from "./listviews/teamListView";
+import UserTeam from "./entities/userTeam";
+import ProjectTeam from "./entities/projectTeam";
 
 export default function Dashboard() {
   const navigateTo = useNavigate();
@@ -158,6 +161,8 @@ export default function Dashboard() {
               <div className="container-fluid">
                 <Content value={view} />
               </div>
+              <UserTeam />
+              <ProjectTeam />
             </div>
 
             <footer className="sticky-footer bg-white">
