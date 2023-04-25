@@ -1,4 +1,59 @@
-export default function Sidebar() {
+export default function Sidebar(props) {
+  const LinkList = ({ links }) => {
+    return (
+      <ul style={{ padding: "0" }}>
+        {links.map((link, index) => (
+          <li
+            key={index}
+            style={{ color: "white", listStyle: "none" }}
+            className="nav-item"
+          >
+            <a
+              className="nav-link collapsed"
+              href={link.url}
+              data-toggle="collapse"
+              data-target="#collapseTwo"
+              aria-expanded="true"
+              aria-controls="collapseTwo"
+            >
+              <i className="fas fa-fw fa-cog"></i>
+              <span>{link.label}</span>
+            </a>
+            <div
+              id="collapseTwo"
+              className="collapse"
+              aria-labelledby="headingTwo"
+              data-parent="#accordionSidebar"
+            >
+              <div className="bg-white py-2 collapse-inner rounded">
+                <h6 className="collapse-header">{link.label}</h6>
+                <a className="collapse-item" href="#">
+                  {link.func1}
+                </a>
+                <a className="collapse-item" href="#">
+                  {link.func2}
+                </a>
+              </div>
+            </div>
+            <hr className="sidebar-divider" />
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
+  const ParentComponent = () => {
+    const links = [
+      { url: "#", label: "Organization", func1: "Add", func2: "Update" },
+      { url: "#", label: "Project", func1: "Add", func2: "Update" },
+      { url: "#", label: "Team", func1: "Add", func2: "Update" },
+      { url: "#", label: "Sprint", func1: "Add", func2: "Update" },
+      { url: "#", label: "Card", func1: "Add", func2: "Update" },
+    ];
+
+    return <LinkList links={links} />;
+  };
+
   return (
     <>
       <ul
@@ -7,29 +62,27 @@ export default function Sidebar() {
       >
         <a
           className="sidebar-brand d-flex align-items-center justify-content-center"
-          href="index.html"
+          href="#"
         >
           <div className="sidebar-brand-icon rotate-n-15">
             <i className="fas fa-laugh-wink"></i>
           </div>
-          <div className="sidebar-brand-text mx-3">
-           FRAV
-          </div>
+          <div className="sidebar-brand-text mx-3">FRAV</div>
         </a>
 
         <hr className="sidebar-divider my-0" />
 
         <li className="nav-item active">
-          <a className="nav-link" href="index.html">
+          <a className="nav-link" href="#">
             <i className="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span>
           </a>
         </li>
-
+        
+        <hr className="sidebar-divider my-0" />
+        {ParentComponent()}
         <hr className="sidebar-divider" />
-
         <div className="sidebar-heading">Interface</div>
-
         <li className="nav-item">
           <a
             className="nav-link collapsed"
@@ -59,7 +112,6 @@ export default function Sidebar() {
             </div>
           </div>
         </li>
-
         <li className="nav-item">
           <a
             className="nav-link collapsed"
@@ -95,11 +147,8 @@ export default function Sidebar() {
             </div>
           </div>
         </li>
-
         <hr className="sidebar-divider" />
-
         <div className="sidebar-heading">Addons</div>
-
         <li className="nav-item">
           <a
             className="nav-link collapsed"
@@ -140,47 +189,19 @@ export default function Sidebar() {
             </div>
           </div>
         </li>
-
         <li className="nav-item">
           <a className="nav-link" href="charts.html">
             <i className="fas fa-fw fa-chart-area"></i>
             <span>Charts</span>
           </a>
         </li>
-
         <li className="nav-item">
           <a className="nav-link" href="tables.html">
             <i className="fas fa-fw fa-table"></i>
             <span>Tables</span>
           </a>
         </li>
-
         <hr className="sidebar-divider d-none d-md-block" />
-
-        <div className="text-center d-none d-md-inline">
-          <button
-            className="rounded-circle border-0"
-            id="sidebarToggle"
-          ></button>
-        </div>
-
-        <div className="sidebar-card d-none d-lg-flex">
-          <img
-            className="sidebar-card-illustration mb-2"
-            src="/images/undraw_rocket.svg"
-            alt="..."
-          />
-          <p className="text-center mb-2">
-            <strong>SB Admin Pro</strong> is packed with premium features,
-            components, and more!
-          </p>
-          <a
-            className="btn btn-success btn-sm"
-            href="https://startbootstrap.com/theme/sb-admin-pro"
-          >
-            Upgrade to Pro!
-          </a>
-        </div>
       </ul>
     </>
   );

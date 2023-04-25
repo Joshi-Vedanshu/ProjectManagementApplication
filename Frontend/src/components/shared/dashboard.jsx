@@ -9,12 +9,13 @@ import Sprint from "./entities/sprint";
 import Team from "./entities/team";
 import UserUpdate from "./entities/userupdate";
 import Cards from "./entities/cards";
+import Organization from "./entities/organization";
 
 export default function Dashboard() {
   const navigateTo = useNavigate();
-  const [role, setRole] = useState({a:""});
-  const [permission, setPermission] = useState({a:""});
-  let nav_links = [["Organization"], ["Project", "Team"], [], []]
+  const [role, setRole] = useState({ a: "" });
+  const [permission, setPermission] = useState({ a: "" });
+  let nav_links = [["Organization"], ["Project", "Team"], ["Sprint", "Card"]];
   const [nav, setNav] = useState(nav_links[0]);
 
   useEffect(() => {
@@ -36,7 +37,6 @@ export default function Dashboard() {
             if (response.status !== 202) {
               navigateTo("/");
             }
-
           })
           .catch((error) => {
             console.log("error in dashboard");
@@ -57,24 +57,27 @@ export default function Dashboard() {
 
   useEffect(() => {
     let tempRole = JSON.parse(localStorage.getItem("role"));
-    let tempPermission = JSON.parse(localStorage.getItem("permissions"))
+    let tempPermission = JSON.parse(localStorage.getItem("permissions"));
     let data = {
       role: { type: tempRole.type, userId: tempRole.userId },
       permission: {
-        organizationAccess: tempPermission.organizationAccess, projectAccess: tempPermission.projectAccess,
-        projectTeamMappingAccess: tempPermission.projectTeamMappingAccess, roleId: tempPermission.roleId,
-        sprintAccess: tempPermission.sprintAccess, teamAccess: tempPermission.teamAccess,
-        teamUserMappingAccess: tempPermission.teamUserMappingAccess
-      }
+        organizationAccess: tempPermission.organizationAccess,
+        projectAccess: tempPermission.projectAccess,
+        projectTeamMappingAccess: tempPermission.projectTeamMappingAccess,
+        roleId: tempPermission.roleId,
+        sprintAccess: tempPermission.sprintAccess,
+        teamAccess: tempPermission.teamAccess,
+        teamUserMappingAccess: tempPermission.teamUserMappingAccess,
+      },
     };
     switch (data.role.type) {
       case 0:
-        setNav(nav_links[0])
+        setNav(nav_links[0]);
         console.log(nav);
-        break
+        break;
       default:
         console.log("here");
-        break
+        break;
     }
     console.log(data);
     setRole(data.role);
@@ -83,12 +86,11 @@ export default function Dashboard() {
     console.log(permission);
   }, [nav]);
 
-
   return (
     <>
       <section>
         <div id="wrapper">
-          <Sidebar links ={nav} />
+          <Sidebar links={nav} />
           <div id="content-wrapper" className="d-flex flex-column">
             <div id="content">
               <Navbar />
@@ -96,6 +98,7 @@ export default function Dashboard() {
               <div className="container-fluid">
                 <Content />
                 <Cards />
+                <Organization />
                 <Project />
                 <Sprint />
                 <Team />

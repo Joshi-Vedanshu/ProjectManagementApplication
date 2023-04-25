@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import UpdateUserProfile from './updateUserProfile';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import UpdateUserProfile from "./updateUserProfile";
 
 function Profile(props) {
   const [user, setUser] = useState(null);
@@ -8,35 +8,36 @@ function Profile(props) {
 
   const handleClick = () => {
     setUpdateUserProfile(true);
-  }
-  
-  useEffect(() =>{
+  };
+
+  useEffect(() => {
     const storedItem = localStorage.getItem("accesstoken");
     const accesstoken = JSON.parse(storedItem);
     const config = {
-      headers: { Authorization: `Bearer ${accesstoken}` }
+      headers: { Authorization: `Bearer ${accesstoken}` },
     };
-    axios.get('http://localhost:3005/Users/userprofile', config)
-      .then(response => {
-        setUser(response.data)
-        localStorage.setItem("userProfile", JSON.stringify(response.data))
-        console.log(localStorage.getItem("userProfile"))
+    axios
+      .get("http://localhost:3005/Users/userprofile", config)
+      .then((response) => {
+        setUser(response.data);
+        localStorage.setItem("userProfile", JSON.stringify(response.data));
+        console.log(localStorage.getItem("userProfile"));
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
         // handle errors here
       });
   }, [axios]);
 
-  if(!user){
+  if (!user) {
     return (
       <>
         <h3>Loading...........</h3>
       </>
     );
   }
-  return(
-  <>
+  return (
+    <>
       {updateUserProfile ? (
         <UpdateUserProfile />
       ) : (
@@ -58,7 +59,6 @@ function Profile(props) {
       )}
     </>
   );
-
 }
 
 export default Profile;

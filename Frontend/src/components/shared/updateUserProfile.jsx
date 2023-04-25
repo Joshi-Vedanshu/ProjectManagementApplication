@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios';
+import axios from "axios";
 
 function UpdateUserProfile() {
   const [firstName, setFirstName] = useState(null);
@@ -29,8 +29,9 @@ function UpdateUserProfile() {
     event.preventDefault();
 
     // create updated user profile object
-    const updatedProfile = [      [        {          firstName,          middleName,          lastName,          location,        },      ],
-      [        {          contactNumber,          email,        },      ],
+    const updatedProfile = [
+      [{ firstName, middleName, lastName, location }],
+      [{ contactNumber, email }],
     ];
 
     // save updated profile to local storage

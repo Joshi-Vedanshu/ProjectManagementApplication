@@ -31,7 +31,7 @@ const DeleteUserSkill = async function (req) {
 
 const GetPermissionsOfUser = async function (email) {
   let userId = (await userService.GetUserIdByEmail(email))[0][0].dataValues.id;
-  let role = await roleService.getRolesByUser(userId);
+  let role = await roleService.GetRolesByUser(userId);
   return await rolePermissionMappingService.getRolePermissionMappingByRoleId(
     role[0].dataValues.id
   );
@@ -39,7 +39,7 @@ const GetPermissionsOfUser = async function (email) {
 
 const GetRoleOfUser = async function (email) {
   let userId = (await userService.GetUserIdByEmail(email))[0][0].dataValues.id;
-  return await roleService.getRolesByUser(userId);
+  return await roleService.GetRolesByUser(userId);
 };
 
 const GetUserInformation = async function (email) {

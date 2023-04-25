@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
 import bcrypt from "bcryptjs"; // import bcryptjs library
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 function UserLogin(props) {
@@ -14,14 +14,20 @@ function UserLogin(props) {
   useEffect(() => {
     if (localStorage.getItem("accesstoken") !== null) {
       axios
-        .post("http://localhost:3005/auth/login", {}, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem("accesstoken").replace(/^"(.*)"$/, '$1')}`
+        .post(
+          "http://localhost:3005/auth/login",
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage
+                .getItem("accesstoken")
+                .replace(/^"(.*)"$/, "$1")}`,
+            },
           }
-        })
+        )
         .then((response) => {
           if (response.status === 202) {
-            navigateTo('/app');
+            navigateTo("/app");
           }
         });
     }
@@ -29,7 +35,10 @@ function UserLogin(props) {
 
   const login = async () => {
     setError(null);
-    const hashedPassword = bcrypt.hashSync(password.current.value, "$2a$10$1hUhzKenVi7zJnoJECxbfOitjjjAfrWpqqXFNFSfEMQK");
+    const hashedPassword = bcrypt.hashSync(
+      password.current.value,
+      "$2a$10$1hUhzKenVi7zJnoJECxbfOitjjjAfrWpqqXFNFSfEMQK"
+    );
     axios
       .post("http://localhost:3005/auth/login", {
         email: user.current.value,
@@ -40,26 +49,28 @@ function UserLogin(props) {
           const dataString = JSON.stringify(response.data.accessToken);
           localStorage.setItem("accesstoken", dataString);
           setData(response.data);
-          let permissions = await axios
-            .get("http://localhost:3005/users/permissions", {
+          let permissions = await axios.get(
+            "http://localhost:3005/users/permissions",
+            {
               headers: {
-                'Authorization': `Bearer ${response.data.accessToken}`
-              }
-            });
-          localStorage.setItem("permissions", JSON.stringify(permissions.data[0]));
-          let role = await axios
-            .get("http://localhost:3005/users/role", {
-              headers: {
-                'Authorization': `Bearer ${response.data.accessToken}`
-              }
-            });
+                Authorization: `Bearer ${response.data.accessToken}`,
+              },
+            }
+          );
+          localStorage.setItem(
+            "permissions",
+            JSON.stringify(permissions.data[0])
+          );
+          let role = await axios.get("http://localhost:3005/users/role", {
+            headers: {
+              Authorization: `Bearer ${response.data.accessToken}`,
+            },
+          });
           localStorage.setItem("role", JSON.stringify(role.data[0]));
-
-        }
-        else {
+        } else {
           setError("Invalid credentials ");
         }
-        navigateTo('/app');
+        navigateTo("/app");
       })
       .catch((error) => {
         console.log("error");
