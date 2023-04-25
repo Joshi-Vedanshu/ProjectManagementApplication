@@ -1,5 +1,4 @@
 export default function Sidebar({ links, viewChange }) {
-
   return (
     <>
       <ul
@@ -10,10 +9,9 @@ export default function Sidebar({ links, viewChange }) {
           className="sidebar-brand d-flex align-items-center justify-content-center"
           href="#"
         >
-          <div className="sidebar-brand-icon rotate-n-15">
-            <i className="fas fa-laugh-wink"></i>
+          <div className="sidebar-brand-text mx-3">
+            <h3>FRAV</h3>
           </div>
-          <div className="sidebar-brand-text mx-3">FRAV</div>
         </a>
 
         <hr className="sidebar-divider my-0" />
@@ -29,7 +27,9 @@ export default function Sidebar({ links, viewChange }) {
               <a
                 className="nav-link collapsed"
                 href="#"
-                onClick={() => { viewChange(link) }}
+                onClick={() => {
+                  viewChange(link);
+                }}
               >
                 <i className="fas fa-fw fa-cog"></i>
                 <span>{link}</span>

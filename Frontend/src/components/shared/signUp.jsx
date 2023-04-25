@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
 import bcrypt from "bcryptjs"; // import bcryptjs library
+import { useNavigate } from "react-router-dom";
 
 var saltRounds = 10;
 
@@ -16,6 +17,7 @@ function UserSignUp(props) {
   const confirmPassword = useRef("");
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
+  const navigateTo = useNavigate();
 
   const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=.*[^\s]).{8,}$/;
   const firstNameRegex = /^[A-Za-z]+$/;
@@ -57,15 +59,15 @@ function UserSignUp(props) {
       "$2a$10$1hUhzKenVi7zJnoJECxbfOitjjjAfrWpqqXFNFSfEMQK"
     );
     console.log(hashedPassword);
-    axios
+    await axios
       .post("http://localhost:3005/auth/register", {
         email: email.current.value.toString(),
-        contactNumber: contactNumber.current.value.toString(),
         password: hashedPassword,
       })
       .then((response) => {
         console.log(response);
         setSuccessMessage("User successfully signed up.");
+        navigateTo("/");
       })
       .catch((error) => {
         console.log(error);

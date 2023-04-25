@@ -122,11 +122,6 @@ function UserLogin(props) {
                         </a>
                       </form>
                       <div className="text-center">
-                        <a className="small" href="forgot-password.html">
-                          Forgot Password?
-                        </a>
-                      </div>
-                      <div className="text-center">
                         <a className="small" href="/register">
                           Create an Account!
                         </a>
