@@ -8,6 +8,7 @@ const {
 var express = require("express");
 var router = express.Router();
 const dashboardController = require("../controllers/dashboardController");
+const notificationController = require("../controllers/notificationController");
 
 router.get("/", async function (req, res, next) {
   console.log("here");
@@ -533,6 +534,22 @@ router.get("/user/search", async function (req, res, next) {
     );
     res.status(200).send(data);
   } else {
+    res.status(auth.code).send();
+  }
+});
+
+router.get("/notifications",async function(req,res,next){
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    let data = await notificationController.GetNotifications(token.getUserFromTheToken(sessions.token).id);
+    if (data) {
+      res.status(200).send(data);
+    }
+    else {
+      res.status(502).send(data);
+    }
+  }
+  else {
     res.status(auth.code).send();
   }
 });

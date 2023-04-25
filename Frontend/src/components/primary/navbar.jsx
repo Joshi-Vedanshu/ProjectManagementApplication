@@ -1,10 +1,12 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
 
-export default function Navbar() {
+export default function Navbar({ isNotify }) {
   const navigateTo = useNavigate();
+  const [notifications, setNotifications] = useState([]);
+
   const logout = async () => {
     try {
       const token = localStorage
@@ -32,6 +34,24 @@ export default function Navbar() {
       console.log(`Failed to delete user: ${error}`);
     }
   };
+
+  useEffect(() => {
+    fetch("http://localhost:3005/notifications", {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("accesstoken").replace(/^"(.*)"$/, "$1")}`
+      },
+    })
+      .then(response => response.json())
+      .then(data => setNotifications(data));
+  }), [notifications];
+
+  const handleNotificationClick = async (notification) => {
+    alert(notification);
+  };
+
+
   return (
     <>
       <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -96,70 +116,46 @@ export default function Navbar() {
             </div>
           </li>
 
-          <li className="nav-item dropdown no-arrow mx-1">
-            <a
-              className="nav-link dropdown-toggle"
-              href="#"
-              id="alertsDropdown"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <i className="fas fa-bell fa-fw"></i>
 
-              <span className="badge badge-danger badge-counter">3+</span>
-            </a>
 
-            <div
-              className="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-              aria-labelledby="alertsDropdown"
-            >
-              <h6 className="dropdown-header">Alerts Center</h6>
-              <a className="dropdown-item d-flex align-items-center" href="#">
-                <div className="mr-3">
-                  <div className="icon-circle bg-primary">
-                    <i className="fas fa-file-alt text-white"></i>
-                  </div>
-                </div>
-                <div>
-                  <div className="small text-gray-500">December 12, 2019</div>
-                  <span className="font-weight-bold">
-                    A new monthly report is ready to download!
-                  </span>
-                </div>
-              </a>
-              <a className="dropdown-item d-flex align-items-center" href="#">
-                <div className="mr-3">
-                  <div className="icon-circle bg-success">
-                    <i className="fas fa-donate text-white"></i>
-                  </div>
-                </div>
-                <div>
-                  <div className="small text-gray-500">December 7, 2019</div>
-                  $290.29 has been deposited into your account!
-                </div>
-              </a>
-              <a className="dropdown-item d-flex align-items-center" href="#">
-                <div className="mr-3">
-                  <div className="icon-circle bg-warning">
-                    <i className="fas fa-exclamation-triangle text-white"></i>
-                  </div>
-                </div>
-                <div>
-                  <div className="small text-gray-500">December 2, 2019</div>
-                  Spending Alert: We've noticed unusually high spending for your
-                  account.
-                </div>
-              </a>
+          {
+            isNotify ? (<li className="nav-item dropdown no-arrow mx-1">
               <a
-                className="dropdown-item text-center small text-gray-500"
+                className="nav-link dropdown-toggle"
                 href="#"
+                id="alertsDropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
               >
-                Show All Alerts
+                <i className="fas fa-bell fa-fw"></i>
+
+                <span className="badge badge-danger badge-counter">{notifications.length}+</span>
               </a>
-            </div>
-          </li>
+              <div
+                className="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                aria-labelledby="alertsDropdown"
+              >
+                <h6 className="dropdown-header">Notifications</h6>
+
+                {notifications.map(notification => (
+                  <a key={notification.id} className="dropdown-item d-flex align-items-center" href="#">
+                    <div className="mr-3">
+                      <div className="icon-circle bg-warning">
+                        <i className="fas fa-exclamation-triangle text-white"></i>
+                      </div>
+                    </div>
+                    <div onClick={() => handleNotificationClick(notification)}>
+                      <div className="small text-gray-500">{notification.createdAt}</div>
+                      New User is want to join organization
+                    </div>
+                  </a>
+                ))}
+              </div>    </li>) : ""}
+
+
+
 
           <div className="topbar-divider d-none d-sm-block"></div>
 
@@ -191,14 +187,6 @@ export default function Navbar() {
                 <i className="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                 Profile
               </a>
-              <a className="dropdown-item" href="#">
-                <i className="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                Settings
-              </a>
-              <a className="dropdown-item" href="#">
-                <i className="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                Activity Log
-              </a>
               <div className="dropdown-divider"></div>
               <a
                 className="dropdown-item"
@@ -211,7 +199,7 @@ export default function Navbar() {
             </div>
           </li>
         </ul>
-      </nav>
+      </nav >
     </>
   );
 }

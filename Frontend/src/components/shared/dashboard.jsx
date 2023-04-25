@@ -13,10 +13,11 @@ import Organization from "./entities/organization";
 
 export default function Dashboard() {
   const navigateTo = useNavigate();
-  const [role, setRole] = useState({ a: "" });
-  const [permission, setPermission] = useState({ a: "" });
-  let nav_links = [["Organization"], ["Project", "Team"], ["Sprint", "Card"]];
+  let nav_links = [["Organization"], []];
+  let viewName = "";
   const [nav, setNav] = useState(nav_links[0]);
+  const [view, setView] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     async function getData() {
@@ -70,39 +71,87 @@ export default function Dashboard() {
         teamUserMappingAccess: tempPermission.teamUserMappingAccess,
       },
     };
+    nav_links[1] = [];
     switch (data.role.type) {
       case 0:
         setNav(nav_links[0]);
         console.log(nav);
         break;
+      case 2:
+        if (parseInt(data.permission.projectAccess, 2) > 0) {
+          nav_links[1].push("Project");
+        }
+        if (parseInt(data.permission.projectTeamMappingAccess, 2) > 0) {
+          nav_links[1].push("Project-Team");
+        }
+        if (parseInt(data.permission.sprintAccess, 2) > 0) {
+          nav_links[1].push("Sprint");
+        }
+        if (parseInt(data.permission.teamAccess, 2) > 0) {
+          nav_links[1].push("Team");
+        }
+        if (parseInt(data.permission.teamUserMappingAccess, 2) > 0) {
+          nav_links[1].push("Team-User");
+        }
+        setNav(nav_links[1]);
+        break;
       default:
-        console.log("here");
+        if (parseInt(data.permission.projectAccess, 2) > 0) {
+          nav_links[1].push("Project");
+        }
+        if (parseInt(data.permission.projectTeamMappingAccess, 2) > 0) {
+          nav_links[1].push("Project-Team");
+        }
+        if (parseInt(data.permission.sprintAccess, 2) > 0) {
+          nav_links[1].push("Sprint");
+        }
+        if (parseInt(data.permission.teamAccess, 2) > 0) {
+          nav_links[1].push("Team");
+        }
+        if (parseInt(data.permission.teamUserMappingAccess, 2) > 0) {
+          nav_links[1].push("Team-User");
+        }
+        setNav(nav_links[1]);
         break;
     }
-    console.log(data);
-    setRole(data.role);
-    setPermission(data.permission);
-    console.log(role);
-    console.log(permission);
-  }, [nav]);
+    console.log(nav);
+  }, []);
+
+  useEffect(() => {
+    let tempRole = JSON.parse(localStorage.getItem("role"));
+    console.log(tempRole.type);
+    if (tempRole.type === 2) {
+      setIsAdmin(true);
+    }
+  }, [isAdmin]);
+
+  const viewSet = (link) => {
+    //alert(link);
+    console.log(link);
+    switch (link) {
+      case "Project":
+        setView(<Project />);
+        break;
+      case "Team":
+        setView(<Team />);
+        break;
+      case "Sprint":
+        setView(<Sprint />);
+        break;
+    }
+  };
 
   return (
     <>
       <section>
         <div id="wrapper">
-          <Sidebar links={nav} />
+          <Sidebar viewChange={viewSet} links={nav} />
           <div id="content-wrapper" className="d-flex flex-column">
             <div id="content">
-              <Navbar />
+              <Navbar isNotify={isAdmin} />
 
               <div className="container-fluid">
-                <Content />
-                <Cards />
-                <Organization />
-                <Project />
-                <Sprint />
-                <Team />
-                <UserUpdate />
+                <Content value={view} />
               </div>
             </div>
 

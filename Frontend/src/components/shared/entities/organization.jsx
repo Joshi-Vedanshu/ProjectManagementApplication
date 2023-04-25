@@ -52,7 +52,7 @@ export default function Organization() {
               />
             </div>
             <div className="col-md-12 mb-3 mb-sm-0">
-              <label name="number" class="form-label">
+              <label name="number" className="form-label">
                 Contact Number
               </label>
               <input

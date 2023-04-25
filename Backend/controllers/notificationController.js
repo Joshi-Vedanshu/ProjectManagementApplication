@@ -14,7 +14,7 @@ const GetNotifications = async function (email) {
     let userId = (await userService.GetUserIdByEmail(email))[0][0].dataValues.id;
     let role = await roleService.GetRolesByUser(userId);
     switch (roles.roles[role[0].name]) {
-        case 0:
+        case 2:
             return await notificationService.GetNotificationsOfOrganization(userId);
         default:
             return []
