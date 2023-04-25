@@ -8,6 +8,9 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
 
 export function HeaderStories() {
+  //this.props.passToParent(childValue);
+
+
   return (
         <div className="content-back">
             <Navbar  expand="lg">
