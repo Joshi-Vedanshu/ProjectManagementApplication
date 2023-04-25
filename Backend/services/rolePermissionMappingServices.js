@@ -64,6 +64,8 @@ this.RolePermissionMappingService = function () {
         teamAccess: request.teamAccess,
         organizationAccess: request.organizationAccess,
         sprintAccess: request.sprintAccess,
+        teamUserMappingAccess: request.teamUserMappingAccess,
+        projectTeamMappingAccess: request.projectTeamMappingAccess,
       },
       {
         where: { roleId: request.roleId },
@@ -95,7 +97,6 @@ this.RolePermissionMappingService = function () {
     });
     return status;
   };
-
 
   // DELETE
   this.deleteRolePermissionMapping = async function (request) {

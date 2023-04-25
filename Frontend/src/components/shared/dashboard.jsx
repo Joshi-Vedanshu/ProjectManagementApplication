@@ -10,6 +10,8 @@ import Team from "./entities/team";
 import UserUpdate from "./entities/userupdate";
 import Cards from "./entities/cards";
 import Organization from "./entities/organization";
+import RolePermissionMapping from "./entities/rolePermissionMapping";
+import OrganizationListView from "./listviews/organizationlistview";
 
 export default function Dashboard() {
   const navigateTo = useNavigate();
@@ -137,6 +139,9 @@ export default function Dashboard() {
         break;
       case "Sprint":
         setView(<Sprint />);
+        break;
+      case "Organization":
+        setView(<OrganizationListView />);
         break;
     }
   };

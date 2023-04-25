@@ -45,7 +45,7 @@ export default function Navbar({ isNotify }) {
     })
       .then(response => response.json())
       .then(data => setNotifications(data));
-  }), [notifications];
+  },[]);
 
   const handleNotificationClick = async (notification) => {
     alert(notification);

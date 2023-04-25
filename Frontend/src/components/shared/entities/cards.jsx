@@ -33,7 +33,7 @@ export default function Cards() {
     <>
       <div className="card shadow mb-4">
         <div className="card-header py-3">
-          <h6 className="m-0 font-weight-bold text-primary">CARD</h6>
+          <h4 className="m-0 font-weight-bold text-primary">CARD</h4>
         </div>
         <div className="card-body">
           <div className="row">
@@ -256,6 +256,7 @@ export default function Cards() {
               </div>
             </div>
           </div>
+          <br />
           <div className="btn btn-primary float-left">Create Card </div>
           <div className="btn btn-success float-right">Update Card </div>
         </div>

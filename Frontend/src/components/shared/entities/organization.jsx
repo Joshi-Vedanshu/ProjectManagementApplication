@@ -21,7 +21,7 @@ export default function Organization() {
     <>
       <div className="card shadow mb-4">
         <div className="card-header py-3">
-          <h6 className="m-0 font-weight-bold text-primary">ORGANIZATION</h6>
+          <h4 className="m-0 font-weight-bold text-primary">ORGANIZATION</h4>
         </div>
         <div className="card-body">
           <div className="form-group row">

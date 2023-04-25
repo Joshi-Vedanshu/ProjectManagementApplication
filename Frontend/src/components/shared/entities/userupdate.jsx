@@ -29,9 +29,9 @@ export default function UserUpdate() {
     <>
       <div className="card shadow mb-4">
         <div className="card-header py-3">
-          <h6 className="m-0 font-weight-bold text-primary">
+          <h4 className="m-0 font-weight-bold text-primary">
             UPDATE USER INFO
-          </h6>
+          </h4>
         </div>
         <div className="card-body">
           <div className="row">
@@ -177,6 +177,7 @@ export default function UserUpdate() {
           </div>
         </div>
         <div className="btn btn-success mx-auto">Update User</div>
+        <br />
       </div>
     </>
   );
