@@ -538,7 +538,7 @@ router.get("/user/search", async function (req, res, next) {
   }
 });
 
-router.get("/notifications",async function(req,res,next){
+router.get("/notifications", async function (req, res, next) {
   let auth = validateSessionAndHeader(sessions, req);
   if (auth.validation && auth.code === 202) {
     let data = await notificationController.GetNotifications(token.getUserFromTheToken(sessions.token).id);
@@ -550,6 +550,22 @@ router.get("/notifications",async function(req,res,next){
     }
   }
   else {
+    res.status(auth.code).send();
+  }
+});
+
+router.put("/setuser", async function (req, res, next) {
+  let auth = validateSessionAndHeader(sessions, req);
+  if (auth.validation && auth.code === 202) {
+    console.log(req.body);
+    let data = await notificationController.SetRolePermissionOfUser(
+      token.getUserFromTheToken(sessions.token).id, req);
+    if (data) {
+      res.status(200).send(data);
+    } else {
+      res.status(502).send(data);
+    }
+  } else {
     res.status(auth.code).send();
   }
 });

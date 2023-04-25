@@ -168,7 +168,8 @@ export default function Dashboard() {
         setView(<Project View={viewSet} add={flag} updateData={data} />);
         break;
       case "SetPermission":
-        setView(<RolePermissionMapping userData={data} />);
+        setView(<RolePermissionMapping userData={data} View={viewSet} />);
+        break;
     }
   };
 
@@ -184,8 +185,6 @@ export default function Dashboard() {
               <div className="container-fluid">
                 <Content value={view} />
               </div>
-              <UserTeam />
-              <ProjectTeam />
             </div>
 
             <footer className="sticky-footer bg-white">
