@@ -1,17 +1,19 @@
 import "../../../assets/vendor/datatables/dataTables.bootstrap4.min.css";
 import { useState, useEffect } from "react";
-export default function SprintListView() {
+export default function SprintListView({ addView }) {
   const [sprints, setSprints] = useState([]);
   useEffect(() => {
     fetch("http://localhost:3005/sprint", {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem("accesstoken").replace(/^"(.*)"$/, "$1")}`
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage
+          .getItem("accesstoken")
+          .replace(/^"(.*)"$/, "$1")}`,
       },
     })
-      .then(response => response.json())
-      .then(data => setSprints(data));
+      .then((response) => response.json())
+      .then((data) => setSprints(data));
     console.log(sprints);
   }, []);
   return (
@@ -24,7 +26,12 @@ export default function SprintListView() {
                 <h4 className="m-0 font-weight-bold text-primary">SPRINTS</h4>
               </div>
               <div className="col-md-6">
-                <button className="btn btn-primary float-right px-4 py-2">
+                <button
+                  onClick={() => {
+                    addView("Sprint-CU", true, null);
+                  }}
+                  className="btn btn-primary float-right px-4 py-2"
+                >
                   Add
                 </button>
               </div>
@@ -89,7 +96,7 @@ export default function SprintListView() {
                               colSpan="1"
                               aria-sort="ascending"
                               aria-label="Name: activate to sort column descending"
-                              style={{ width: "25%" }}
+                              style={{ width: "20%" }}
                             >
                               Sprint Name
                             </th>
@@ -100,7 +107,7 @@ export default function SprintListView() {
                               rowSpan="1"
                               colSpan="1"
                               aria-label="Position: activate to sort column ascending"
-                              style={{ width: "25%" }}
+                              style={{ width: "20%" }}
                             >
                               Description
                             </th>
@@ -111,7 +118,7 @@ export default function SprintListView() {
                               rowSpan="1"
                               colSpan="1"
                               aria-label="Position: activate to sort column ascending"
-                              style={{ width: "25%" }}
+                              style={{ width: "20%" }}
                             >
                               Start Date
                             </th>
@@ -122,9 +129,31 @@ export default function SprintListView() {
                               rowSpan="1"
                               colSpan="1"
                               aria-label="Position: activate to sort column ascending"
-                              style={{ width: "25%" }}
+                              style={{ width: "20%" }}
                             >
                               End Date
+                            </th>
+                            <th
+                              className="sorting"
+                              tabIndex="0"
+                              aria-controls="dataTable"
+                              rowSpan="1"
+                              colSpan="1"
+                              aria-label="Position: activate to sort column ascending"
+                              style={{ width: "20%" }}
+                            >
+                              Project
+                            </th>
+                            <th
+                              className="sorting"
+                              tabIndex="0"
+                              aria-controls="dataTable"
+                              rowSpan="1"
+                              colSpan="1"
+                              aria-label="Position: activate to sort column ascending"
+                              style={{ width: "20%" }}
+                            >
+                              Action
                             </th>
                           </tr>
                         </thead>
@@ -142,17 +171,51 @@ export default function SprintListView() {
                             <th rowSpan="1" colSpan="1">
                               End Date
                             </th>
+                            <th rowSpan="1" colSpan="1">
+                              Project
+                            </th>
+                            <th rowSpan="1" colSpan="1">
+                              Action
+                            </th>
                           </tr>
                         </tfoot>
                         <tbody>
-                        {sprints.map((item) => (
-                          <tr className="even" key={item.id}>
-                            <td className="sorting_1">{item.name}</td>
-                            <td className="sorting_1">{item.description}</td>
-                            <td className="sorting_1">{item.startDate}</td>
-                            <td className="sorting_1">{item.endDate}</td>
-                          </tr>
-                        ))}
+                          {sprints.map((item) => (
+                            <tr className="even" key={item.id}>
+                              <td
+                                onClick={() => {
+                                  addView("Sprint-CU", false, item);
+                                }}
+                                className="sorting_1"
+                              >
+                                {item.name}
+                              </td>
+                              <td
+                                onClick={() => {
+                                  addView("Sprint-CU", false, item);
+                                }}
+                                className="sorting_1"
+                              >
+                                {item.description}
+                              </td>
+                              <td
+                                onClick={() => {
+                                  addView("Sprint-CU", false, item);
+                                }}
+                                className="sorting_1"
+                              >
+                                {item.startDate}
+                              </td>
+                              <td
+                                onClick={() => {
+                                  addView("Sprint-CU", false, item);
+                                }}
+                                className="sorting_1"
+                              >
+                                {item.endDate}
+                              </td>
+                            </tr>
+                          ))}
                         </tbody>
                       </table>
                     </div>

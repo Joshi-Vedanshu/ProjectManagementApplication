@@ -4,16 +4,50 @@ export default function TeamListView({ addView }) {
   const [teams, setTeams] = useState([]);
   useEffect(() => {
     fetch("http://localhost:3005/team", {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem("accesstoken").replace(/^"(.*)"$/, "$1")}`
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage
+          .getItem("accesstoken")
+          .replace(/^"(.*)"$/, "$1")}`,
       },
     })
-      .then(response => response.json())
-      .then(data => setTeams(data));
+      .then((response) => response.json())
+      .then((data) => setTeams(data));
     console.log(teams);
   }, []);
+
+  const handleDelete = async (event) => {
+    await fetch("http://localhost:3005/team", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage
+          .getItem("accesstoken")
+          .replace(/^"(.*)"$/, "$1")}`,
+      },
+      body: JSON.stringify({
+        id: event, // ID of the data to delete
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => {
+        console.error("Error deleting data:", error);
+      });
+    fetch("http://localhost:3005/team", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage
+          .getItem("accesstoken")
+          .replace(/^"(.*)"$/, "$1")}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => setTeams(data));
+  };
+
   return (
     <>
       <div className="container-fluid">
@@ -24,7 +58,12 @@ export default function TeamListView({ addView }) {
                 <h4 className="m-0 font-weight-bold text-primary">TEAMS</h4>
               </div>
               <div className="col-md-6">
-                <button onClick={() => { addView("Team-CU", true, null) }} className="btn btn-primary float-right px-4 py-2">
+                <button
+                  onClick={() => {
+                    addView("Team-CU", true, null);
+                  }}
+                  className="btn btn-primary float-right px-4 py-2"
+                >
                   Add
                 </button>
               </div>
@@ -90,7 +129,7 @@ export default function TeamListView({ addView }) {
                             colSpan="1"
                             aria-sort="ascending"
                             aria-label="Name: activate to sort column descending"
-                            style={{ width: "50%" }}
+                            style={{ width: "40%" }}
                           >
                             Team Name
                           </th>
@@ -101,9 +140,20 @@ export default function TeamListView({ addView }) {
                             rowSpan="1"
                             colSpan="1"
                             aria-label="Position: activate to sort column ascending"
-                            style={{ width: "50%" }}
+                            style={{ width: "40%" }}
                           >
                             Description
+                          </th>
+                          <th
+                            className="sorting"
+                            tabIndex="0"
+                            aria-controls="dataTable"
+                            rowSpan="1"
+                            colSpan="1"
+                            aria-label="Position: activate to sort column ascending"
+                            style={{ width: "20%" }}
+                          >
+                            Action
                           </th>
                         </tr>
                       </thead>
@@ -115,13 +165,39 @@ export default function TeamListView({ addView }) {
                           <th rowSpan="1" colSpan="1">
                             Description
                           </th>
+                          <th rowSpan="1" colSpan="1">
+                            Action
+                          </th>
                         </tr>
                       </tfoot>
                       <tbody>
                         {teams.map((item) => (
                           <tr className="even" key={item.id}>
-                            <td onClick={() => { addView("Team-CU", false, item) }} className="sorting_1">{item.name}</td>
-                            <td onClick={() => { addView("Team-CU", false, item) }} className="sorting_1">{item.description}</td>
+                            <td
+                              onClick={() => {
+                                addView("Team-CU", false, item);
+                              }}
+                              className="sorting_1"
+                            >
+                              {item.name}
+                            </td>
+                            <td
+                              onClick={() => {
+                                addView("Team-CU", false, item);
+                              }}
+                              className="sorting_1"
+                            >
+                              {item.description}
+                            </td>
+                            <td>
+                              <button
+                                onClick={() => handleDelete(item.id)}
+                                type="button"
+                                className="btn btn-danger mx-1 px-2"
+                              >
+                                Delete
+                              </button>
+                            </td>
                           </tr>
                         ))}
                       </tbody>
@@ -132,7 +208,7 @@ export default function TeamListView({ addView }) {
             </div>
           </div>
         </div>
-      </div >
+      </div>
       <script src="vendor/datatables/jquery.dataTables.min.js"></script>
       <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
       <script src="js/demo/datatables-demo.js"></script>

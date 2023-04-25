@@ -1,7 +1,6 @@
-import React, { useRef, useState } from "react";
-import { Typeahead } from "react-bootstrap-typeahead";
+import React, { useRef, useState, useEffect } from "react";
 
-export default function Project() {
+export default function Project({ View, add, updateData }) {
   const projectName = useRef("");
   const projectDescription = useRef("");
   const startDate = useRef("");
@@ -9,16 +8,61 @@ export default function Project() {
 
   const projectRegex = /^[A-Za-z]+$/;
   const dateRegex = /^\d{2}([./-])\d{2}\1\d{4}$/;
+  useEffect(() => {
+    console.log(updateData);
+    document.getElementById("pname").value = add ? "" : updateData.name;
+    document.getElementById("pd").value = add ? "" : updateData.description;
 
-  const handleSubmit = (event) => {
+    document.getElementById("sdate").value = add
+      ? ""
+      : updateData.startDate.toString().slice(0, 10);
+    document.getElementById("edate").value = add
+      ? ""
+      : updateData.endDate.toString().slice(0, 10);
+  }, []);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log({
-      projectName,
-      projectDescription,
-      startDate,
-      endDate,
-    });
-    // Call API to create project here
+    console.log(startDate);
+    let obj = {
+      name: projectName.current.value,
+      description: projectDescription.current.value,
+      startDate: startDate.current.value,
+      endDate: endDate.current.value,
+    };
+    await fetch("http://localhost:3005/project", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage
+          .getItem("accesstoken")
+          .replace(/^"(.*)"$/, "$1")}`,
+      },
+      body: JSON.stringify(obj),
+    }).then((response) => response.json());
+    View("Project", false, null);
+  };
+
+  const handleUpdate = async (event) => {
+    event.preventDefault();
+    let obj = {
+      id: updateData.id,
+      name: projectName.current.value,
+      description: projectDescription.current.value,
+      startDate: startDate.current.value,
+      endDate: endDate.current.value,
+    };
+    await fetch("http://localhost:3005/project", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage
+          .getItem("accesstoken")
+          .replace(/^"(.*)"$/, "$1")}`,
+      },
+      body: JSON.stringify(obj),
+    }).then((response) => response.json());
+    View("Project", false, null);
   };
 
   return (
@@ -45,12 +89,12 @@ export default function Project() {
             </div>
 
             <div className="col-md-12 mb-3 mb-sm-0">
-              <label htmlFor="tarea" className="form-label">
+              <label htmlFor="pd" className="form-label">
                 Project Description
               </label>
               <textarea
                 className="col-md-12"
-                id="tarea"
+                id="pd"
                 placeholder="Type your project description here..."
                 ref={projectDescription}
               />
@@ -67,6 +111,7 @@ export default function Project() {
                   placeholder="Start Date"
                   id="sdate"
                   pattern={dateRegex}
+                  ref={startDate}
                   required
                 />
               </div>
@@ -80,13 +125,21 @@ export default function Project() {
                   placeholder="End Date"
                   id="edate"
                   required
+                  ref={endDate}
                   pattern={dateRegex}
                 />
               </div>
             </div>
           </div>
-          <div className="btn btn-primary">Create Project</div>
-          <div className="btn btn-success float-right">Update Project</div>
+          {add ? (
+            <div onClick={handleSubmit} className="btn btn-primary float-left">
+              Create Project
+            </div>
+          ) : (
+            <div onClick={handleUpdate} className="btn btn-success float-right">
+              Update Project
+            </div>
+          )}
         </div>
       </div>
     </>

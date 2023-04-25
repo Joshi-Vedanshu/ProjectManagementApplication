@@ -1,14 +1,14 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Typeahead } from "react-bootstrap-typeahead";
 
-export default function Cards() {
+export default function Cards({ View, add, updateData }) {
   const type = useRef("");
   const name = useRef("");
   const description = useRef("");
   const startDate = useRef("");
   const endDate = useRef("");
   const parent = useRef("");
-  const currentUser = useRef("");
+  const username = useRef("");
   const reporter = useRef("");
   const status = useRef("");
   const storypoint = useRef("");
@@ -20,13 +20,89 @@ export default function Cards() {
   const nameRegex = /^[A-Za-z]+$/;
   const dateRegex = /^\d{2}([./-])\d{2}\1\d{4}$/;
 
-  const handleSubmit = (event) => {
+  useEffect(() => {
+    // document.getElementById("type").value = add ? "" : updateData.type;
+    document.getElementById("name").value = add ? "" : updateData.name;
+    document.getElementById("description").value = add
+      ? ""
+      : updateData.description;
+    document.getElementById("sdate").value = add ? "" : updateData.startdate;
+    document.getElementById("edate").value = add ? "" : updateData.enddate;
+    // document.getElementById("parent").value = add ? "" : updateData.parent;
+    // document.getElementById("username").value = add ? "" : updateData.username;
+    // document.getElementById("reporter").value = add ? "" : updateData.reporter;
+    document.getElementById("status").value = add ? "" : updateData.status;
+    document.getElementById("storypoint").value = add
+      ? ""
+      : updateData.storypoint;
+    document.getElementById("duration").value = add ? "" : updateData.duration;
+    document.getElementById("comment").value = add ? "" : updateData.comment;
+    document.getElementById("file").value = add ? "" : updateData.file;
+    // document.getElementById("sprint").value = add ? "" : updateData.sprint;
+  }, []);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log({
-      name,
-      description,
-    });
-    // Call API to create project here
+    let obj = {
+      type: type.current.value,
+      name: name.current.value,
+      description: description.current.value,
+      startDate: startDate.current.value,
+      endDate: endDate.current.value,
+      parent: parent.current.value,
+      username: username.current.value,
+      reporter: reporter.current.value,
+      status: status.current.value,
+      storypoint: storypoint.current.value,
+      duration: duration.current.value,
+      comment: comment.current.value,
+      attachment: attachment.current.value,
+      sprint: sprintId.current.value,
+    };
+    await fetch("http://localhost:3005/card", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage
+          .getItem("accesstoken")
+          .replace(/^"(.*)"$/, "$1")}`,
+      },
+      body: JSON.stringify(obj),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+    View("Card", false, null);
+  };
+
+  const handleUpdate = async (event) => {
+    event.preventDefault();
+    let obj = {
+      type: type.current.value,
+      name: name.current.value,
+      description: description.current.value,
+      startDate: startDate.current.value,
+      endDate: endDate.current.value,
+      parent: parent.current.value,
+      username: username.current.value,
+      reporter: reporter.current.value,
+      status: status.current.value,
+      storypoint: storypoint.current.value,
+      duration: duration.current.value,
+      comment: comment.current.value,
+      attachment: attachment.current.value,
+      sprint: sprintId.current.value,
+    };
+    await fetch("http://localhost:3005/card", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage
+          .getItem("accesstoken")
+          .replace(/^"(.*)"$/, "$1")}`,
+      },
+      body: JSON.stringify(obj),
+    }).then((response) => response.json());
+    View("Card", false, null);
   };
 
   return (
@@ -43,7 +119,7 @@ export default function Cards() {
                   Type
                 </label>
                 <Typeahead
-                  id="TypeId"
+                  id="type"
                   onChange={(selected) => {
                     // Handle selections...
                   }}
@@ -124,7 +200,7 @@ export default function Cards() {
                   Parent
                 </label>
                 <Typeahead
-                  id="ParentId"
+                  id="parent"
                   onChange={(selected) => {
                     // Handle selections...
                   }}
@@ -139,7 +215,7 @@ export default function Cards() {
                   Username
                 </label>
                 <Typeahead
-                  id="UserId"
+                  id="username"
                   onChange={(selected) => {
                     // Handle selections...
                   }}
@@ -153,7 +229,7 @@ export default function Cards() {
                   Reporter
                 </label>
                 <Typeahead
-                  id="ReporterId"
+                  id="reporter"
                   onChange={(selected) => {
                     // Handle selections...
                   }}
@@ -247,7 +323,7 @@ export default function Cards() {
                   Sprint
                 </label>
                 <Typeahead
-                  id="SprintId"
+                  id="sprint"
                   onChange={(selected) => {
                     // Handle selections...
                   }}
@@ -257,8 +333,15 @@ export default function Cards() {
             </div>
           </div>
           <br />
-          <div className="btn btn-primary float-left">Create Card </div>
-          <div className="btn btn-success float-right">Update Card </div>
+          {add ? (
+            <div onClick={handleSubmit} className="btn btn-primary float-left">
+              Create Card
+            </div>
+          ) : (
+            <div onClick={handleUpdate} className="btn btn-success float-right">
+              Update Card
+            </div>
+          )}
         </div>
       </div>
     </>

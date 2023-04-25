@@ -222,6 +222,17 @@ export default function CardListView() {
                             >
                               Sprint
                             </th>
+                            <th
+                              className="sorting"
+                              tabIndex="0"
+                              aria-controls="dataTable"
+                              rowSpan="1"
+                              colSpan="1"
+                              aria-label="Position: activate to sort column ascending"
+                              style={{ width: "25%" }}
+                            >
+                              Action
+                            </th>
                           </tr>
                         </thead>
                         <tfoot>
@@ -267,6 +278,9 @@ export default function CardListView() {
                             </th>
                             <th rowSpan="1" colSpan="1">
                               Sprint
+                            </th>
+                            <th rowSpan="1" colSpan="1">
+                              Action
                             </th>
                           </tr>
                         </tfoot>

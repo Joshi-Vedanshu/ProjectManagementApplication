@@ -1,23 +1,69 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import { Typeahead } from "react-bootstrap-typeahead";
 
-export default function Sprint() {
+export default function Sprint({ View, add, updateData }) {
   const sprintName = useRef("");
   const sprintDescription = useRef("");
   const startDate = useRef("");
   const endDate = useRef("");
+  const project = useRef([]);
 
   const sprintRegex = /^[A-Za-z]+$/;
   const dateRegex = /^\d{2}([./-])\d{2}\1\d{4}$/;
 
-  const handleSubmit = (event) => {
+  useEffect(() => {
+    document.getElementById("sname").value = add ? "" : updateData.name;
+    document.getElementById("sd").value = add ? "" : updateData.description;
+    document.getElementById("sdate").value = add ? "" : updateData.startdate;
+    document.getElementById("edate").value = add ? "" : updateData.enddate;
+    // document.getElementById("project").value = add ? "" : updateData.project;
+  }, []);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log({
-      sprintName,
-      sprintDescription,
-      startDate,
-      endDate,
-    });
-    // Call API to create project here
+    let obj = {
+      name: sprintName.current.value,
+      description: sprintDescription.current.value,
+      startDate: startDate.current.value,
+      endDate: endDate.current.value,
+      project: project.current.value,
+    };
+    await fetch("http://localhost:3005/sprint", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage
+          .getItem("accesstoken")
+          .replace(/^"(.*)"$/, "$1")}`,
+      },
+      body: JSON.stringify(obj),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+    View("Sprint", false, null);
+  };
+
+  const handleUpdate = async (event) => {
+    event.preventDefault();
+    let obj = {
+      id: updateData.id,
+      name: sprintName.current.value,
+      description: sprintDescription.current.value,
+      startDate: startDate.current.value,
+      endDate: endDate.current.value,
+      project: project.current.value,
+    };
+    await fetch("http://localhost:3005/sprint", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage
+          .getItem("accesstoken")
+          .replace(/^"(.*)"$/, "$1")}`,
+      },
+      body: JSON.stringify(obj),
+    }).then((response) => response.json());
+    View("Sprint", false, null);
   };
 
   return (
@@ -29,7 +75,7 @@ export default function Sprint() {
         <div className="card-body">
           <div className="form-group row">
             <div className="col-md-12 mb-3 mb-sm-0">
-              <label htmlFor="pname" className="form-label">
+              <label htmlFor="sname" className="form-label">
                 Sprint Name
               </label>
               <input
@@ -38,18 +84,18 @@ export default function Sprint() {
                 placeholder="Ex. Sprint 1"
                 required
                 ref={sprintName}
-                id="pname"
+                id="sname"
                 pattern={sprintRegex}
               />
             </div>
 
             <div className="col-md-12 mb-3 mb-sm-0">
-              <label htmlFor="tarea" className="form-label">
+              <label htmlFor="sd" className="form-label">
                 Sprint Description
               </label>
               <textarea
                 className="col-md-12"
-                id="tarea"
+                id="sd"
                 placeholder="Type your sprint description here..."
                 ref={sprintDescription}
               />
@@ -66,6 +112,7 @@ export default function Sprint() {
                   placeholder="Start Date"
                   id="sdate"
                   pattern={dateRegex}
+                  ref={startDate}
                   required
                 />
               </div>
@@ -79,13 +126,44 @@ export default function Sprint() {
                   placeholder="End Date"
                   id="edate"
                   required
+                  ref={endDate}
                   pattern={dateRegex}
                 />
               </div>
             </div>
+            <div className="col-md-12 row mb-6">
+              <div className="col-sm-6">
+                <label htmlFor="project" className="form-label">
+                  Project
+                </label>
+                <Typeahead
+                  id="project"
+                  labelKey="project"
+                  placeholder="Enter Project Name"
+                  onChange={(selected) => {
+                    // Handle selections...
+                  }}
+                  options={[
+                    "Bug",
+                    "Sub-Bug",
+                    "Story",
+                    "Task",
+                    "Sub-Task",
+                    "Defect",
+                  ]}
+                />
+              </div>
+            </div>
           </div>
-          <div className="btn btn-primary float-left">Create Sprint </div>
-          <div className="btn btn-success float-right">Update Sprint </div>
+          {add ? (
+            <div onClick={handleSubmit} className="btn btn-primary float-left">
+              Create Sprint
+            </div>
+          ) : (
+            <div onClick={handleUpdate} className="btn btn-success float-right">
+              Update Sprint
+            </div>
+          )}
         </div>
       </div>
     </>

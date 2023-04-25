@@ -12,7 +12,6 @@ import Cards from "./entities/cards";
 import Organization from "./entities/organization";
 import RolePermissionMapping from "./entities/rolePermissionMapping";
 import OrganizationListView from "./listviews/organizationlistview";
-import TeamListView from "./listviews/teamListView";
 import UserTeam from "./entities/userTeam";
 import ProjectTeam from "./entities/projectTeam";
 import ProjectListView from "./listviews/projectListView";
@@ -127,7 +126,6 @@ export default function Dashboard() {
         viewSet(nav_links[1][0]);
         break;
     }
-
   }, []);
 
   useEffect(() => {
@@ -143,22 +141,31 @@ export default function Dashboard() {
     console.log(link);
     switch (link) {
       case "Project":
-        setView(<ProjectListView />);
+        setView(<ProjectListView addView={viewSet} />);
         break;
       case "Team":
         setView(<TeamListView addView={viewSet} />);
         break;
       case "Sprint":
-        setView(<SprintListView />);
+        setView(<SprintListView addView={viewSet} />);
         break;
       case "Organization":
-        setView(<OrganizationListView />);
+        setView(<OrganizationListView addView={viewSet} />);
         break;
       case "Cards":
         setView(<CardListView />);
         break;
       case "Team-CU":
         setView(<Team View={viewSet} add={flag} updateData={data} />);
+        break;
+      case "Sprint-CU":
+        setView(<Sprint View={viewSet} add={flag} updateData={data} />);
+        break;
+      case "Card-CU":
+        setView(<Cards View={viewSet} add={flag} updateData={data} />);
+        break;
+      case "Project-CU":
+        setView(<Project View={viewSet} add={flag} updateData={data} />);
         break;
       case "SetPermission":
         setView(<RolePermissionMapping userData={data} />);

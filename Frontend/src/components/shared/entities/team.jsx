@@ -7,28 +7,29 @@ export default function Team({ View, add, updateData }) {
   const teamRegex = /^[A-Za-z]+$/;
   const dateRegex = /^\d{2}([./-])\d{2}\1\d{4}$/;
 
-  useEffect(()=>{
+  useEffect(() => {
     document.getElementById("pname").value = add ? "" : updateData.name;
-    document.getElementById("tarea").value =add ? "" : updateData.description;
-  },[])
+    document.getElementById("tarea").value = add ? "" : updateData.description;
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     let obj = {
       name: teamName.current.value,
-      description: teamDescription.current.value
-    }
+      description: teamDescription.current.value,
+    };
     await fetch("http://localhost:3005/team", {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem("accesstoken").replace(/^"(.*)"$/, "$1")}`
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage
+          .getItem("accesstoken")
+          .replace(/^"(.*)"$/, "$1")}`,
       },
-      body: JSON.stringify(obj)
-    })
-      .then(response => response.json());
+      body: JSON.stringify(obj),
+    }).then((response) => response.json());
     View("Team", false, null);
-    // Call API to create project here
+
   };
 
   const handleUpdate = async (event) => {
@@ -36,19 +37,20 @@ export default function Team({ View, add, updateData }) {
     let obj = {
       id: updateData.id,
       name: teamName.current.value,
-      description: teamDescription.current.value
-    }
+      description: teamDescription.current.value,
+    };
     await fetch("http://localhost:3005/team", {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem("accesstoken").replace(/^"(.*)"$/, "$1")}`
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage
+          .getItem("accesstoken")
+          .replace(/^"(.*)"$/, "$1")}`,
       },
-      body: JSON.stringify(obj)
-    })
-      .then(response => response.json());
+      body: JSON.stringify(obj),
+    }).then((response) => response.json());
     View("Team", false, null);
-  }
+  };
 
   return (
     <>
@@ -85,8 +87,15 @@ export default function Team({ View, add, updateData }) {
               />
             </div>
           </div>
-          {add ? (<div onClick={handleSubmit} className="btn btn-primary float-left">Create Team </div>)
-            : (<div onClick={handleUpdate} className="btn btn-success float-right">Update Team</div>)}
+          {add ? (
+            <div onClick={handleSubmit} className="btn btn-primary float-left">
+              Create Team{" "}
+            </div>
+          ) : (
+            <div onClick={handleUpdate} className="btn btn-success float-right">
+              Update Team
+            </div>
+          )}
         </div>
       </div>
     </>
