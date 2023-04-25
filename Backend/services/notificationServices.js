@@ -22,6 +22,7 @@ this.NotificationService = function () {
     let notifications = await ProdctDb.Notification.findAll({
       where: {
         adminId: adminId,
+        status: 0,
       },
     });
     if (notifications != undefined) {

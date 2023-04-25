@@ -44,8 +44,8 @@ this.RoleService = function () {
     let status = false;
     await ProdctDb.Role.update(
       {
-        type: request.type,
-        name: request.name,
+        type: request.body.type,
+        name: request.body.name,
       },
       {
         where: { id: id },

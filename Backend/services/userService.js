@@ -132,6 +132,9 @@ this.UserService = function () {
   };
 
   this.UpdateUser = async function (request, userId) {
+    console.log(userId);
+    console.log(request.body);
+    let id = userId;
     let user = await ProdctDb.User.update(
       {
         firstName: request.body.firstName,
@@ -143,29 +146,44 @@ this.UserService = function () {
       },
       {
         where: {
-          id: userId,
+          id: userId
+        }
+      }
+    );
+
+    let userProfile = await ProdctDb.UserProfile.update(
+      {
+        contactNumber: request.body.contactNumber,
+        password: request.body.password,
+        dateOfHire: request.body.dateOfHire,
+      },
+      {
+        where: {
+          id: user.userProfileId,
         },
       }
-    ).then(async function (user) {
-      await ProdctDb.UserProfile.update(
-        {
-          contactNumber: request.body.contactNumber,
-          password: request.body.password,
-          dateOfHire: request.body.dateOfHire,
-        },
-        {
-          where: {
-            id: user.userProfileId,
-          },
-        }
-      );
-    });
+    );
 
     if (user != undefined) {
       return true;
     }
     return false;
   };
+
+  this.UpdateNotificationsAndAddUserId = async function (userId, orgId) {
+    await ProdctDb.UserOrganizationMapping.create({
+      userId: userId,
+      orgId: orgId
+    });
+    await ProdctDb.Notification.update({
+      status: 1,
+    }, {
+      where: {
+        requesterId: userId
+      }
+    });
+
+  }
 
   this.GetOrgIdByUserId = async function (userId) {
     let orgId = await ProdctDb.Organization.findAll({
