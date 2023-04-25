@@ -176,7 +176,7 @@ function UserSignUp(props) {
                     </a>
                   </div>
                   <div className="text-center">
-                    <a className="small" href="/login">
+                    <a className="small" href="/">
                       Already have an account? Login!
                     </a>
                   </div>

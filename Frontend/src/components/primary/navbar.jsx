@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 
 export default function Navbar({ isNotify, viewChange }) {
@@ -37,21 +37,22 @@ export default function Navbar({ isNotify, viewChange }) {
 
   useEffect(() => {
     fetch("http://localhost:3005/notifications", {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem("accesstoken").replace(/^"(.*)"$/, "$1")}`
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage
+          .getItem("accesstoken")
+          .replace(/^"(.*)"$/, "$1")}`,
       },
     })
-      .then(response => response.json())
-      .then(data => setNotifications(data));
-  }, []);
+      .then((response) => response.json())
+      .then((data) => setNotifications(data));
+  },  []);
 
   const handleNotificationClick = async (notification) => {
     let userId = notification.requesterId;
     viewChange("SetPermission", false, userId);
   };
-
 
   return (
     <>
@@ -117,10 +118,8 @@ export default function Navbar({ isNotify, viewChange }) {
             </div>
           </li>
 
-
-
-          {
-            isNotify ? (<li className="nav-item dropdown no-arrow mx-1">
+          {isNotify ? (
+            <li className="nav-item dropdown no-arrow mx-1">
               <a
                 className="nav-link dropdown-toggle"
                 href="#"
@@ -132,7 +131,9 @@ export default function Navbar({ isNotify, viewChange }) {
               >
                 <i className="fas fa-bell fa-fw"></i>
 
-                <span className="badge badge-danger badge-counter">{notifications.length}+</span>
+                <span className="badge badge-danger badge-counter">
+                  {notifications.length}+
+                </span>
               </a>
               <div
                 className="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -140,23 +141,30 @@ export default function Navbar({ isNotify, viewChange }) {
               >
                 <h6 className="dropdown-header">Notifications</h6>
 
-                {notifications.map(notification => (
-                  <a key={notification.id} className="dropdown-item d-flex align-items-center" href="#">
+                {notifications.map((notification) => (
+                  <a
+                    key={notification.id}
+                    className="dropdown-item d-flex align-items-center"
+                    href="#"
+                  >
                     <div className="mr-3">
                       <div className="icon-circle bg-warning">
                         <i className="fas fa-exclamation-triangle text-white"></i>
                       </div>
                     </div>
                     <div onClick={() => handleNotificationClick(notification)}>
-                      <div className="small text-gray-500">{notification.createdAt}</div>
-                      New User is want to join organization
+                      <div className="small text-gray-500">
+                        {notification.createdAt}
+                      </div>
+                      New user wants to join your organization!
                     </div>
                   </a>
                 ))}
-              </div>    </li>) : ""}
-
-
-
+              </div>
+            </li>
+          ) : (
+            ""
+          )}
 
           <div className="topbar-divider d-none d-sm-block"></div>
 
@@ -189,18 +197,14 @@ export default function Navbar({ isNotify, viewChange }) {
                 Profile
               </a>
               <div className="dropdown-divider"></div>
-              <a
-                className="dropdown-item"
-                href="#"
-                onClick={logout}
-              >
+              <a className="dropdown-item" href="#" onClick={logout}>
                 <i className="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                 Logout
               </a>
             </div>
           </li>
         </ul>
-      </nav >
+      </nav>
     </>
   );
 }

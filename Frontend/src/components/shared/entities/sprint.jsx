@@ -24,7 +24,7 @@ export default function Sprint() {
     <>
       <div className="card shadow mb-4">
         <div className="card-header py-3">
-          <h4 className="m-0 font-weight-bold text-primary">SPRINTS</h4>
+          <h4 className="m-0 font-weight-bold text-primary">SPRINT</h4>
         </div>
         <div className="card-body">
           <div className="form-group row">
